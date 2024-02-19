@@ -1,10 +1,20 @@
 import React from "react";
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Button } from 'react-native'
 
-const EmergencyListScreen = () => {
+const EmergencyListScreen = ({ navigation }) => {
+
+    const navigateContactDetilsScreen = () => {
+        
+        navigation.navigate('Contact Details')
+    }
+
     return (
         <View>
-            <Text>EmergencyListScreen</Text>
+            <TouchableOpacity onPress={navigateContactDetilsScreen}>
+                <Text>EmergencyListScreen</Text>
+            </TouchableOpacity>
+
+            <Button title="Add" onPress={() => { }} />
         </View>
     )
 }
@@ -13,4 +23,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default EmergencyListScreen;
+export default EmergencyListScreen

@@ -14,32 +14,30 @@ import ContactDetailsScreen from './src/components/ContactDetailsScreen'
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const ContactsScreen = () => (
-  <Stack.Navigator initialRouteName='ContactList'>
-    <Stack.Screen name="ContactList" component={ContactListScreen} />
-    <Stack.Screen name="Contact Details" component={ContactDetailsScreen} />
-    <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
-    <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
-  </Stack.Navigator>
+const App = () => (
+  <NavigationContainer>
+    <Stack.Navigator initialRouteName='ContactList'>
+      <Stack.Screen name="ContactList" component={ContactScreen} />
+      <Stack.Screen name="Contact Details" component={ContactDetailsScreen} />
+      <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
+      <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
 )
 
-const EmergencyScreen = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Emergency" component={EmergencyListScreen} />
-    <Stack.Screen name="Contact Details" component={ContactDetailsScreen} />
-  </Stack.Navigator>
+// const EmergencyScreen = () => (
+//   <Stack.Navigator>
+//     <Stack.Screen name="Emergency" component={EmergencyListScreen} />
+//     <Stack.Screen name="Contact Details" component={ContactDetailsScreen} />
+//   </Stack.Navigator>
+// )
+
+
+const ContactScreen = () => (
+  <Tab.Navigator>
+    <Tab.Screen name="Contact List" component={ContactListScreen} options={{ headerShown: false }} />
+    <Tab.Screen name="Emergency List" component={EmergencyListScreen} options={{ headerShown: false }} />
+  </Tab.Navigator >
 )
-
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Contact List" component={ContactsScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Emergency List" component={EmergencyScreen} options={{ headerShown: false }} />
-      </Tab.Navigator >
-    </NavigationContainer >
-  )
-}
 
 export default App;
