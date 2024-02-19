@@ -1,10 +1,20 @@
 import React from "react";
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Button } from 'react-native'
 
-const ContactListScreen = () => {
+const ContactListScreen = ({ navigation }) => {
+
+    const navigateContactDetilsScreen = () => {
+        
+        navigation.navigate('Contact Details')
+    }
+
     return (
         <View>
-            <Text>ContactList Screen</Text>
+            <TouchableOpacity onPress={navigateContactDetilsScreen}>
+                <Text>ContactList Screen</Text>
+            </TouchableOpacity>
+
+            <Button title="Add" onPress={() => { }} />
         </View>
     )
 }
