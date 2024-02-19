@@ -14,7 +14,6 @@ const EmergencyListScreen = ({ navigation }) => {
                 <Text>EmergencyListScreen</Text>
             </TouchableOpacity>
 
-            <Button title="Add" onPress={() => { }} />
         </View>
     )
 }
