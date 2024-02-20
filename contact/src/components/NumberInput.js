@@ -38,7 +38,7 @@ const NumberInput = ({ onChange, keyProp }) => {
                 <Textbox placeholderText={phone.type} onChangeText={onChangeText} />
 
             </View>
-            <Dialog visible={modalVisible} style={styles.dialog}>
+            <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
                 <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
             </Dialog>
         </View>
@@ -78,15 +78,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'darkgrey',
     },
-    modalContainer: {
-        // height: 200,
-        // borderTopLeftRadius: 500,
-        // borderColor: 'red', 
-        // borderWidth: 1
-    },
     dialog: {
-        backgroundColor: 'red',
-        borderColor: 'red'
+        backgroundColor: '#f1eeee',
+        borderRadius: 23
     }
 
 })

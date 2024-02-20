@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate } from '../actions'
+import { contactFormUpdate, createContact } from '../actions'
 
 import Textbox from '../components/common/Textbox'
 import LinkButton from '../components/LinkButton'
@@ -58,12 +58,34 @@ const CreateContactScreen = (props, { onCancel }) => {
         props.contactFormUpdate({ prop: 'image', value })
     }
 
+    const onSaveForm = () => {
+        const {
+            firstName,
+            lastName,
+            phone,
+            notes,
+            emergencyContact,
+            image,
+        } = props
+        props.createContact({
+            firstName,
+            lastName,
+            phone,
+            notes,
+            emergencyContact,
+            image,
+        })
+    }
+
     return (
         <View style={styles.bottomSheet}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
                     <TouchableOpacity onPress={props.onCancel}>
                         <Text>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onSaveForm}>
+                        <Text>Done</Text>
                     </TouchableOpacity>
                     <AddImage onPickImage={onPickImage} />
                     <Textbox
@@ -123,4 +145,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate })(CreateContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, createContact })(CreateContactScreen)

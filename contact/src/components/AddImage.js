@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import LinkButton from './LinkButton'
-import { launchCamera } from 'react-native-image-picker'
 
 import { requestCameraPermissionsAsync, CameraType, launchImageLibraryAsync, MediaTypeOptions, launchCameraAsync } from 'expo-image-picker';
 
@@ -30,8 +29,12 @@ const AddImage = ({ onPickImage }) => {
 
     return (
         <View>
-            <Image style={styles.imageStyle} source={{uri: image}}/>
-            <LinkButton buttonText="Add Photo" onClick={handleCameraLaunch} />
+            <Image style={styles.imageStyle} source={{ uri: image }} />
+            {/* <LinkButton buttonText={image ? 'Change Photo' : 'Add Photo'} onClick={handleCameraLaunch} /> */}
+
+            <TouchableOpacity onPress={handleCameraLaunch}>
+                <Text style={styles.addPhotoButton}>{image ? 'Change Photo' : 'Add Photo'}</Text>
+            </TouchableOpacity>
         </View>
 
     )
@@ -45,6 +48,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         marginVertical: 20,
     },
+    addPhotoButton: {
+        marginBottom: 30,
+        color: 'blue',
+        alignSelf: 'center'
+    }
 })
 
 

@@ -25,11 +25,12 @@ const ContactListScreen = ({ navigation }) => {
                     renderItem={({ item }) => <ContactItem item={item} />}
                 />
             </TouchableOpacity>
-            <BottomSheet isVisible={bottomSheetVisible} snapPoints={[0, '50%', '90%']}>
+            <BottomSheet isVisible={bottomSheetVisible} snapPoints={[0, '50%', '90%']} containerStyle={styles.bottomSheet}>
 
                 <CreateContactScreen onCancel={() => {
                     console.log('false')
-                    setBottomSheetVisible(false)}}/>
+                    setBottomSheetVisible(false)
+                }} />
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
@@ -42,6 +43,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     bottomSheet: {
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
         marginTop: 80,
         flex: 1,
         backgroundColor: 'white',

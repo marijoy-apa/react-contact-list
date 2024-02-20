@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'
-import Spacer from './Spacer';
+import { View, StyleSheet } from 'react-native';
+
 import RadioElement from './RadioElement';
 const RadioButton = ({ onSelectPhoneType, preselectedOption }) => {
     const [selectedOption, setSelectedOption] = useState(preselectedOption);
 
     const handleOptionPress = (option) => {
-        console.log('handle option press', option)
         setSelectedOption(option);
         onSelectPhoneType(option);
     };
@@ -57,14 +55,7 @@ const styles = StyleSheet.create({
     icon: {
 
     }, 
-    radioStyle:{
-        backgroundColor: 'pink',
-        height: 200,
-        borderTopLeftRadius: 500,
-        borderColor: 'red', 
-        borderWidth: 1, 
-        margin: 0
-    }
+
 
 });
 
