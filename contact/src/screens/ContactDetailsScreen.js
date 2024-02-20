@@ -13,4 +13,11 @@ const styles = StyleSheet.create({
 
 })
 
+ContactDetailsScreen.options = {
+
+    headerTitle: ''
+}
+    
+
+
 export default ContactDetailsScreen
