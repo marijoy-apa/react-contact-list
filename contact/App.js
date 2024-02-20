@@ -4,12 +4,13 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react';
+import {Text} from 'react-native'
 
-import ContactListScreen from './src/components/screens/ContactListScreen'
-import EmergencyListScreen from './src/components/screens/EmergencyListScreen'
-import CreateContactScreen from './src/components/screens/CreactContactScreen'
-import EditContactScreen from './src/components/screens/EditContactScreen'
-import ContactDetailsScreen from './src/components/screens/ContactDetailsScreen'
+import ContactListScreen from './src/screens/ContactListScreen'
+import EmergencyListScreen from './src/screens/EmergencyListScreen'
+import CreateContactScreen from './src/screens/CreactContactScreen'
+import EditContactScreen from './src/screens/EditContactScreen'
+import ContactDetailsScreen from './src/screens/ContactDetailsScreen'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -18,7 +19,7 @@ const App = () => (
   <NavigationContainer>
     <Stack.Navigator initialRouteName='ContactList'>
       <Stack.Screen name="Contacts" component={ContactScreen} />
-      <Stack.Screen name="Contact Details" component={ContactDetailsScreen} />
+      <Stack.Screen name="Contact Details" component={ContactDetailsScreen} options={{ headerTitle: '', headerRight: ()=>(<Text>Edit</Text>)}} />
       <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
       <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
     </Stack.Navigator>
