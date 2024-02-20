@@ -1,11 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Button, FlatList } from 'react-native'
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import SearchBar from '../components/SearchBar'
 import ContactItem from '../components/ContactItem'
 import CreateContactScreen from "./CreateContactScreen";
 import { FAB, BottomSheet } from 'react-native-elements'
-const ContactListScreen = ({ navigation }) => {
+import { connect } from "react-redux";
+import { contactFetch } from "../actions";
+import { initializeApp } from 'firebase/app'
+const ContactListScreen = (props, { navigation }) => {
+    useEffect(() => {
+        initializeApp({
+            apiKey: "AIzaSyBhdCJ2U0u9ZBWmCqPX1nuENNdiMaBbwbg",
+            authDomain: "react-native-contact-c572e.firebaseapp.com",
+            databaseURL: "https://react-native-contact-c572e-default-rtdb.firebaseio.com",
+            projectId: "react-native-contact-c572e",
+            storageBucket: "react-native-contact-c572e.appspot.com",
+            messagingSenderId: "402627763000",
+            appId: "1:402627763000:web:39ae9796a6e7ae519bbfcd"
+        })
+        props.contactFetch();
+        console.log('props contactList', props.contactList)
+    }, [])
+
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
 
     const List = [{ name: 'name1', id: '1' }, { name: 'name2', id: '2' }, { name: 'name3', id: '3' }]
@@ -58,4 +74,9 @@ ContactListScreen.options = {
     // tabBarIcon: ({ color }) => (<MaterialIcons name='contact-emergency' size={20} color={color} />)
 }
 
-export default ContactListScreen
+const mapStateToProps = (state) => {
+    return { contactList: state.contactList }
+
+}
+
+export default connect(mapStateToProps, { contactFetch })(ContactListScreen)

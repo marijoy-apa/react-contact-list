@@ -23,6 +23,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   useEffect(() => {
+    console.log('initializing app')
     initializeApp({
       apiKey: "AIzaSyBhdCJ2U0u9ZBWmCqPX1nuENNdiMaBbwbg",
       authDomain: "react-native-contact-c572e.firebaseapp.com",
@@ -34,7 +35,7 @@ const App = () => {
     })
   }, [])
 
-  return <Provider store={configureStore({ reducer: reducers, middleware: () => new Tuple(thunk) })}>
+  return <Provider store={configureStore({ reducer: reducers, })}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName='ContactList'>
         <Stack.Screen name="Contacts" component={ContactScreen} options={{ headerTitleAlign: 'center' }} />
