@@ -22,9 +22,7 @@ const NumberInput = ({ onChange, keyProp }) => {
     const onChangeText = (value) => {
         setPhone({ ...phone, digit: value })
         console.log('phone', keyProp, phone)
-
         onChange(phone, keyProp)
-
     }
     return (
         <View style={styles.container}>
@@ -40,10 +38,8 @@ const NumberInput = ({ onChange, keyProp }) => {
                 <Textbox placeholderText={phone.type} onChangeText={onChangeText} />
 
             </View>
-            <Dialog visible={modalVisible}>
-                <View style={styles.modalContainer}>
-                    <RadioButton onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
-                </View>
+            <Dialog visible={modalVisible} style={styles.dialog}>
+                <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
             </Dialog>
         </View>
     )
@@ -83,7 +79,14 @@ const styles = StyleSheet.create({
         color: 'darkgrey',
     },
     modalContainer: {
-        height: 230,
+        // height: 200,
+        // borderTopLeftRadius: 500,
+        // borderColor: 'red', 
+        // borderWidth: 1
+    },
+    dialog: {
+        backgroundColor: 'red',
+        borderColor: 'red'
     }
 
 })

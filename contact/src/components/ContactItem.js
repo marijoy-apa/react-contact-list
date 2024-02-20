@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        // backgroundColor: 'lightgray',
         height: 45,
         borderBottomWidth: 0.3
     },

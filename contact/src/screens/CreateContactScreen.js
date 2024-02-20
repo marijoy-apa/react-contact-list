@@ -34,7 +34,7 @@ const CreateContactScreen = (props, { onCancel }) => {
         newPhone[index] = value;
         setPhoneNumbers(newPhone);
         console.log(phoneNumbers, phoneNumbers.length);
-    
+
         props.contactFormUpdate({ prop: 'phone', value: phoneNumbers })
     }
 
@@ -53,6 +53,10 @@ const CreateContactScreen = (props, { onCancel }) => {
     const onUpdateIsEmergency = () => {
         props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
     }
+    const onPickImage = (value) => {
+        console.log('on Pick Image', value)
+        props.contactFormUpdate({ prop: 'image', value })
+    }
 
     return (
         <View style={styles.bottomSheet}>
@@ -61,7 +65,7 @@ const CreateContactScreen = (props, { onCancel }) => {
                     <TouchableOpacity onPress={props.onCancel}>
                         <Text>Cancel</Text>
                     </TouchableOpacity>
-                    <AddImage />
+                    <AddImage onPickImage={onPickImage} />
                     <Textbox
                         value={props.firstName}
                         placeholderText={"First Name"}

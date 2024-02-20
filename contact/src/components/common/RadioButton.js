@@ -12,7 +12,7 @@ const RadioButton = ({ onSelectPhoneType, preselectedOption }) => {
         onSelectPhoneType(option);
     };
     return (
-        <View>
+        <View style={styles.radioStyle}>
             <RadioElement
                 value="Mobile"
                 onSelect={handleOptionPress}
@@ -56,6 +56,14 @@ const styles = StyleSheet.create({
     },
     icon: {
 
+    }, 
+    radioStyle:{
+        backgroundColor: 'pink',
+        height: 200,
+        borderTopLeftRadius: 500,
+        borderColor: 'red', 
+        borderWidth: 1, 
+        margin: 0
     }
 
 });
