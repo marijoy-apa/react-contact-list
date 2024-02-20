@@ -2,11 +2,13 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
-const AddEmergencyButton = ({ buttonText, onClick }) => {
+const AddEmergencyButton = ({ isEmergency, onPress }) => {
+    const text = isEmergency ? 'Remove from emergency contacts' : 'Add to emergency contacts'
     return (
-        <TouchableOpacity onPress={onClick} style={styles.touchableStyle}>
+        <TouchableOpacity onPress={onPress} style={styles.touchableStyle}>
             <View style={styles.container}>
-                <Text style={styles.textButton}>Add to Emergency</Text>
+                <Text style={[isEmergency ? { color: 'blue' } : { color: 'red' }, 
+                { marginLeft: 20 }]}>{text}</Text>
             </View>
         </TouchableOpacity>
     )

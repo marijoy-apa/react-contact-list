@@ -4,16 +4,16 @@ import { CONTACT_FORM_UPDATE } from "../actions/types";
 const INITIAL_STATE = {
     firstName: '',
     lastName: '',
-    phone: {},
+    phone: [],
     notes: '',
-    emergencyContact: '',
+    emergencyContact: true,
     image: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case CONTACT_FORM_UPDATE:
-            console.log('state', state)
+            console.log('on update contact form update', state)
             return { ...state, [action.payload.prop]: action.payload.value }
         default:
             console.log('i am called')

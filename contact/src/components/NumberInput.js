@@ -6,18 +6,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Dialog, Radio } from 'react-native-elements'
 import RadioButton from "./common/RadioButton";
 
-const NumberInput = ({ }) => {
+const NumberInput = ({ onChange, keyProp }) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [phoneType, setPhoneType] = useState('Phone');
-
+    const [phone, setPhone] = useState({ type: 'Phone', digit: '' });
     const showModal = () => {
         setModalVisible(true);
     };
 
 
     const onSelectPhoneType = (value) => {
-        setPhoneType(value)
+        setPhone({ ...phone, type: value })
         setModalVisible(false);
+    }
+
+    const onChangeText = (value) => {
+        setPhone({ ...phone, digit: value })
+        console.log('phone', keyProp, phone)
+
+        onChange(phone, keyProp)
 
     }
     return (
@@ -25,18 +31,18 @@ const NumberInput = ({ }) => {
             <TouchableOpacity style={styles.buttonContainer} onPress={showModal}>
                 <View style={styles.dropdownContainer}>
                     <Text style={styles.textInput}>
-                        {phoneType}
+                        {phone.type}
                     </Text>
                     <MaterialCommunityIcons name="greater-than" style={[styles.textInput, { fontSize: 15, }]} />
                 </View>
             </TouchableOpacity>
             <View style={styles.textboxContainer}>
-                <Textbox placeholderText={phoneType} />
+                <Textbox placeholderText={phone.type} onChangeText={onChangeText} />
 
             </View>
             <Dialog visible={modalVisible}>
                 <View style={styles.modalContainer}>
-                    <RadioButton onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneType} />
+                    <RadioButton onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
                 </View>
             </Dialog>
         </View>

@@ -1,11 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet, TextInput } from 'react-native'
 
-const NotesInput = ({ onPress }) => {
+const NotesInput = ({ onChangeText, value}) => {
     return (
         <View style={styles.container}>
             <Text>Notes</Text>
-            <TextInput style={styles.textInput} multiline />
+            <TextInput style={styles.textInput} multiline onChangeText={onChangeText} value={value} />
 
         </View>
 

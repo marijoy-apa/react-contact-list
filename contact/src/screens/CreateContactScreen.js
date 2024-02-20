@@ -10,24 +10,48 @@ import AddButton from '../components/AddButton'
 import NumberInput from "../components/NumberInput";
 import NotesInput from '../components/NotesInput';
 import AddEmergencyButton from '../components/AddEmergencyButton';
+import AddImage from '../components/AddImage'
 
 const height = Dimensions.get('window').height;
 const CreateContactScreen = (props, { onCancel }) => {
-    const [inputLength, setInputLength] = useState(1)
+    const [inputLength, setInputLength] = useState(1);
+    const [phoneNumbers, setPhoneNumbers] = useState([])
 
-    renderNumberInput = () => {
+
+    const renderNumberInput = () => {
         const numberInputs = [];
         for (let index = 0; index < inputLength; index++) {
-            numberInputs.push(<NumberInput key={index} />)
+            numberInputs.push(<NumberInput
+                key={index}
+                onChange={onUpdateNumber}
+                keyProp={index} />)
         }
         return numberInputs;
     }
 
-    onUpdateFirstName = (value) => {
+    const onUpdateNumber = (value, index) => {
+        var newPhone = [...phoneNumbers]
+        newPhone[index] = value;
+        setPhoneNumbers(newPhone);
+        console.log(phoneNumbers, phoneNumbers.length);
+    
+        props.contactFormUpdate({ prop: 'phone', value: phoneNumbers })
+    }
+
+    const onUpdateFirstName = (value) => {
         props.contactFormUpdate({ prop: 'firstName', value })
     }
-    onUpdateLastName = (value) => {
+
+    const onUpdateLastName = (value) => {
         props.contactFormUpdate({ prop: 'lastName', value })
+    }
+
+    const onUpdateNotes = (value) => {
+        props.contactFormUpdate({ prop: 'notes', value })
+    }
+
+    const onUpdateIsEmergency = () => {
+        props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
     }
 
     return (
@@ -37,25 +61,21 @@ const CreateContactScreen = (props, { onCancel }) => {
                     <TouchableOpacity onPress={props.onCancel}>
                         <Text>Cancel</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity onPress={onCancel}>
-                        <Text>Done</Text>
-                    </TouchableOpacity> */}
-                    <Image style={styles.imageStyle} />
-                    <LinkButton buttonText="Add Photo" />
+                    <AddImage />
                     <Textbox
-                        // value={props.firstName}
+                        value={props.firstName}
                         placeholderText={"First Name"}
                         onChangeText={onUpdateFirstName} />
                     <Textbox
-                        // value={props.lastName}
+                        value={props.lastName}
                         placeholderText={"Last Name"}
                         onChangeText={onUpdateLastName}
                     />
                     <Spacer style={{ height: 30 }} />
                     {renderNumberInput()}
                     <AddButton onPress={() => setInputLength(inputLength + 1)} />
-                    <NotesInput />
-                    <AddEmergencyButton />
+                    <NotesInput onChangeText={onUpdateNotes} value={props.notes} />
+                    <AddEmergencyButton onPress={onUpdateIsEmergency} isEmergency={props.emergencyContact} />
                 </View>
 
             </ScrollView>
@@ -79,13 +99,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center'
     },
-    imageStyle: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        backgroundColor: 'lightgrey',
-        marginVertical: 20,
-    },
+
     addPhotoButton: {
         marginBottom: 30,
         color: 'blue'
