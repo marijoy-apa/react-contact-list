@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Button, FlatList } from 'reac
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import SearchBar from '../components/SearchBar'
 import ContactItem from '../components/ContactItem'
-import CreateContactScreen from "./CreactContactScreen";
+import CreateContactScreen from "./CreateContactScreen";
 import { FAB, BottomSheet } from 'react-native-elements'
 const ContactListScreen = ({ navigation }) => {
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
@@ -27,7 +27,9 @@ const ContactListScreen = ({ navigation }) => {
             </TouchableOpacity>
             <BottomSheet isVisible={bottomSheetVisible} snapPoints={[0, '50%', '90%']}>
 
-                <CreateContactScreen onCancel={() => setBottomSheetVisible(false)}/>
+                <CreateContactScreen onCancel={() => {
+                    console.log('false')
+                    setBottomSheetVisible(false)}}/>
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />

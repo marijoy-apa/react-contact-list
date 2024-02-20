@@ -4,23 +4,27 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 const AddEmergencyButton = ({ buttonText, onClick }) => {
     return (
-        <TouchableOpacity onPress={onClick}>
-            <View>
-            <Text style={styles.textButton}>Add to Emergency</Text>
-
+        <TouchableOpacity onPress={onClick} style={styles.touchableStyle}>
+            <View style={styles.container}>
+                <Text style={styles.textButton}>Add to Emergency</Text>
             </View>
         </TouchableOpacity>
-
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        
+    container: {
+        backgroundColor: 'lightgrey',
+        height: 45,
+        width: "100%",
+        justifyContent: 'center'
     },
     textButton: {
-        marginBottom: 30,
-        color: 'blue'
+        color: 'blue',
+        marginLeft: 20
+    },
+    touchableStyle: {
+        width: '100%',
     }
 });
 

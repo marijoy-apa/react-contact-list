@@ -4,26 +4,33 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react';
-import {Text} from 'react-native'
+import { Text } from 'react-native'
+import { Provider } from 'react-redux';
+import { configureStore} from '@reduxjs/toolkit'
+
 
 import ContactListScreen from './src/screens/ContactListScreen'
 import EmergencyListScreen from './src/screens/EmergencyListScreen'
-import CreateContactScreen from './src/screens/CreactContactScreen'
+import CreateContactScreen from './src/screens/CreateContactScreen'
 import EditContactScreen from './src/screens/EditContactScreen'
 import ContactDetailsScreen from './src/screens/ContactDetailsScreen'
+import reducers from './src/reducers'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const App = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName='ContactList'>
-      <Stack.Screen name="Contacts" component={ContactScreen} />
-      <Stack.Screen name="Contact Details" component={ContactDetailsScreen} options={{ headerTitle: '', headerRight: ()=>(<Text>Edit</Text>)}} />
-      <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
-      <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>
+  <Provider store={configureStore({reducer: reducers})}>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='ContactList'>
+        <Stack.Screen name="Contacts" component={ContactScreen} />
+        <Stack.Screen name="Contact Details" component={ContactDetailsScreen} options={{ headerTitle: '', headerRight: () => (<Text>Edit</Text>) }} />
+        <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
+        <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  </Provider>
+
 )
 
 const ContactScreen = () => (

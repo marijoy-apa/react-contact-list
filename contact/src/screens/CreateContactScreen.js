@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
-import Textbox from '../components/Textbox'
+import { connect } from 'react-redux';
+import { contactFormUpdate } from '../actions'
+
+import Textbox from '../components/common/Textbox'
 import LinkButton from '../components/LinkButton'
-import Spacer from '../components/Spacer';
+import Spacer from '../components/common/Spacer';
 import AddButton from '../components/AddButton'
 import NumberInput from "../components/NumberInput";
 import NotesInput from '../components/NotesInput';
 import AddEmergencyButton from '../components/AddEmergencyButton';
 
 const height = Dimensions.get('window').height;
-const CreateContactScreen = ({ onCancel }) => {
+const CreateContactScreen = (props, { onCancel }) => {
     const [inputLength, setInputLength] = useState(1)
 
     renderNumberInput = () => {
@@ -20,23 +23,39 @@ const CreateContactScreen = ({ onCancel }) => {
         return numberInputs;
     }
 
+    onUpdateFirstName = (value) => {
+        props.contactFormUpdate({ prop: 'firstName', value })
+    }
+    onUpdateLastName = (value) => {
+        props.contactFormUpdate({ prop: 'lastName', value })
+    }
+
     return (
         <View style={styles.bottomSheet}>
-            <ScrollView >
+            <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
-
-
-                    <TouchableOpacity onPress={onCancel}><Text>Cancel</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={props.onCancel}>
+                        <Text>Cancel</Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={onCancel}>
+                        <Text>Done</Text>
+                    </TouchableOpacity> */}
                     <Image style={styles.imageStyle} />
                     <LinkButton buttonText="Add Photo" />
-                    <Textbox placeholderText={"First Name"} />
-                    <Textbox placeholderText={"Last Name"} />
-
+                    <Textbox
+                        // value={props.firstName}
+                        placeholderText={"First Name"}
+                        onChangeText={onUpdateFirstName} />
+                    <Textbox
+                        // value={props.lastName}
+                        placeholderText={"Last Name"}
+                        onChangeText={onUpdateLastName}
+                    />
                     <Spacer style={{ height: 30 }} />
                     {renderNumberInput()}
                     <AddButton onPress={() => setInputLength(inputLength + 1)} />
-                    <NotesInput/>
-                    <AddEmergencyButton/>
+                    <NotesInput />
+                    <AddEmergencyButton />
                 </View>
 
             </ScrollView>
@@ -52,7 +71,6 @@ const styles = StyleSheet.create({
         height: height * 0.85,
         backgroundColor: 'white',
         flex: 1,
-        // alignItems: 'center'
     },
     scrollContainer: {
         borderStartEndRadius: 20,
@@ -72,8 +90,19 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         color: 'blue'
     }
-
-
 })
 
-export default CreateContactScreen
+const mapStateToProps = (state, ownProps) => {
+    const { firstName, lastName, phone, notes, emergencyContact, image } = state.contactForm;
+    return {
+        firstName,
+        lastName,
+        phone,
+        notes,
+        emergencyContact,
+        image,
+        onCancel: ownProps.onCancel
+    }
+}
+
+export default connect(mapStateToProps, { contactFormUpdate })(CreateContactScreen)

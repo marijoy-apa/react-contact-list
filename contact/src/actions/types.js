@@ -1,0 +1,1 @@
+export const CONTACT_FORM_UPDATE = 'contact_form_update'

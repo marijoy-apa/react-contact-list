@@ -2,10 +2,10 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
-const Textbox = ({ placeholderText }) => {
+const Textbox = ({ placeholderText, value, onChangeText }) => {
     return (
         <View style={styles.textContainer}>
-            <TextInput placeholder={placeholderText} />
+            <TextInput placeholder={placeholderText} value={value} onChangeText={onChangeText} />
         </View>
     )
 }
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 15,
         borderColor: 'darkgrey'
-    }, 
-    inputStyle:{
+    },
+    inputStyle: {
         width: '100%'
     }
 

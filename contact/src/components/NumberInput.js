@@ -1,24 +1,44 @@
-import React from "react";
-import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import React, { useState } from "react";
+import { Text, View, StyleSheet, Modal, TouchableOpacity, Button } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import Textbox from './Textbox';
+import Textbox from './common/Textbox';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Dialog, Radio } from 'react-native-elements'
+import RadioButton from "./common/RadioButton";
 
 const NumberInput = ({ }) => {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [phoneType, setPhoneType] = useState('Phone');
+
+    const showModal = () => {
+        setModalVisible(true);
+    };
+
+
+    const onSelectPhoneType = (value) => {
+        setPhoneType(value)
+        setModalVisible(false);
+
+    }
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.buttonContainer} onPress={showModal}>
                 <View style={styles.dropdownContainer}>
                     <Text style={styles.textInput}>
-                        Phone
+                        {phoneType}
                     </Text>
-                    <MaterialCommunityIcons  name="greater-than" style={[styles.textInput, {fontSize: 15,}]}/>
+                    <MaterialCommunityIcons name="greater-than" style={[styles.textInput, { fontSize: 15, }]} />
                 </View>
             </TouchableOpacity>
             <View style={styles.textboxContainer}>
-                <Textbox placeholderText="Phone" />
+                <Textbox placeholderText={phoneType} />
 
             </View>
+            <Dialog visible={modalVisible}>
+                <View style={styles.modalContainer}>
+                    <RadioButton onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneType} />
+                </View>
+            </Dialog>
         </View>
     )
 }
@@ -51,12 +71,14 @@ const styles = StyleSheet.create({
     },
     textboxContainer: {
         flex: 6,
-    }, 
-    textInput:{
-        fontSize: 12, 
+    },
+    textInput: {
+        fontSize: 12,
         color: 'darkgrey',
-    }, 
-
+    },
+    modalContainer: {
+        height: 230,
+    }
 
 })
 
