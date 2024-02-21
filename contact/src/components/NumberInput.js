@@ -22,9 +22,7 @@ const NumberInput = ({ onChange, keyProp }) => {
     const onChangeText = (value) => {
         setPhone({ ...phone, digit: value })
         console.log('phone', keyProp, phone)
-
         onChange(phone, keyProp)
-
     }
     return (
         <View style={styles.container}>
@@ -40,10 +38,8 @@ const NumberInput = ({ onChange, keyProp }) => {
                 <Textbox placeholderText={phone.type} onChangeText={onChangeText} />
 
             </View>
-            <Dialog visible={modalVisible}>
-                <View style={styles.modalContainer}>
-                    <RadioButton onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
-                </View>
+            <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
+                <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
             </Dialog>
         </View>
     )
@@ -82,8 +78,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'darkgrey',
     },
-    modalContainer: {
-        height: 230,
+    dialog: {
+        backgroundColor: '#f1eeee',
+        borderRadius: 23
     }
 
 })

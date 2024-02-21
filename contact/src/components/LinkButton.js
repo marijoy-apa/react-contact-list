@@ -14,7 +14,8 @@ const LinkButton = ({ buttonText, onClick }) => {
 const styles = StyleSheet.create({
     addPhotoButton: {
         marginBottom: 30,
-        color: 'blue'
+        color: 'blue', 
+        alignSelf: 'center'
     }
 })
 

@@ -1,13 +1,40 @@
-import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import React, { useState } from "react";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import LinkButton from './LinkButton'
-import {launchCamera} from 'react-native-image-picker'
-const AddImage = ({ buttonText, onClick }) => {
+
+import { requestCameraPermissionsAsync, CameraType, launchImageLibraryAsync, MediaTypeOptions, launchCameraAsync } from 'expo-image-picker';
+
+const AddImage = ({ onPickImage }) => {
+    const [image, setImage] = useState(null)
+
+    const handleCameraLaunch = async () => {
+        try {
+            await requestCameraPermissionsAsync()
+            let result = await launchCameraAsync({
+                cameraType: CameraType.front,
+                quality: 1
+            })
+            console.log(result);
+
+            if (!result.canceled) {
+                setImage(result.assets[0].uri);
+                onPickImage(result.assets[0].uri);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
     return (
         <View>
-            <Image style={styles.imageStyle} />
-            <LinkButton buttonText="Add Photo" />
+            <Image style={styles.imageStyle} source={{ uri: image }} />
+            {/* <LinkButton buttonText={image ? 'Change Photo' : 'Add Photo'} onClick={handleCameraLaunch} /> */}
+
+            <TouchableOpacity onPress={handleCameraLaunch}>
+                <Text style={styles.addPhotoButton}>{image ? 'Change Photo' : 'Add Photo'}</Text>
+            </TouchableOpacity>
         </View>
 
     )
@@ -21,6 +48,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         marginVertical: 20,
     },
+    addPhotoButton: {
+        marginBottom: 30,
+        color: 'blue',
+        alignSelf: 'center'
+    }
 })
 
 

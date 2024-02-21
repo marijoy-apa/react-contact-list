@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate } from '../actions'
+import { contactFormUpdate, createContact } from '../actions'
 
 import Textbox from '../components/common/Textbox'
 import LinkButton from '../components/LinkButton'
@@ -34,7 +34,7 @@ const CreateContactScreen = (props, { onCancel }) => {
         newPhone[index] = value;
         setPhoneNumbers(newPhone);
         console.log(phoneNumbers, phoneNumbers.length);
-    
+
         props.contactFormUpdate({ prop: 'phone', value: phoneNumbers })
     }
 
@@ -53,6 +53,29 @@ const CreateContactScreen = (props, { onCancel }) => {
     const onUpdateIsEmergency = () => {
         props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
     }
+    const onPickImage = (value) => {
+        console.log('on Pick Image', value)
+        props.contactFormUpdate({ prop: 'image', value })
+    }
+
+    const onSaveForm = () => {
+        const {
+            firstName,
+            lastName,
+            phone,
+            notes,
+            emergencyContact,
+            image,
+        } = props
+        props.createContact({
+            firstName,
+            lastName,
+            phone,
+            notes,
+            emergencyContact,
+            image,
+        })
+    }
 
     return (
         <View style={styles.bottomSheet}>
@@ -61,7 +84,10 @@ const CreateContactScreen = (props, { onCancel }) => {
                     <TouchableOpacity onPress={props.onCancel}>
                         <Text>Cancel</Text>
                     </TouchableOpacity>
-                    <AddImage />
+                    <TouchableOpacity onPress={onSaveForm}>
+                        <Text>Done</Text>
+                    </TouchableOpacity>
+                    <AddImage onPickImage={onPickImage} />
                     <Textbox
                         value={props.firstName}
                         placeholderText={"First Name"}
@@ -119,4 +145,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate })(CreateContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, createContact })(CreateContactScreen)
