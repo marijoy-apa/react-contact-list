@@ -1,5 +1,6 @@
-import { CONTACT_FETCH_SUCCESS, CONTACT_FORM_UPDATE, CREATE_NEW_CONTACT } from "./types"
-import { getDatabase, push, ref, onValue } from 'firebase/database'
+import { CLEAR_CONTACT_FORM, CONTACT_FETCH_SUCCESS, CONTACT_FORM_UPDATE, CREATE_NEW_CONTACT } from "./types"
+import { getDatabase, push, ref, onValue, query, update, orderByChild, limitToFirst, remove } from 'firebase/database'
+
 
 export const contactFormUpdate = ({ prop, value }) => {
     return {
@@ -14,22 +15,40 @@ export const createContact = ({ firstName, lastName, phone, notes, emergencyCont
         push(reference, { firstName, lastName, phone, notes, emergencyContact, image }).then(() => {
             console.log('perfect')
             dispatch({ type: CREATE_NEW_CONTACT });
+            dispatch({ type: CLEAR_CONTACT_FORM })
         })
     }
 }
 
-export const contactFetch = () => {
-    return (dispatch) => {
-        const reference = ref(getDatabase(), 'contact-list');
 
-        onValue(reference, (snapshot) => {
-            console.log('snapshot value', snapshot.val())
-            dispatch({
-                type: CONTACT_FETCH_SUCCESS,
-                payload: snapshot.val()
-            })
 
-        })
-
+export const updateEmergencyContact = (id, emergencyContact) => {
+    return () => {
+        const reference = ref(getDatabase(), `contact-list/${id}`);
+        update(reference, { emergencyContact });
     }
 }
+
+export const deleteContact = (id) => {
+    return () => {
+        console.log('removing item', id)
+        const reference = ref(getDatabase(), `contact-list/${id}`);
+        remove(reference);
+    }
+}
+
+export const clearContactForm = () => {
+    return {
+        type: CLEAR_CONTACT_FORM
+    }
+}
+
+// export const filterList = () => {
+//     return (dispatch, getState) => {
+//         console.log('hello world')
+//         const searchItem = getState().searchKeyword
+//         console.log('searchItem', searchItem)
+//         // return {}
+//     }
+// }
+

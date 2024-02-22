@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import LinkButton from './LinkButton'
+import LinkButton from '../common/LinkButton'
 
 import { requestCameraPermissionsAsync, CameraType, launchImageLibraryAsync, MediaTypeOptions, launchCameraAsync } from 'expo-image-picker';
 

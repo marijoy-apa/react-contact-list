@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import NumberInput from "./NumberInput";
+import NumberInput from "../createContactPage/NumberInput";
 
 const AddButton = ({ onPress }) => {
     return (
