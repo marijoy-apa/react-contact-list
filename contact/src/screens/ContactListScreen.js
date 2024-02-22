@@ -27,22 +27,19 @@ const ContactListScreen = (props, { navigation }) => {
     const List = [{ name: 'name1', id: '1' }, { name: 'name2', id: '2' }, { name: 'name3', id: '3' }]
 
     const navigateContactDetilsScreen = () => {
-
-        navigation.navigate('Contact Details')
+        console.log('navigate')
+        props.navigation.navigate('Contact Details')
     }
 
     return (
         <View style={styles.container}>
             <SearchBar />
-            <TouchableOpacity onPress={navigateContactDetilsScreen}>
-                <FlatList
-                    data={List}
-                    keyExtractor={(contact) => contact.id}
-                    renderItem={({ item }) => <ContactItem item={item} />}
-                />
-            </TouchableOpacity>
-            <BottomSheet isVisible={bottomSheetVisible} snapPoints={[0, '50%', '90%']} containerStyle={styles.bottomSheet}>
-
+            <FlatList
+                data={props.contactList}
+                keyExtractor={(contact) => contact.id}
+                renderItem={({ item }) =>
+                    <ContactItem item={item} onPress={navigateContactDetilsScreen} />} />
+            <BottomSheet isVisible={bottomSheetVisible} containerStyle={styles.bottomSheet}>
                 <CreateContactScreen onCancel={() => {
                     console.log('false')
                     setBottomSheetVisible(false)
@@ -59,23 +56,24 @@ const styles = StyleSheet.create({
         flex: 1
     },
     bottomSheet: {
-        borderTopLeftRadius: 40,
-        borderTopRightRadius: 40,
-        marginTop: 80,
-        flex: 1,
-        backgroundColor: 'white',
-        height: 700,
+        // borderTopLeftRadius: 40,
+        // borderTopRightRadius: 40,
+        // marginTop: 80,
+        // flex: 1,
+        // backgroundColor: '#eae7e6',
+        // height: 700,
     }
-
 })
 
 ContactListScreen.options = {
     headerShown: false,
-    // tabBarIcon: ({ color }) => (<MaterialIcons name='contact-emergency' size={20} color={color} />)
 }
 
-const mapStateToProps = (state) => {
-    return { contactList: state.contactList }
+const mapStateToProps = (state, ownProps) => {
+    return {
+        contactList: state.contactList,
+        navigation: ownProps.navigation
+    }
 
 }
 

@@ -5,7 +5,10 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 const Textbox = ({ placeholderText, value, onChangeText }) => {
     return (
         <View style={styles.textContainer}>
-            <TextInput placeholder={placeholderText} value={value} onChangeText={onChangeText} />
+            <TextInput placeholder={placeholderText} 
+            alue={value} onChangeText={onChangeText} 
+            autoCapitalize="none"
+            autoCorrect={false}/>
         </View>
     )
 }

@@ -13,7 +13,7 @@ import AddEmergencyButton from '../components/AddEmergencyButton';
 import AddImage from '../components/AddImage'
 
 const height = Dimensions.get('window').height;
-const CreateContactScreen = (props, { onCancel }) => {
+const CreateContactScreen = (props) => {
     const [inputLength, setInputLength] = useState(1);
     const [phoneNumbers, setPhoneNumbers] = useState([])
 
@@ -39,11 +39,13 @@ const CreateContactScreen = (props, { onCancel }) => {
     }
 
     const onUpdateFirstName = (value) => {
-        props.contactFormUpdate({ prop: 'firstName', value })
+        var newvalue = value.charAt(0).toUpperCase() + value.slice(1)
+        props.contactFormUpdate({ prop: 'firstName', value: newvalue })
     }
 
     const onUpdateLastName = (value) => {
-        props.contactFormUpdate({ prop: 'lastName', value })
+        newvalue = value.charAt(0).toUpperCase() + value.slice(1)
+        props.contactFormUpdate({ prop: 'lastName', value: newvalue })
     }
 
     const onUpdateNotes = (value) => {
@@ -75,18 +77,22 @@ const CreateContactScreen = (props, { onCancel }) => {
             emergencyContact,
             image,
         })
+        props.onCancel()
     }
 
     return (
         <View style={styles.bottomSheet}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
-                    <TouchableOpacity onPress={props.onCancel}>
-                        <Text>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={onSaveForm}>
-                        <Text>Done</Text>
-                    </TouchableOpacity>
+                    <View style={styles.headerContainer}>
+                        <TouchableOpacity onPress={props.onCancel}>
+                            <Text>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={onSaveForm}>
+                            <Text>Done</Text>
+                        </TouchableOpacity>
+                    </View>
+
                     <AddImage onPickImage={onPickImage} />
                     <Textbox
                         value={props.firstName}
@@ -129,6 +135,17 @@ const styles = StyleSheet.create({
     addPhotoButton: {
         marginBottom: 30,
         color: 'blue'
+    },
+    headerContainer: {
+        borderStartEndRadius: 20,
+        borderStartStartRadius: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'lightgrey',
+        width: '100%',
+        height: 40,
+        paddingHorizontal: 15
     }
 })
 

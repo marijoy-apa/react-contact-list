@@ -1,13 +1,26 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput } from 'react-native'
+import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { connect } from "react-redux";
+import { setSearchItem, clearSearchItem } from "../actions";
 
-const SearchBar = () => {
+const SearchBar = (props) => {
+
+    const onInputSearch = (value) => {
+        props.setSearchItem(value)
+    }
+
+    const onPressCancelButton = () => {
+        props.clearSearchItem()
+    }
+
     return (
         <View style={styles.container}>
             <FontAwesome name="search" style={styles.searchButton} />
-            <TextInput placeholder="Search" style={styles.textInput} />
-            <Ionicons name="close-circle" style={styles.xbutton} />
+            <TextInput placeholder="Search" style={styles.textInput} value={props.searchKeyword} onChangeText={onInputSearch} />
+            <TouchableOpacity onPress={onPressCancelButton}>
+                <Ionicons name="close-circle" style={styles.xbutton} />
+            </TouchableOpacity>
         </View>
     )
 }
@@ -45,6 +58,10 @@ SearchBar.options = {
     headerTitle: ''
 }
 
+const mapStateToProps = (state) => {
+    return { searchKeyword: state.searchKeyword }
+}
 
 
-export default SearchBar
+
+export default connect(mapStateToProps, { setSearchItem, clearSearchItem })(SearchBar)

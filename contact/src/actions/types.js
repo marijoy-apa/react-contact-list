@@ -1,3 +1,7 @@
 export const CONTACT_FORM_UPDATE = 'contact_form_update'
 export const CREATE_NEW_CONTACT = 'create_new_contact'
 export const CONTACT_FETCH_SUCCESS = 'contact_fetch_success'
+export const CLEAR_CONTACT_FORM = 'clear_contact_form'
+
+export const SET_SEARCH_ITEM = 'set_search_item'
+export const CLEAR_SEARCH_ITEM = 'clear_search_item'

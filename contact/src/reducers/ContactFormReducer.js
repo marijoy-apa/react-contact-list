@@ -1,4 +1,4 @@
-import { CONTACT_FORM_UPDATE, CREATE_NEW_CONTACT } from "../actions/types";
+import { CLEAR_CONTACT_FORM, CONTACT_FORM_UPDATE, CREATE_NEW_CONTACT } from "../actions/types";
 
 
 const INITIAL_STATE = {
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     lastName: '',
     phone: [],
     notes: '',
-    emergencyContact: true,
+    emergencyContact: false,
     image: ''
 }
 
@@ -18,6 +18,9 @@ export default (state = INITIAL_STATE, action) => {
         case CREATE_NEW_CONTACT:
             console.log('new contact has been create');
             return state;
+        case CLEAR_CONTACT_FORM:
+            console.log('clear contact form')
+            return INITIAL_STATE
         default:
             console.log('i am called')
             return state;
