@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect } from "react-redux";
-import { deleteContact, updateEmergencyContact, filterList } from "../actions";
+import { deleteContact, updateEmergencyContact, filterList } from "../../actions";
 
 const ContactItem = (props) => {
     const item = props.contactList.find(contact => contact.id === props.item.id)
@@ -28,7 +28,6 @@ const ContactItem = (props) => {
     const onPressEmergencyButton = () => {
         console.log(item)
         props.updateEmergencyContact(item.id, !item.emergencyContact)
-        props.filterList()
 
     }
 
@@ -90,7 +89,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         item: ownProps.item,
         onPress: ownProps.onPress,
-        contactList: state.contactList
+        contactList: state.contactList.list
     }
 }
 

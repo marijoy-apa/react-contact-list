@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { contactFormUpdate, createContact } from '../actions'
 
 import Textbox from '../components/common/Textbox'
-import LinkButton from '../components/LinkButton'
+import LinkButton from '../components/common/LinkButton'
 import Spacer from '../components/common/Spacer';
-import AddButton from '../components/AddButton'
-import NumberInput from "../components/NumberInput";
-import NotesInput from '../components/NotesInput';
-import AddEmergencyButton from '../components/AddEmergencyButton';
-import AddImage from '../components/AddImage'
+import AddButton from '../components/contactListPage/AddButton'
+import NumberInput from "../components/createContactPage/NumberInput";
+import NotesInput from '../components/createContactPage/NotesInput';
+import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
+import AddImage from '../components/createContactPage/AddImage'
 
 const height = Dimensions.get('window').height;
 const CreateContactScreen = (props) => {

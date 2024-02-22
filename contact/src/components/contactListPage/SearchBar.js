@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { connect } from "react-redux";
-import { setSearchItem, clearSearchItem } from "../actions";
+import { setSearchItem, clearSearchItem } from "../../actions";
 
 const SearchBar = (props) => {
 
@@ -14,13 +14,20 @@ const SearchBar = (props) => {
         props.clearSearchItem()
     }
 
+    const renderCloseCircle = () => {
+        return props.searchKeyword ? <TouchableOpacity onPress={onPressCancelButton}>
+            <Ionicons name="close-circle" style={styles.xbutton} />
+        </TouchableOpacity> : null
+    }
+
     return (
         <View style={styles.container}>
             <FontAwesome name="search" style={styles.searchButton} />
             <TextInput placeholder="Search" style={styles.textInput} value={props.searchKeyword} onChangeText={onInputSearch} />
-            <TouchableOpacity onPress={onPressCancelButton}>
+            {props.searchKeyword ? <TouchableOpacity onPress={onPressCancelButton}>
                 <Ionicons name="close-circle" style={styles.xbutton} />
-            </TouchableOpacity>
+            </TouchableOpacity> : null}
+
         </View>
     )
 }

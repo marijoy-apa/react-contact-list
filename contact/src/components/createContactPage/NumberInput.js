@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Modal, TouchableOpacity, Button } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import Textbox from './common/Textbox';
+import Textbox from '../common/Textbox';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Dialog, Radio } from 'react-native-elements'
-import RadioButton from "./common/RadioButton";
+import RadioButton from "../common/RadioButton";
 
 const NumberInput = ({ onChange, keyProp }) => {
     const [modalVisible, setModalVisible] = useState(false);
