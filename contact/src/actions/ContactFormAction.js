@@ -1,11 +1,15 @@
-import { CLEAR_CONTACT_FORM, CONTACT_FETCH_SUCCESS, CONTACT_FORM_UPDATE, CREATE_NEW_CONTACT } from "./types"
+import { CLEAR_CONTACT_FORM, CONTACT_FETCH_SUCCESS, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "./types"
 import { getDatabase, push, ref, onValue, query, update, orderByChild, limitToFirst, remove } from 'firebase/database'
 
 
 export const contactFormUpdate = ({ prop, value }) => {
-    return {
-        type: CONTACT_FORM_UPDATE,
-        payload: { prop, value }
+
+    return (dispatch) => {
+        dispatch({
+            type: CONTACT_FORM_UPDATE,
+            payload: { prop, value }
+        })
+        dispatch(validateForm())
     }
 }
 
@@ -40,5 +44,18 @@ export const deleteContact = (id) => {
 export const clearContactForm = () => {
     return {
         type: CLEAR_CONTACT_FORM
+    }
+}
+
+
+const validateForm = () => {
+    return (dispatch, getState) => {
+        const { firstName, lastName, phone } = getState().contactForm;
+
+        const isValidName = firstName.trim() !== '' || lastName.trim() !== ''
+        const isValidPhone = phone.some(item => item.digit.trim() !== "")
+
+        const isValid = isValidName && isValidPhone
+        dispatch({ type: CONTACT_FORM_VALIDATE, payload: isValid })
     }
 }
