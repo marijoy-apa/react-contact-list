@@ -5,8 +5,7 @@ import LinkButton from '../common/LinkButton'
 
 import { requestCameraPermissionsAsync, CameraType, launchImageLibraryAsync, MediaTypeOptions, launchCameraAsync } from 'expo-image-picker';
 
-const AddImage = ({ onPickImage }) => {
-    const [image, setImage] = useState(null)
+const AddImage = ({ onPickImage, imageUrl }) => {
 
     const handleCameraLaunch = async () => {
         try {
@@ -15,10 +14,8 @@ const AddImage = ({ onPickImage }) => {
                 cameraType: CameraType.front,
                 quality: 1
             })
-            console.log(result);
 
             if (!result.canceled) {
-                setImage(result.assets[0].uri);
                 onPickImage(result.assets[0].uri);
             }
         } catch (error) {
@@ -29,11 +26,10 @@ const AddImage = ({ onPickImage }) => {
 
     return (
         <View>
-            <Image style={styles.imageStyle} source={{ uri: image }} />
-            {/* <LinkButton buttonText={image ? 'Change Photo' : 'Add Photo'} onClick={handleCameraLaunch} /> */}
+            <Image style={styles.imageStyle} source={{ uri: imageUrl }} />
 
             <TouchableOpacity onPress={handleCameraLaunch}>
-                <Text style={styles.addPhotoButton}>{image ? 'Change Photo' : 'Add Photo'}</Text>
+                <Text style={styles.addPhotoButton}>{imageUrl ? 'Change Photo' : 'Add Photo'}</Text>
             </TouchableOpacity>
         </View>
 

@@ -6,40 +6,38 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Dialog, Radio } from 'react-native-elements'
 import RadioButton from "../common/RadioButton";
 
-const NumberInput = ({ onChange, keyProp }) => {
+const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [phone, setPhone] = useState({ type: 'Phone', digit: '' });
     const showModal = () => {
         setModalVisible(true);
     };
 
 
+
     const onSelectPhoneType = (value) => {
-        setPhone({ ...phone, type: value })
+        onChangePhoneType(value, index)
         setModalVisible(false);
     }
 
     const onChangeText = (value) => {
-        setPhone({ ...phone, digit: value })
-        console.log('phone', keyProp, phone)
-        onChange(phone, keyProp)
+        onChangeNumber(value, index)
     }
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.buttonContainer} onPress={showModal}>
                 <View style={styles.dropdownContainer}>
                     <Text style={styles.textInput}>
-                        {phone.type}
+                        {phoneInput.type}
                     </Text>
                     <MaterialCommunityIcons name="greater-than" style={[styles.textInput, { fontSize: 15, }]} />
                 </View>
             </TouchableOpacity>
             <View style={styles.textboxContainer}>
-                <Textbox placeholderText={phone.type} onChangeText={onChangeText} keyboardType="phone-pad" />
+                <Textbox placeholderText={phoneInput.type} onChangeText={onChangeText} keyboardType="phone-pad" value={phoneInput.digit} />
 
             </View>
             <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
-                <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phone.type} />
+                <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneInput.type} />
             </Dialog>
         </View>
     )

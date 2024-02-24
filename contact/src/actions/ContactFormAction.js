@@ -49,17 +49,13 @@ export const clearContactForm = () => {
 
 
 const validateForm = () => {
-    console.log('validate form function')
     return (dispatch, getState) => {
         const { firstName, lastName, phone } = getState().contactForm;
 
-        const isValid = (firstName.trim() !== ''
-            || lastName.trim() !== '')
-            && phone.length > 0;
+        const isValidName = firstName.trim() !== '' || lastName.trim() !== ''
+        const isValidPhone = phone.some(item => item.digit.trim() !== "")
 
-
-        console.log('get state method', firstName, lastName, phone.length, isValid)
+        const isValid = isValidName && isValidPhone
         dispatch({ type: CONTACT_FORM_VALIDATE, payload: isValid })
-        // dispatch({typ})
     }
 }

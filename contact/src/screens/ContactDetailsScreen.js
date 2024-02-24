@@ -15,16 +15,16 @@ const ContactDetailsScreen = (props) => {
     const renderContactNumber = () => {
         console.log(item)
         var contactDetail = []
-        // for (let index = 0; index < item.phone.length; index++) {
-        //     var isLast = index === item.phone.length - 1
-        //     console.log(isLast)
-        //     const itemDetail = item.phone[index];
-        //     contactDetail.push(<PhoneNumbers
-        //         item={itemDetail}
-        //         isLast={isLast}
-        //         key={index} />)
-        // }
-        // return contactDetail;
+        for (let index = 0; index < item.phone.length; index++) {
+            var isLast = index === item.phone.length - 1
+            console.log(isLast)
+            const itemDetail = item.phone[index];
+            contactDetail.push(<PhoneNumbers
+                item={itemDetail}
+                isLast={isLast}
+                key={index} />)
+        }
+        return contactDetail;
     }
 
 

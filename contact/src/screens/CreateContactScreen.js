@@ -14,26 +14,38 @@ import AddImage from '../components/createContactPage/AddImage'
 
 const height = Dimensions.get('window').height;
 const CreateContactScreen = (props) => {
-    const [inputLength, setInputLength] = useState(1);
-    const [phoneNumbers, setPhoneNumbers] = useState([])
-
 
     const renderNumberInput = () => {
         const numberInputs = [];
-        for (let index = 0; index < inputLength; index++) {
+        for (let index = 0; index < props.phone.length; index++) {
             numberInputs.push(<NumberInput
                 key={index}
-                onChange={onUpdateNumber}
-                keyProp={index} />)
+                onChangeNumber={onUpdatePhoneNumber}
+                onChangePhoneType={onUpdatePhoneType}
+                index={index}
+                phoneInput={{
+                    type: props.phone[index].type,
+                    digit: props.phone[index].digit
+                }} />
+            )
         }
         return numberInputs;
     }
+    const onUpdatePhoneType = (value, index) => {
+        var phone = [...props.phone]
+        phone[index] = { ...phone[index], type: value };
+        props.contactFormUpdate({ prop: 'phone', value: phone })
+    }
 
-    const onUpdateNumber = (value, index) => {
-        var newPhone = [...phoneNumbers]
-        newPhone[index] = value;
-        setPhoneNumbers(newPhone);
-        props.contactFormUpdate({ prop: 'phone', value: phoneNumbers })
+    const onUpdatePhoneNumber = (value, index) => {
+        var phone = [...props.phone]
+        phone[index] = { ...phone[index], digit: value };
+        props.contactFormUpdate({ prop: 'phone', value: phone })
+    }
+
+    const onAddPhoneField = () => {
+        var phone = [...props.phone, { type: 'Phone', digit: '' }]
+        props.contactFormUpdate({ prop: 'phone', value: phone })
     }
 
     const onUpdateFirstName = (value) => {
@@ -99,7 +111,7 @@ const CreateContactScreen = (props) => {
                         </TouchableOpacity>
                     </View>
 
-                    <AddImage onPickImage={onPickImage} />
+                    <AddImage onPickImage={onPickImage} imageUrl={props.image} />
                     <Textbox
                         value={props.firstName}
                         placeholderText={"First Name"}
@@ -111,7 +123,7 @@ const CreateContactScreen = (props) => {
                     />
                     <Spacer style={{ height: 30 }} />
                     {renderNumberInput()}
-                    <AddButton onPress={() => setInputLength(inputLength + 1)} />
+                    <AddButton onPress={onAddPhoneField} />
                     <NotesInput onChangeText={onUpdateNotes} value={props.notes} />
                     <AddEmergencyButton onPress={onUpdateIsEmergency} isEmergency={props.emergencyContact} />
                 </View>

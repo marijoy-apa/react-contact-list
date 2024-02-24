@@ -25,7 +25,7 @@ const App = () => {
   return <Provider store={configureStore({ reducer: reducers, })}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName='ContactList'>
-        <Stack.Screen name="Contacts" component={ContactScreen} options={{ headerTitleAlign: 'center', headerShown: false }} />
+        <Stack.Screen name="Contacts" component={ContactScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Contact Details" component={ContactDetailsScreen} options={{ headerTitle: '', headerRight: () => (<Text>Edit</Text>) }} />
         <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
         <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
@@ -37,8 +37,8 @@ const App = () => {
 
 const ContactScreen = () => (
   <Tab.Navigator>
-    <Tab.Screen name="Contact List" component={ContactListScreen} options={{ tabBarIcon: ({ color }) => (<FontAwesome name='phone' size={20} color={color} />) }} />
-    <Tab.Screen name="Emergency List" component={EmergencyListScreen} options={{  tabBarIcon: ({ color }) => (<MaterialIcons name='contact-emergency' size={20} color={color} />) }} />
+    <Tab.Screen name="Contact List" component={ContactListScreen} options={{ tabBarIcon: ({ color }) => (<FontAwesome name='phone' size={20} color={color} />), headerTitleAlign: "center" }} />
+    <Tab.Screen name="Emergency List" component={EmergencyListScreen} options={{ tabBarIcon: ({ color }) => (<MaterialIcons name='contact-emergency' size={20} color={color} />), headerTitleAlign: "center" }} />
   </Tab.Navigator >
 )
 
