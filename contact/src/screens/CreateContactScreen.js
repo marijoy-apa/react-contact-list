@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, createContact } from '../actions'
+import { contactFormUpdate, createContact, clearContactForm } from '../actions'
 
 import Textbox from '../components/common/Textbox'
 import LinkButton from '../components/common/LinkButton'
@@ -78,16 +78,24 @@ const CreateContactScreen = (props) => {
         props.onCancel()
     }
 
+    const onCancelForm = () => {
+        props.clearContactForm();
+        props.onCancel();
+
+    }
+
     return (
         <View style={styles.bottomSheet}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
                     <View style={styles.headerContainer}>
-                        <TouchableOpacity onPress={props.onCancel}>
-                            <Text>Cancel</Text>
+                        <TouchableOpacity
+                            onPress={onCancelForm}>
+                            <Text style={styles.cancelLink}>Cancel</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={onSaveForm}>
-                            <Text>Done</Text>
+                        <TouchableOpacity disabled={!props.isValid}
+                            onPress={onSaveForm}>
+                            <Text style={{ color: props.isValid ? 'blue' : 'grey' }}>Done</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -122,6 +130,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
     },
+    cancelLink: {
+        color: 'blue'
+    },
+    createLink: {
+
+    },
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
@@ -148,7 +162,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const { firstName, lastName, phone, notes, emergencyContact, image } = state.contactForm;
+    const { firstName, lastName, phone, notes, emergencyContact, image, isValid } = state.contactForm;
     return {
         firstName,
         lastName,
@@ -156,8 +170,9 @@ const mapStateToProps = (state, ownProps) => {
         notes,
         emergencyContact,
         image,
+        isValid,
         onCancel: ownProps.onCancel
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, createContact })(CreateContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm })(CreateContactScreen)

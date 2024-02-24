@@ -1,4 +1,4 @@
-import { CLEAR_CONTACT_FORM, CONTACT_FORM_UPDATE, CREATE_NEW_CONTACT } from "../actions/types";
+import { CLEAR_CONTACT_FORM, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "../actions/types";
 
 
 const INITIAL_STATE = {
@@ -7,7 +7,8 @@ const INITIAL_STATE = {
     phone: [],
     notes: '',
     emergencyContact: false,
-    image: ''
+    image: '',
+    isValid: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -21,8 +22,11 @@ export default (state = INITIAL_STATE, action) => {
         case CLEAR_CONTACT_FORM:
             console.log('clear contact form')
             return INITIAL_STATE
+        case CONTACT_FORM_VALIDATE:
+            console.log('validate form')
+            return { ...state, isValid: action.payload }
         default:
-            console.log('i am called')
+            console.log('default action type is called')
             return state;
     }
 }

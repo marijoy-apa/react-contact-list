@@ -35,7 +35,7 @@ const NumberInput = ({ onChange, keyProp }) => {
                 </View>
             </TouchableOpacity>
             <View style={styles.textboxContainer}>
-                <Textbox placeholderText={phone.type} onChangeText={onChangeText} />
+                <Textbox placeholderText={phone.type} onChangeText={onChangeText} keyboardType="phone-pad" />
 
             </View>
             <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>

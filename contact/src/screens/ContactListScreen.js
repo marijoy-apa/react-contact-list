@@ -48,16 +48,18 @@ const ContactListScreen = (props) => {
         }
     }
 
+    const onCancelCreate = () => {
+        setBottomSheetVisible(false)
+
+    }
+
     return (
         <View style={styles.container}>
             <SearchBar />
             {renderItems()}
 
             <BottomSheet isVisible={bottomSheetVisible} containerStyle={styles.bottomSheet}>
-                <CreateContactScreen onCancel={() => {
-                    console.log('false')
-                    setBottomSheetVisible(false)
-                }} />
+                <CreateContactScreen onCancel={onCancelCreate} />
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />

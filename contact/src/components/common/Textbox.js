@@ -2,13 +2,14 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
-const Textbox = ({ placeholderText, value, onChangeText }) => {
+const Textbox = ({ placeholderText, value, onChangeText, keyboardType }) => {
     return (
         <View style={styles.textContainer}>
-            <TextInput placeholder={placeholderText} 
-            alue={value} onChangeText={onChangeText} 
-            autoCapitalize="none"
-            autoCorrect={false}/>
+            <TextInput placeholder={placeholderText}
+                keyboardType={keyboardType}
+                alue={value} onChangeText={onChangeText}
+                autoCapitalize="none"
+                autoCorrect={false} />
         </View>
     )
 }
