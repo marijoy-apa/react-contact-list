@@ -3,9 +3,11 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect } from "react-redux";
 import { deleteContact, updateEmergencyContact, filterList } from "../../actions";
+import { useNavigation } from "@react-navigation/native";
 
 const ContactItem = (props) => {
     const item = props.contactList.find(contact => contact.id === props.item.id)
+    const navigation = useNavigation();
 
     const renderEmergencyIcon = () => {
         props.item.emergencyContact === true;
@@ -26,14 +28,16 @@ const ContactItem = (props) => {
     }
 
     const onPressEmergencyButton = () => {
-        console.log(item)
         props.updateEmergencyContact(item.id, !item.emergencyContact)
+    }
 
+    const onPressContactItem = () => {
+        navigation.navigate('Contact Details', { id: item.id })
     }
 
 
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity onPress={onPressContactItem}>
             <View style={styles.container}>
                 <Text style={styles.nameText}>
                     {item.firstName}
