@@ -23,18 +23,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        // marginVertical: 20,
-        // backgroundColor: 'lightgrey',
-        // width: '100%',
         minHeight: 90,
-        // padding: 20
     },
 
     headerStyle: {
         fontSize: 22,
         marginTop: 20,
         fontWeight: '600',
-        color: 'grey'
+        color: 'grey',
+        textAlign: 'center',
+        paddingHorizontal: 30,
     },
     textStyle: {
         fontSize: 12,

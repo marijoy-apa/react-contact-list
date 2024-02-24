@@ -33,8 +33,6 @@ const CreateContactScreen = (props) => {
         var newPhone = [...phoneNumbers]
         newPhone[index] = value;
         setPhoneNumbers(newPhone);
-        console.log(phoneNumbers, phoneNumbers.length);
-
         props.contactFormUpdate({ prop: 'phone', value: phoneNumbers })
     }
 

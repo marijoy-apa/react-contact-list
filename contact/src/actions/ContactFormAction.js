@@ -42,13 +42,3 @@ export const clearContactForm = () => {
         type: CLEAR_CONTACT_FORM
     }
 }
-
-// export const filterList = () => {
-//     return (dispatch, getState) => {
-//         console.log('hello world')
-//         const searchItem = getState().searchKeyword
-//         console.log('searchItem', searchItem)
-//         // return {}
-//     }
-// }
-
