@@ -3,72 +3,72 @@ import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Ima
 import { connect } from 'react-redux';
 import { contactFormUpdate, createContact, clearContactForm } from '../actions'
 
-import Textbox from '../components/common/Textbox'
-import LinkButton from '../components/common/LinkButton'
-import Spacer from '../components/common/Spacer';
-import AddButton from '../components/contactListPage/AddButton'
-import NumberInput from "../components/createContactPage/NumberInput";
-import NotesInput from '../components/createContactPage/NotesInput';
-import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
-import AddImage from '../components/createContactPage/AddImage'
-
+// import Textbox from '../components/common/Textbox'
+// import LinkButton from '../components/common/LinkButton'
+// import Spacer from '../components/common/Spacer';
+// import AddButton from '../components/contactListPage/AddButton'
+// import NumberInput from "../components/createContactPage/NumberInput";
+// import NotesInput from '../components/createContactPage/NotesInput';
+// import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
+// import AddImage from '../components/createContactPage/AddImage'
+import ContactForm from "../components/createContactPage/ContactForm";
 const height = Dimensions.get('window').height;
 const CreateContactScreen = (props) => {
 
-    const renderNumberInput = () => {
-        const numberInputs = [];
-        for (let index = 0; index < props.phone.length; index++) {
-            numberInputs.push(<NumberInput
-                key={index}
-                onChangeNumber={onUpdatePhoneNumber}
-                onChangePhoneType={onUpdatePhoneType}
-                index={index}
-                phoneInput={{
-                    type: props.phone[index].type,
-                    digit: props.phone[index].digit
-                }} />
-            )
-        }
-        return numberInputs;
-    }
-    const onUpdatePhoneType = (value, index) => {
-        var phone = [...props.phone]
-        phone[index] = { ...phone[index], type: value };
-        props.contactFormUpdate({ prop: 'phone', value: phone })
-    }
+    // const renderNumberInput = () => {
+    //     const numberInputs = [];
+    //     for (let index = 0; index < props.phone.length; index++) {
+    //         numberInputs.push(<NumberInput
+    //             key={index}
+    //             onChangeNumber={onUpdatePhoneNumber}
+    //             onChangePhoneType={onUpdatePhoneType}
+    //             index={index}
+    //             phoneInput={{
+    //                 type: props.phone[index].type,
+    //                 digit: props.phone[index].digit
+    //             }} />
+    //         )
+    //     }
+    //     return numberInputs;
+    // }
+    // const onUpdatePhoneType = (value, index) => {
+    //     var phone = [...props.phone]
+    //     phone[index] = { ...phone[index], type: value };
+    //     props.contactFormUpdate({ prop: 'phone', value: phone })
+    // }
 
-    const onUpdatePhoneNumber = (value, index) => {
-        var phone = [...props.phone]
-        phone[index] = { ...phone[index], digit: value };
-        props.contactFormUpdate({ prop: 'phone', value: phone })
-    }
+    // const onUpdatePhoneNumber = (value, index) => {
+    //     var phone = [...props.phone]
+    //     phone[index] = { ...phone[index], digit: value };
+    //     props.contactFormUpdate({ prop: 'phone', value: phone })
+    // }
 
-    const onAddPhoneField = () => {
-        var phone = [...props.phone, { type: 'Phone', digit: '' }]
-        props.contactFormUpdate({ prop: 'phone', value: phone })
-    }
+    // const onAddPhoneField = () => {
+    //     var phone = [...props.phone, { type: 'Phone', digit: '' }]
+    //     props.contactFormUpdate({ prop: 'phone', value: phone })
+    // }
 
-    const onUpdateFirstName = (value) => {
-        var newvalue = value.charAt(0).toUpperCase() + value.slice(1)
-        props.contactFormUpdate({ prop: 'firstName', value: newvalue })
-    }
+    // const onUpdateFirstName = (value) => {
+    //     var newvalue = value.charAt(0).toUpperCase() + value.slice(1)
+    //     props.contactFormUpdate({ prop: 'firstName', value: newvalue })
+    // }
 
-    const onUpdateLastName = (value) => {
-        newvalue = value.charAt(0).toUpperCase() + value.slice(1)
-        props.contactFormUpdate({ prop: 'lastName', value: newvalue })
-    }
+    // const onUpdateLastName = (value) => {
+    //     newvalue = value.charAt(0).toUpperCase() + value.slice(1)
+    //     props.contactFormUpdate({ prop: 'lastName', value: newvalue })
+    // }
 
-    const onUpdateNotes = (value) => {
-        props.contactFormUpdate({ prop: 'notes', value })
-    }
+    // const onUpdateNotes = (value) => {
+    //     props.contactFormUpdate({ prop: 'notes', value })
+    // }
 
-    const onUpdateIsEmergency = () => {
-        props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
-    }
-    const onPickImage = (value) => {
-        console.log('on Pick Image', value)
-        props.contactFormUpdate({ prop: 'image', value })
-    }
+    // const onUpdateIsEmergency = () => {
+    //     props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
+    // }
+    // const onPickImage = (value) => {
+    //     console.log('on Pick Image', value)
+    //     props.contactFormUpdate({ prop: 'image', value })
+    // }
 
     const onSaveForm = () => {
         const {
@@ -98,7 +98,6 @@ const CreateContactScreen = (props) => {
 
     return (
         <View style={styles.bottomSheet}>
-            <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
                     <View style={styles.headerContainer}>
                         <TouchableOpacity
@@ -111,7 +110,7 @@ const CreateContactScreen = (props) => {
                         </TouchableOpacity>
                     </View>
 
-                    <AddImage onPickImage={onPickImage} imageUrl={props.image} />
+                    {/* <AddImage onPickImage={onPickImage} imageUrl={props.image} />
                     <Textbox
                         value={props.firstName}
                         placeholderText={"First Name"}
@@ -125,10 +124,11 @@ const CreateContactScreen = (props) => {
                     {renderNumberInput()}
                     <AddButton onPress={onAddPhoneField} />
                     <NotesInput onChangeText={onUpdateNotes} value={props.notes} />
-                    <AddEmergencyButton onPress={onUpdateIsEmergency} isEmergency={props.emergencyContact} />
+                    <AddEmergencyButton onPress={onUpdateIsEmergency} isEmergency={props.emergencyContact} /> */}
+                    <ContactForm/>
                 </View>
 
-            </ScrollView>
+            {/* </ScrollView> */}
 
         </View>
     )

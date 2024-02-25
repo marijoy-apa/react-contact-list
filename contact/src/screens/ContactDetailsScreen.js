@@ -6,7 +6,7 @@ import ContactIcons from "../components/contactDetailsPage/ContactIcons";
 import PhoneNumbers from "../components/contactDetailsPage/PhoneNumbers";
 import AddEmergencyButton from "../components/createContactPage/AddEmergencyButton";
 import NotesDetails from "../components/contactDetailsPage/NotesDetails";
-import { updateEmergencyContact } from "../actions";
+import { updateEmergencyContact, contactFormFillout } from "../actions";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const ContactDetailsScreen = (props) => {
     const { id } = useRoute().params
@@ -15,10 +15,14 @@ const ContactDetailsScreen = (props) => {
 
     useEffect(() => {
         props.navigation.setOptions({
-
+            headerTitle: '',
             headerRight: () => (
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('Edit Contact Screen', { id: item.id }) }}
+                    onPress={() => {
+                        navigation.navigate('Edit Contact Screen', { id: item.id });
+                        // props.contactFormFillout(item)
+
+                    }}
                 ><Text>
                         Edit</Text></TouchableOpacity>
             )
@@ -97,4 +101,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default connect(mapStateToProps, { updateEmergencyContact })(ContactDetailsScreen)
+export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout })(ContactDetailsScreen)

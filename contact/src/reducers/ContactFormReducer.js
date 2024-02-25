@@ -1,8 +1,8 @@
-import { CLEAR_CONTACT_FORM, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "../actions/types";
+import { CLEAR_CONTACT_FORM, CONTACT_FORM_FILLOUT, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "../actions/types";
 
 
 const INITIAL_STATE = {
-    firstName: '',
+    firstName: 'initial ',
     lastName: '',
     phone: [{ type: 'Phone', digit: '' }],
     notes: '',
@@ -12,9 +12,10 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
+    console.log('state', state)
     switch (action.type) {
         case CONTACT_FORM_UPDATE:
-            console.log('on update contact form update', action, state)
+            console.log('on update contact form', action, state)
             return { ...state, [action.payload.prop]: action.payload.value }
         case CREATE_NEW_CONTACT:
             console.log('new contact has been create');
@@ -22,8 +23,10 @@ export default (state = INITIAL_STATE, action) => {
         case CLEAR_CONTACT_FORM:
             console.log('clear contact form')
             return INITIAL_STATE
+        case CONTACT_FORM_FILLOUT:
+            console.log('fillout contact form')
+            return action.payload
         case CONTACT_FORM_VALIDATE:
-            // console.log('validate form')
             return { ...state, isValid: action.payload }
         default:
             console.log('default action type is called', action.type)

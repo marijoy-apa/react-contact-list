@@ -1,9 +1,9 @@
-import { CLEAR_CONTACT_FORM, CONTACT_FETCH_SUCCESS, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "./types"
+import { CLEAR_CONTACT_FORM, CONTACT_FETCH_SUCCESS, CONTACT_FORM_FILLOUT, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "./types"
 import { getDatabase, push, ref, onValue, query, update, orderByChild, limitToFirst, remove } from 'firebase/database'
 
 
 export const contactFormUpdate = ({ prop, value }) => {
-
+    console.log('contact from update', prop, value)
     return (dispatch) => {
         dispatch({
             type: CONTACT_FORM_UPDATE,
@@ -58,5 +58,15 @@ const validateForm = () => {
 
         const isValid = isValidName && isValidPhone
         dispatch({ type: CONTACT_FORM_VALIDATE, payload: isValid })
+    }
+}
+
+export const contactFormFillout = (item) => {
+    console.log('contact from update', item)
+    return (dispatch) => {
+        dispatch({
+            type: CONTACT_FORM_FILLOUT,
+            payload: item
+        })
     }
 }
