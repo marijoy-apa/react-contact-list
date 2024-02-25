@@ -53,7 +53,8 @@ const validateForm = () => {
         const { firstName, lastName, phone } = getState().contactForm;
 
         const isValidName = firstName.trim() !== '' || lastName.trim() !== ''
-        const isValidPhone = phone.some(item => item.digit.trim() !== "")
+        const isValidPhone = phone.some((item => item.digit.trim() !== ""
+            && /^\d+$/.test(item.digit.trim())))
 
         const isValid = isValidName && isValidPhone
         dispatch({ type: CONTACT_FORM_VALIDATE, payload: isValid })

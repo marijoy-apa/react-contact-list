@@ -14,6 +14,7 @@ import ContactDetailsScreen from './src/screens/ContactDetailsScreen'
 import reducers from './src/reducers'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import initializeFirebaseApp from './src/initializeFirebaseApp';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -26,7 +27,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='ContactList'>
         <Stack.Screen name="Contacts" component={ContactScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Contact Details" component={ContactDetailsScreen} options={{ headerTitle: '', headerRight: () => (<Text>Edit</Text>) }} />
+        <Stack.Screen name="Contact Details" component={ContactDetailsScreen}  />
         <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
         <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
       </Stack.Navigator>
