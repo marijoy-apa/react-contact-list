@@ -15,6 +15,7 @@ export const contactFormUpdate = ({ prop, value }) => {
 
 export const createContact = ({ firstName, lastName, phone, notes, emergencyContact, image }) => {
     return (dispatch) => {
+        console.log('push details', firstName)
         const reference = ref(getDatabase(), 'contact-list');
         push(reference, { firstName, lastName, phone, notes, emergencyContact, image }).then(() => {
             console.log('perfect')
@@ -57,6 +58,8 @@ const validateForm = () => {
             && /^\d+$/.test(item.digit.trim())))
 
         const isValid = isValidName && isValidPhone
+        console.log('validate form ', isValid)
+
         dispatch({ type: CONTACT_FORM_VALIDATE, payload: isValid })
     }
 }

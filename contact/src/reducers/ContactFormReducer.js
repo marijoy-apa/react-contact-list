@@ -2,7 +2,7 @@ import { CLEAR_CONTACT_FORM, CONTACT_FORM_FILLOUT, CONTACT_FORM_UPDATE, CONTACT_
 
 
 const INITIAL_STATE = {
-    firstName: 'initial ',
+    firstName: '',
     lastName: '',
     phone: [{ type: 'Phone', digit: '' }],
     notes: '',
