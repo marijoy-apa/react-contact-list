@@ -1,5 +1,5 @@
 import { CLEAR_CONTACT_FORM, CONTACT_FETCH_SUCCESS, CONTACT_FORM_FILLOUT, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "./types"
-import { getDatabase, push, ref, onValue, query, update, orderByChild, limitToFirst, remove } from 'firebase/database'
+import { getDatabase, push, ref, set, query, update, orderByChild, limitToFirst, remove } from 'firebase/database'
 
 
 export const contactFormUpdate = ({ prop, value }) => {
@@ -20,6 +20,19 @@ export const createContact = ({ firstName, lastName, phone, notes, emergencyCont
         push(reference, { firstName, lastName, phone, notes, emergencyContact, image }).then(() => {
             console.log('perfect')
             dispatch({ type: CREATE_NEW_CONTACT });
+            dispatch({ type: CLEAR_CONTACT_FORM })
+        })
+    }
+}
+
+export const updateContact = ({ id, firstName, lastName, phone, notes, emergencyContact, image }) => {
+    return (dispatch) => {
+        console.log(firstName, lastName, )
+        console.log('push details', id)
+        const reference = ref(getDatabase(), `contact-list/${id}`);
+        set(reference, { firstName, lastName, phone, notes, emergencyContact, image }).then(() => {
+            console.log('update Contact')
+            // dispatch({ type: CREATE_NEW_CONTACT });
             dispatch({ type: CLEAR_CONTACT_FORM })
         })
     }

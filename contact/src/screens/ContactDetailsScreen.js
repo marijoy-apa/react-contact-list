@@ -14,7 +14,7 @@ const ContactDetailsScreen = (props) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log('use effect in contact details is executed'
+        console.log('use effect in contact details is executed', item.id
         )
         navigation.setOptions({
             headerTitle: '',
@@ -26,7 +26,7 @@ const ContactDetailsScreen = (props) => {
                         props.validateForm()
 
                     }}
-                ><Text style={{color: 'blue', marginRight: 10}}>
+                ><Text style={{ color: 'blue', marginRight: 10 }}>
                         Edit</Text></TouchableOpacity>
             )
         })

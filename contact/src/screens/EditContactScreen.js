@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, createContact, clearContactForm, contactFormFillout } from '../actions'
+import { contactFormUpdate, createContact, clearContactForm, updateContact } from '../actions'
 
 import Textbox from '../components/common/Textbox'
 import Spacer from '../components/common/Spacer';
@@ -10,31 +10,38 @@ import NumberInput from "../components/createContactPage/NumberInput";
 import NotesInput from '../components/createContactPage/NotesInput';
 import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
 import AddImage from '../components/createContactPage/AddImage'
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import ContactForm from "../components/createContactPage/ContactForm";
 
 const height = Dimensions.get('window').height;
 const EditContactScreen = (props) => {
+    const { id } = useRoute().params
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log('is valid', props.isValid)
         navigation.setOptions({
             headerTitle: '',
             headerRight: () => (
-                <TouchableOpacity
+                <TouchableOpacity disabled={!props.isValid}
                     onPress={() => {
-                        navigation.navigate('Edit Contact Screen', { id: item.id });
-                        props.contactFormFillout(item)
+                        onSaveForm();
+                        navigation.pop(2)
                     }} >
-                    <Text style={{ color: props.isValid ? 'blue' : 'grey' , marginRight: 10}}>Save</Text>
+                    <Text style={{ color: props.isValid ? 'blue' : 'grey', marginRight: 10 }}>Save</Text>
                 </TouchableOpacity>
             )
         })
+
+    }, [props.isValid, props])
+
+    // execute clearContactForm when screen is unmounted
+    useEffect(() => {
         return () => {
             console.log('on Edit Contact Screen unmount')
             props.clearContactForm();
         }
-    }, [props.isValid])
+    }, [])
+
     const onSaveForm = () => {
         const {
             firstName,
@@ -44,7 +51,9 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         } = props
-        props.createContact({
+
+        props.updateContact({
+            id,
             firstName,
             lastName,
             phone,
@@ -52,14 +61,7 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         })
-        props.onCancel()
     }
-
-    // const onCancelForm = () => {
-    //     props.clearContactForm();
-    //     props.onCancel();
-
-    // }
 
     const renderNumberInput = () => {
         const numberInputs = [];
@@ -118,6 +120,7 @@ const EditContactScreen = (props) => {
     }
 
     return (
+        // <ContactForm/>
         <View style={styles.bottomSheet}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
@@ -194,8 +197,8 @@ const mapStateToProps = (state, ownProps) => {
         emergencyContact,
         image,
         isValid,
-        onCancel: ownProps.onCancel
+        onCancel: ownProps.onCancel,
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm })(EditContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm, updateContact })(EditContactScreen)
