@@ -1,68 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, createContact, clearContactForm, updateContact } from '../actions'
+import { contactFormUpdate, createContact, clearContactForm } from '../../actions'
 
-import Textbox from '../components/common/Textbox'
-import Spacer from '../components/common/Spacer';
-import AddButton from '../components/contactListPage/AddButton'
-import NumberInput from "../components/createContactPage/NumberInput";
-import NotesInput from '../components/createContactPage/NotesInput';
-import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
-import AddImage from '../components/createContactPage/AddImage'
-import { useNavigation, useRoute } from "@react-navigation/native";
-import ContactForm from "../components/createContactPage/ContactForm";
+import Textbox from '../common/Textbox'
+import Spacer from '../common/Spacer';
+import AddButton from '../contactListPage/AddButton'
+import NumberInput from "../createContactPage/NumberInput";
+import NotesInput from '../createContactPage/NotesInput';
+import AddEmergencyButton from '../createContactPage/AddEmergencyButton';
+import AddImage from '../createContactPage/AddImage'
 
 const height = Dimensions.get('window').height;
-const EditContactScreen = (props) => {
-    const { id } = useRoute().params
-    const navigation = useNavigation();
-
-    useEffect(() => {
-        navigation.setOptions({
-            headerTitle: '',
-            headerRight: () => (
-                <TouchableOpacity disabled={!props.isValid}
-                    onPress={() => {
-                        onSaveForm();
-                        navigation.pop(2)
-                    }} >
-                    <Text style={{ color: props.isValid ? 'blue' : 'grey', marginRight: 10 }}>Save</Text>
-                </TouchableOpacity>
-            )
-        })
-
-    }, [props.isValid, props])
-
-    // execute clearContactForm when screen is unmounted
-    useEffect(() => {
-        return () => {
-            console.log('on Edit Contact Screen unmount')
-            props.clearContactForm();
-        }
-    }, [])
-
-    const onSaveForm = () => {
-        const {
-            firstName,
-            lastName,
-            phone,
-            notes,
-            emergencyContact,
-            image,
-        } = props
-
-        props.updateContact({
-            id,
-            firstName,
-            lastName,
-            phone,
-            notes,
-            emergencyContact,
-            image,
-        })
-    }
-
+const ContactForm = (props) => {
     const renderNumberInput = () => {
         const numberInputs = [];
         for (let index = 0; index < props.phone.length; index++) {
@@ -119,8 +69,33 @@ const EditContactScreen = (props) => {
         props.contactFormUpdate({ prop: 'image', value })
     }
 
+    // const onSaveForm = () => {
+    //     const {
+    //         firstName,
+    //         lastName,
+    //         phone,
+    //         notes,
+    //         emergencyContact,
+    //         image,
+    //     } = props
+    //     props.createContact({
+    //         firstName,
+    //         lastName,
+    //         phone,
+    //         notes,
+    //         emergencyContact,
+    //         image,
+    //     })
+    //     props.onCancel()
+    // }
+
+    // const onCancelForm = () => {
+    //     props.clearContactForm();
+    //     props.onCancel();
+
+    // }
+
     return (
-        // <ContactForm/>
         <View style={styles.bottomSheet}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
@@ -149,8 +124,8 @@ const EditContactScreen = (props) => {
 
 const styles = StyleSheet.create({
     bottomSheet: {
-        // borderStartEndRadius: 20,
-        // borderStartStartRadius: 20,
+        borderStartEndRadius: 20,
+        borderStartStartRadius: 20,
         height: height * 0.85,
         backgroundColor: 'white',
         flex: 1,
@@ -197,8 +172,8 @@ const mapStateToProps = (state, ownProps) => {
         emergencyContact,
         image,
         isValid,
-        onCancel: ownProps.onCancel,
+        onCancel: ownProps.onCancel
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm, updateContact })(EditContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm })(ContactForm)

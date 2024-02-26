@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     addPhotoButton: {
         marginBottom: 30,
-        color: 'blue',
+        color: '#007AFF',
         alignSelf: 'center'
     }
 })

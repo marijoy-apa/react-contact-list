@@ -7,9 +7,11 @@ const Textbox = ({ placeholderText, value, onChangeText, keyboardType }) => {
         <View style={styles.textContainer}>
             <TextInput placeholder={placeholderText}
                 keyboardType={keyboardType}
-                alue={value} onChangeText={onChangeText}
+                value={value}
+                onChangeText={onChangeText}
                 autoCapitalize="none"
-                autoCorrect={false} />
+                autoCorrect={false}
+                style={styles.inputStyle}/>
         </View>
     )
 }
@@ -25,7 +27,8 @@ const styles = StyleSheet.create({
         borderColor: 'darkgrey'
     },
     inputStyle: {
-        width: '100%'
+        width: '100%',
+        height: '100%'
     }
 
 })

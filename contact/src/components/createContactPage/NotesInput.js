@@ -5,12 +5,8 @@ const NotesInput = ({ onChangeText, value}) => {
     return (
         <View style={styles.container}>
             <Text>Notes</Text>
-            <TextInput style={styles.textInput} multiline onChangeText={onChangeText} value={value} />
-
+            <TextInput style={styles.textInput} onChangeText={onChangeText} value={value} />
         </View>
-
-
-
     )
 }
 

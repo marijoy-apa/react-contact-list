@@ -1,23 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { connect } from "react-redux";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import ContactIcons from "../components/contactDetailsPage/ContactIcons";
 import PhoneNumbers from "../components/contactDetailsPage/PhoneNumbers";
 import AddEmergencyButton from "../components/createContactPage/AddEmergencyButton";
 import NotesDetails from "../components/contactDetailsPage/NotesDetails";
-import { updateEmergencyContact } from "../actions";
+import { updateEmergencyContact, contactFormFillout, validateForm } from "../actions";
+import { TouchableOpacity } from "react-native-gesture-handler";
 const ContactDetailsScreen = (props) => {
-
     const { id } = useRoute().params
     const item = props.contactList.find(contact => contact.id === id)
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        console.log('use effect in contact details is executed', item.id
+        )
+        navigation.setOptions({
+            headerTitle: '',
+            headerRight: () => (
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Edit Contact Screen', { id: item.id });
+                        props.contactFormFillout(item);
+                        props.validateForm()
+
+                    }}
+                ><Text style={{ color: 'blue', marginRight: 10 }}>
+                        Edit</Text></TouchableOpacity>
+            )
+        })
+    }, [item])
+
+
 
     const renderContactNumber = () => {
-        console.log(item)
+        // console.log(item)
         var contactDetail = []
         for (let index = 0; index < item.phone.length; index++) {
             var isLast = index === item.phone.length - 1
-            console.log(isLast)
+            // console.log(isLast)
             const itemDetail = item.phone[index];
             contactDetail.push(<PhoneNumbers
                 item={itemDetail}
@@ -72,8 +94,7 @@ ContactDetailsScreen.options = {
     headerTitle: ''
 }
 
-const mapStateToProps = (state, ownProps) => {
-    console.log(state.contactList.list)
+const mapStateToProps = (state) => {
     return {
         contactList: state.contactList.list,
     }
@@ -81,4 +102,4 @@ const mapStateToProps = (state, ownProps) => {
 
 
 
-export default connect(mapStateToProps, { updateEmergencyContact })(ContactDetailsScreen)
+export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout, validateForm })(ContactDetailsScreen)
