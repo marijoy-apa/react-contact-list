@@ -49,7 +49,7 @@ export const clearContactForm = () => {
 }
 
 
-const validateForm = () => {
+export const validateForm = () => {
     return (dispatch, getState) => {
         const { firstName, lastName, phone } = getState().contactForm;
 

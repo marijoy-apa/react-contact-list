@@ -12,7 +12,8 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-    console.log('STATE VALUES', action, state)
+    console.log('ACtiON VALUES', action);
+    console.log('STATE VALUES', state)
     switch (action.type) {
         case CONTACT_FORM_UPDATE:
             console.log('on update contact form', action, state)

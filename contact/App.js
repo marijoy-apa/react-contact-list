@@ -26,7 +26,7 @@ const App = () => {
   return <Provider store={configureStore({ reducer: reducers, })}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName='ContactList'>
-        <Stack.Screen name="Contacts" component={ContactScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Contacts" component={ContactScreen} options={{ headerShown: false, }} />
         <Stack.Screen name="Contact Details" component={ContactDetailsScreen}  />
         <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
         <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />

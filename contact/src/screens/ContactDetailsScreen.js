@@ -6,7 +6,7 @@ import ContactIcons from "../components/contactDetailsPage/ContactIcons";
 import PhoneNumbers from "../components/contactDetailsPage/PhoneNumbers";
 import AddEmergencyButton from "../components/createContactPage/AddEmergencyButton";
 import NotesDetails from "../components/contactDetailsPage/NotesDetails";
-import { updateEmergencyContact, contactFormFillout } from "../actions";
+import { updateEmergencyContact, contactFormFillout, validateForm } from "../actions";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const ContactDetailsScreen = (props) => {
     const { id } = useRoute().params
@@ -14,20 +14,23 @@ const ContactDetailsScreen = (props) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        props.navigation.setOptions({
+        console.log('use effect in contact details is executed'
+        )
+        navigation.setOptions({
             headerTitle: '',
             headerRight: () => (
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('Edit Contact Screen', { id: item.id });
-                        // props.contactFormFillout(item)
+                        props.contactFormFillout(item);
+                        props.validateForm()
 
                     }}
-                ><Text>
+                ><Text style={{color: 'blue', marginRight: 10}}>
                         Edit</Text></TouchableOpacity>
             )
         })
-    }, [])
+    }, [item])
 
 
 
@@ -91,14 +94,12 @@ ContactDetailsScreen.options = {
     headerTitle: ''
 }
 
-const mapStateToProps = (state, ownProps) => {
-    // console.log(state.contactList.list)
+const mapStateToProps = (state) => {
     return {
         contactList: state.contactList.list,
-        // navigation: ownProps.navigation
     }
 }
 
 
 
-export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout })(ContactDetailsScreen)
+export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout, validateForm })(ContactDetailsScreen)
