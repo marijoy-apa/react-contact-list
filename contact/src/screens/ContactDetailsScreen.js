@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { connect } from "react-redux";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -8,7 +8,10 @@ import AddEmergencyButton from "../components/createContactPage/AddEmergencyButt
 import NotesDetails from "../components/contactDetailsPage/NotesDetails";
 import { updateEmergencyContact, contactFormFillout, validateForm } from "../actions";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Snackbar } from "react-native-paper";
+import SnackbarError from "../components/common/SnackbarError";
 const ContactDetailsScreen = (props) => {
+
     const { id } = useRoute().params
     const item = props.contactList.find(contact => contact.id === id)
     const navigation = useNavigation();
@@ -57,7 +60,6 @@ const ContactDetailsScreen = (props) => {
         }
     }
 
-
     const onPressEmergencyButton = () => {
         props.updateEmergencyContact(item.id, !item.emergencyContact)
     }
@@ -65,20 +67,21 @@ const ContactDetailsScreen = (props) => {
         <View style={styles.container}>
             {renderImage()}
             <Text style={styles.contactName}>{item.firstName} {item.lastName}</Text>
-            <ContactIcons phone={item.phone}/>
+            <ContactIcons phone={item.phone} />
             <View style={styles.contactNumContainer}>
                 {renderContactNumber()}
             </View>
             <NotesDetails notes={item.notes} />
             <AddEmergencyButton isEmergency={item.emergencyContact} onPress={onPressEmergencyButton} />
+            <SnackbarError onDismiss={null} />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        height: '100%',
         flexDirection: 'column',
-        // justifyContent: 'center', 
         alignItems: 'center',
     },
     imageStyle: {
@@ -106,9 +109,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         marginVertical: 20,
         marginTop: 100,
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center'
-        
+
     },
     textImage: {
         fontSize: 70,
@@ -125,6 +128,7 @@ ContactDetailsScreen.options = {
 const mapStateToProps = (state) => {
     return {
         contactList: state.contactList.list,
+        error: state.contactForm.error,
     }
 }
 

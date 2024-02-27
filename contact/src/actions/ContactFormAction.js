@@ -1,4 +1,5 @@
-import { CLEAR_CONTACT_FORM, CONTACT_FORM_FILLOUT, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "./types"
+import ErrorMessage from "../components/contactListPage/ErrorMessage"
+import { CLEAR_CONTACT_FORM, CLEAR_CONTACT_FORM_ERROR, CONTACT_FORM_ERROR, CONTACT_FORM_FILLOUT, CONTACT_FORM_UPDATE, CONTACT_FORM_VALIDATE, CREATE_NEW_CONTACT } from "./types"
 import { getDatabase, push, ref, update, remove } from 'firebase/database'
 
 
@@ -15,47 +16,64 @@ export const contactFormUpdate = ({ prop, value }) => {
 
 export const createContact = ({ firstName, lastName, phone, notes, emergencyContact, image }) => {
     return (dispatch) => {
-        console.log('push details', firstName)
-        const validPhoneNum = filterValidPhoneNumber(phone)
+        return new Promise((resolve) => {
+            const validPhoneNum = filterValidPhoneNumber(phone)
+            const reference = ref(getDatabase(), 'contact-list');
 
-        const reference = ref(getDatabase(), 'contact-list');
-        push(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image })
-            .then(() => {
-                console.log('perfect')
-                dispatch({ type: CLEAR_CONTACT_FORM })
-            })
-            .catch((error => {
-                console.log(error)
-            }))
+            push(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image })
+                .then(() => {
+                    dispatch({ type: CLEAR_CONTACT_FORM })
+                    resolve(true)
+                })
+                .catch((error => {
+                    console.log('Error on create new contact', error)
+                    dispatch({ type: CONTACT_FORM_ERROR, payload: 'Unable to create new contact.' })
+                    resolve(false)
+                }))
+        })
     }
 }
 
 export const updateContact = ({ id, firstName, lastName, phone, notes, emergencyContact, image }) => {
     return (dispatch) => {
-        const validPhoneNum = filterValidPhoneNumber(phone)
+        return new Promise((resolve) => {
+            const validPhoneNum = filterValidPhoneNumber(phone)
+            const reference = ref(getDatabase(), `contact-list/${id}`);
 
-        const reference = ref(getDatabase(), `contact-list/${id}`);
-        update(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image }).then(() => {
-            console.log('update Contact')
-            dispatch({ type: CLEAR_CONTACT_FORM })
+            update(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image })
+                .then(() => {
+                    dispatch({ type: CLEAR_CONTACT_FORM })
+                    resolve(true)
+                })
+                .catch((error) => {
+                    console.log('error on update contact', error)
+                    dispatchErrorWithTimeout(dispatch, 'Unable to update contact.')
+                    resolve(false)
+                })
         })
     }
 }
 
-
-
 export const updateEmergencyContact = (id, emergencyContact) => {
-    return () => {
+    return (dispatch) => {
         const reference = ref(getDatabase(), `contact-list/${id}`);
-        update(reference, { emergencyContact });
+        update(reference, { emergencyContact })
+            .catch((error) => {
+                console.log('error on updating emergency contact', error)
+                dispatchErrorWithTimeout(dispatch, 'Unable to update contact.')
+            })
     }
 }
 
 export const deleteContact = (id) => {
-    return () => {
+    return (dispatch) => {
         console.log('removing item', id)
         const reference = ref(getDatabase(), `contact-list/${id}`);
-        remove(reference);
+        remove(reference)
+            .catch((error) => {
+                console.log('error on deleting contact', error)
+                dispatchErrorWithTimeout(dispatch, 'Unable to delete contact.')
+            })
     }
 }
 
@@ -98,6 +116,15 @@ const filterValidPhoneNumber = (phoneList) => {
         return isValidPhone;
     })
 
-    console.log('valid phone number list', validList)
     return validList;
+}
+
+const dispatchErrorWithTimeout = (dispatch, errorMessage) => {
+    console.log('i am called error')
+    dispatch({ type: CONTACT_FORM_ERROR, payload: errorMessage });
+
+    setTimeout(() => {
+        dispatch({ type: CLEAR_CONTACT_FORM_ERROR })
+    }, 4000);
+
 }

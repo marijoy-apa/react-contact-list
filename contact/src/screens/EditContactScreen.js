@@ -12,6 +12,7 @@ import { contactFormUpdate, createContact, clearContactForm, updateContact } fro
 // import AddImage from '../components/createContactPage/AddImage'
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ContactForm from "../components/createContactPage/ContactForm";
+import SnackbarError from "../components/common/SnackbarError";
 
 const height = Dimensions.get('window').height;
 const EditContactScreen = (props) => {
@@ -26,7 +27,6 @@ const EditContactScreen = (props) => {
                 <TouchableOpacity disabled={!props.isValid}
                     onPress={() => {
                         onSaveForm();
-                        navigation.pop(2)
                     }} >
                     <Text style={{ color: props.isValid ? '#007AFF' : 'grey', marginRight: 10 }}>Save</Text>
                 </TouchableOpacity>
@@ -40,7 +40,7 @@ const EditContactScreen = (props) => {
         props.clearContactForm();
     }, [])
 
-    const onSaveForm = () => {
+    const onSaveForm = async () => {
         const {
             firstName,
             lastName,
@@ -51,7 +51,7 @@ const EditContactScreen = (props) => {
         } = props
         console.log('image', image)
 
-        props.updateContact({
+        const isSuccess = await props.updateContact({
             id,
             firstName,
             lastName,
@@ -60,9 +60,16 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         })
+
+        if (isSuccess) {
+            navigation.pop(2)
+        }
     }
-    return (
+
+    return (<>
         <ContactForm />
+        <SnackbarError onDismiss={null}/>
+    </>
     )
 }
 

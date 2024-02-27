@@ -1,14 +1,22 @@
-import React, { useEffect } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
+import React, { useEffect, useState } from "react";
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions, ToastAndroid, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
 import { createContact, clearContactForm } from '../actions'
-
 import ContactForm from "../components/createContactPage/ContactForm";
+import { Snackbar } from 'react-native-paper'
+import { Ionicons } from "@expo/vector-icons";
 const height = Dimensions.get('window').height;
 const CreateContactScreen = (props) => {
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
 
+    // useEffect(()=>{
+    //     if (props.error) {
+    //         setSnackbarVisible(true)
+    //     }
+    // }, [props.error])
 
-    const onSaveForm = () => {
+    const onSaveForm = async () => {
+        setSnackbarVisible(true)
         const {
             firstName,
             lastName,
@@ -17,7 +25,7 @@ const CreateContactScreen = (props) => {
             emergencyContact,
             image,
         } = props
-        props.createContact({
+        const isSuccess = await props.createContact({
             firstName,
             lastName,
             phone,
@@ -25,6 +33,11 @@ const CreateContactScreen = (props) => {
             emergencyContact,
             image,
         })
+        if (!isSuccess) {
+            setSnackbarVisible(true);
+            return;
+        }
+        console.log('isSuccess', isSuccess)
         props.onCancel()
     }
 
@@ -32,6 +45,10 @@ const CreateContactScreen = (props) => {
         props.clearContactForm();
         props.onCancel();
 
+    }
+
+    const onDismissSnackbar = () => {
+        setSnackbarVisible(false);
     }
 
     return (
@@ -48,6 +65,16 @@ const CreateContactScreen = (props) => {
                     </TouchableOpacity>
                 </View>
                 <ContactForm />
+                <Snackbar
+                    visible={snackbarVisible}
+                    onDismiss={onDismissSnackbar}
+                    duration={3000}
+                    action={{
+                        icon: (() => <Ionicons name="close-circle" color='grey' size={20} />),
+                        onPress:  onDismissSnackbar ,
+
+                    }}>{props.error}
+                </Snackbar>
             </View>
         </View>
     )
@@ -93,13 +120,14 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const  {
+    const {
         firstName,
         lastName,
         phone,
         notes,
         emergencyContact,
         image,
+        error
     } = state.contactForm
     return {
         firstName,
@@ -108,8 +136,10 @@ const mapStateToProps = (state, ownProps) => {
         notes,
         emergencyContact,
         image,
+        error,
         isValid: state.contactForm.isValid,
-        onCancel: ownProps.onCancel
+        onCancel: ownProps.onCancel,
+
     }
 }
 

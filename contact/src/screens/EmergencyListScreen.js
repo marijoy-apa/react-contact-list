@@ -10,6 +10,7 @@ import NoSearchResult from "../components/contactListPage/NoSearchResult";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import ErrorMessage from "../components/contactListPage/ErrorMessage";
+import SnackbarError from "../components/common/SnackbarError";
 const EmergencyListScreen = (props) => {
     const navigation = useNavigation();
     useEffect(() => {
@@ -62,6 +63,8 @@ const EmergencyListScreen = (props) => {
         <View style={styles.container}>
             <SearchBar />
             {renderItems()}
+            <SnackbarError onDismiss={null} />
+
         </View >
     )
 }

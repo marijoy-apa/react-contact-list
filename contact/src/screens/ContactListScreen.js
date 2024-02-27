@@ -12,6 +12,8 @@ import NoSearchResult from "../components/contactListPage/NoSearchResult";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import ErrorMessage from "../components/contactListPage/ErrorMessage";
+import { Snackbar } from "react-native-paper";
+import SnackbarError from "../components/common/SnackbarError";
 const ContactListScreen = (props) => {
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
     const navigation = useNavigation();
@@ -75,13 +77,15 @@ const ContactListScreen = (props) => {
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
+            <SnackbarError onDismiss={null}/>
         </View >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        height: '100%'
     },
 })
 
