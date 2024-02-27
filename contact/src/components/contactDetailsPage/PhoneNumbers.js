@@ -24,11 +24,12 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     type: {
-        fontSize: 10,
+        color: 'grey',
+        fontSize: 12,
     },
     number: {
         fontSize: 18,
-        color: 'blue'
+        color: '#007AFF'
     }
 
 

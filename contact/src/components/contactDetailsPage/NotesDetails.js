@@ -24,17 +24,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         borderRadius: 12,
         padding: 10,
+        paddingHorizontal: 15,
     },
     notes: {
-        fontSize: 10,
+        fontSize: 12,
+        color: 'grey'
     },
     noteDetails: {
-        // flex: 1,
         textAlign: 'justify',
-        // justifyContent: 'center',
         marginTop: 5,
         fontSize: 12,
-        // color: 'blue'
     }
 
 

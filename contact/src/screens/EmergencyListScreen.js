@@ -7,10 +7,20 @@ import { contactFetch } from "../actions";
 import initializeFirebaseApp from '../initializeFirebaseApp'
 import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
+import { useNavigation } from "@react-navigation/native";
+import { FontAwesome } from "@expo/vector-icons";
 const EmergencyListScreen = (props) => {
+    const navigation = useNavigation();
     useEffect(() => {
         initializeFirebaseApp();
         props.contactFetch();
+        // navigation.setOptions({
+        //     tabBarIcon: ({ color }) => (<FontAwesome name='phone' size={25} color={color} />),
+        //     headerTitleAlign: "center",
+        //     tabBarLabelStyle: { paddingBottom: 5, fontSize: 14 },
+        //     tabBarStyle: { height: 90, padding: 10 }
+        // })
+
     }, [])
 
     const navigateContactDetilsScreen = () => {

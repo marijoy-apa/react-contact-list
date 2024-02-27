@@ -25,7 +25,7 @@ const RadioElement = ({ value, onSelect, selectedOption }) => {
             onPress={() => handleOptionPress(value)}>
             {renderRadioIcon(value)}
             <Spacer style={{ width: 20 }} />
-            <Text>{value}</Text>
+            <Text style={styles.text}>{value}</Text>
         </TouchableOpacity>
     );
 };
@@ -37,9 +37,10 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     text: {
-
+        color: 'grey'
     },
     icon: {
+        color: 'grey'
 
     }
 });

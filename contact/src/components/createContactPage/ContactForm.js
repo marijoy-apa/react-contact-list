@@ -126,29 +126,29 @@ const styles = StyleSheet.create({
     bottomSheet: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
-        height: height * 0.85,
-        backgroundColor: 'white',
+        // height: height * 0.85,
+        // backgroundColor: 'white',
         flex: 1,
         width: '100%'
     },
-    cancelLink: {
-        color: 'blue'
-    },
-    createLink: {
+    // cancelLink: {
+    //     color: 'blue'
+    // },
+    // createLink: {
 
-    },
+    // },
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
         flex: 1,
         alignItems: 'center',
     },
 
-    addPhotoButton: {
-        marginBottom: 30,
-        color: 'blue'
-    },
+    // addPhotoButton: {
+    //     marginBottom: 30,
+    //     color: 'blue'
+    // },
     headerContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,

@@ -44,7 +44,7 @@ const CreateContactScreen = (props) => {
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!props.isValid}
                         onPress={onSaveForm}>
-                        <Text style={{ color: props.isValid ? 'blue' : 'grey' }}>Done</Text>
+                        <Text style={{ color: props.isValid ? '#007AFF' : 'grey' }}>Done</Text>
                     </TouchableOpacity>
                 </View>
                 <ContactForm />
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     cancelLink: {
-        color: 'blue'
+        color: '#007AFF'
     },
-    createLink: {
+    // createLink: {
 
-    },
+    // },
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
@@ -75,17 +75,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    addPhotoButton: {
-        marginBottom: 30,
-        color: 'blue'
-    },
+    // addPhotoButton: {
+    //     marginBottom: 30,
+    //     color: 'blue'
+    // },
     headerContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'lightgrey',
+        // backgroundColor: 'lightgrey',
         width: '100%',
         height: 40,
         paddingHorizontal: 15

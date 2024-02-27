@@ -1,9 +1,35 @@
-import React from "react";
-import { Text, View, StyleSheet, TextInput } from 'react-native'
+import React, { useState } from "react";
+import { Text, View, StyleSheet, Linking } from 'react-native'
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Dialog } from "react-native-elements";
+import RadioButton from "../common/RadioButton";
+const ContactIcons = ({ phone }) => {
+    const [modalVisible, setModalVisible] = useState(false);
 
-const ContactIcons = () => {
+    const handleCallPress = () => {
+        console.log('number to call hehe', phone)
+
+        const number = numberSelectionModal()
+        console.log('number to call', number)
+
+        // const phoneNum = 123213123
+        // const phoneUrl = `tel:${phoneNum}`;
+        // Linking.openURL(phoneUrl)
+    }
+
+    const numberSelectionModal = () => {
+        phoneNum = phone[0].digit;
+        console.log(phone.length)
+        if (phone.length > 1) {
+            console.log(phone.length)
+
+            setModalVisible(true)
+        }
+        return phoneNum
+    }
+
+
     return (
         <View style={styles.container}>
             <TouchableOpacity disabled>
@@ -14,7 +40,7 @@ const ContactIcons = () => {
                     <Text style={styles.iconText}>Message</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity disabled>
+            <TouchableOpacity onPress={handleCallPress}>
                 <View style={styles.iconContainer}>
                     <MaterialIcons
                         name="call"
@@ -38,6 +64,9 @@ const ContactIcons = () => {
                     <Text style={styles.iconText}>Mail</Text>
                 </View>
             </TouchableOpacity>
+            <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
+                <RadioButton style={styles.dialog} onSelectPhoneType={()=>{}} preselectedOption={phone[0]} />
+            </Dialog>
 
         </View>
 
@@ -69,8 +98,12 @@ const styles = StyleSheet.create({
     iconText: {
         marginTop: 5,
         color: 'grey',
-        fontSize: 10,
-    }
+        fontSize: 12,
+    },
+    dialog: {
+        backgroundColor: '#f1eeee',
+        borderRadius: 23
+    },
 
 
 })

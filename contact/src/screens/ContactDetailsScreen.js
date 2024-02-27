@@ -14,32 +14,28 @@ const ContactDetailsScreen = (props) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log('use effect in contact details is executed', item.id
+        console.log('use effect in contact details is executed', item.phone
         )
         navigation.setOptions({
             headerTitle: '',
+            headerBackTitleStyle: { fontSize: 14 },
             headerRight: () => (
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('Edit Contact Screen', { id: item.id });
                         props.contactFormFillout(item);
-                        props.validateForm()
 
-                    }}
-                ><Text style={{ color: 'blue', marginRight: 10 }}>
+                    }}>
+                    <Text style={{ color: '#007AFF', marginRight: 12 }}>
                         Edit</Text></TouchableOpacity>
             )
         })
     }, [item])
 
-
-
     const renderContactNumber = () => {
-        // console.log(item)
         var contactDetail = []
         for (let index = 0; index < item.phone.length; index++) {
             var isLast = index === item.phone.length - 1
-            // console.log(isLast)
             const itemDetail = item.phone[index];
             contactDetail.push(<PhoneNumbers
                 item={itemDetail}
@@ -49,17 +45,27 @@ const ContactDetailsScreen = (props) => {
         return contactDetail;
     }
 
+    const renderImage = () => {
+        if (item.image) {
+            return <Image
+                source={{ uri: item.image }}
+                style={styles.imageStyle} />
+        } else {
+            return <View style={styles.imageContainer}>
+                <Text style={styles.textImage}>{item.firstName[0]}</Text>
+            </View>
+        }
+    }
+
 
     const onPressEmergencyButton = () => {
         props.updateEmergencyContact(item.id, !item.emergencyContact)
     }
     return (
         <View style={styles.container}>
-            <Image
-                source={item.image ? { uri: item.image } : null}
-                style={styles.imageStyle} />
-            <Text>{item.firstName} {item.lastName}</Text>
-            <ContactIcons />
+            {renderImage()}
+            <Text style={styles.contactName}>{item.firstName} {item.lastName}</Text>
+            <ContactIcons phone={item.phone}/>
             <View style={styles.contactNumContainer}>
                 {renderContactNumber()}
             </View>
@@ -76,16 +82,38 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     imageStyle: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 120,
+        height: 120,
+        borderRadius: 60,
         backgroundColor: 'lightgrey',
         marginVertical: 20,
+        marginTop: 100,
     },
     contactNumContainer: {
         width: '100%',
         backgroundColor: 'lightgrey',
         borderRadius: 12,
+    },
+    contactName: {
+        marginHorizontal: 80,
+        textAlign: 'center',
+        fontSize: 20,
+    },
+    imageContainer: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: 'lightgrey',
+        marginVertical: 20,
+        marginTop: 100,
+        alignItems: 'center', 
+        justifyContent: 'center'
+        
+    },
+    textImage: {
+        fontSize: 70,
+        fontWeight: 'bold',
+        color: 'grey'
     }
 })
 

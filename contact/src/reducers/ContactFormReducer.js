@@ -18,15 +18,15 @@ export default (state = INITIAL_STATE, action) => {
         case CONTACT_FORM_UPDATE:
             console.log('on update contact form', action, state)
             return { ...state, [action.payload.prop]: action.payload.value }
-        case CREATE_NEW_CONTACT:
-            console.log('new contact has been create');
-            return state;
+        // case CREATE_NEW_CONTACT:
+        //     console.log('new contact has been create');
+        //     return state;
         case CLEAR_CONTACT_FORM:
             console.log('clear contact form')
             return INITIAL_STATE
         case CONTACT_FORM_FILLOUT:
             console.log('fillout contact form')
-            return action.payload
+            return { ...state, ...action.payload }
         case CONTACT_FORM_VALIDATE:
             return { ...state, isValid: action.payload }
         default:
