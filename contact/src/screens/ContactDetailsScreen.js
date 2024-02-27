@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { connect } from "react-redux";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -6,10 +6,11 @@ import ContactIcons from "../components/contactDetailsPage/ContactIcons";
 import PhoneNumbers from "../components/contactDetailsPage/PhoneNumbers";
 import AddEmergencyButton from "../components/createContactPage/AddEmergencyButton";
 import NotesDetails from "../components/contactDetailsPage/NotesDetails";
-import { updateEmergencyContact, contactFormFillout, validateForm } from "../actions";
+import { updateEmergencyContact, contactFormFillout, updateError } from "../actions";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Snackbar } from "react-native-paper";
 import SnackbarError from "../components/common/SnackbarError";
+
+
 const ContactDetailsScreen = (props) => {
 
     const { id } = useRoute().params
@@ -17,23 +18,22 @@ const ContactDetailsScreen = (props) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log('use effect in contact details is executed', item.phone
-        )
         navigation.setOptions({
             headerTitle: '',
             headerBackTitleStyle: { fontSize: 14 },
-            headerRight: () => (
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('Edit Contact Screen', { id: item.id });
-                        props.contactFormFillout(item);
-
-                    }}>
-                    <Text style={{ color: '#007AFF', marginRight: 12 }}>
-                        Edit</Text></TouchableOpacity>
-            )
+            headerRight
         })
     }, [item])
+
+    const headerRight = () => (
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('Edit Contact Screen', { id: item.id });
+                props.contactFormFillout(item);
+            }}>
+            <Text style={{ color: '#007AFF', marginRight: 12 }}>Edit</Text>
+        </TouchableOpacity>
+    )
 
     const renderContactNumber = () => {
         var contactDetail = []
@@ -67,7 +67,7 @@ const ContactDetailsScreen = (props) => {
         <View style={styles.container}>
             {renderImage()}
             <Text style={styles.contactName}>{item.firstName} {item.lastName}</Text>
-            <ContactIcons phone={item.phone} />
+            <ContactIcons phone={item.phone} onError={props.updateError} />
             <View style={styles.contactNumContainer}>
                 {renderContactNumber()}
             </View>
@@ -134,4 +134,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout, validateForm })(ContactDetailsScreen)
+export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout, updateError })(ContactDetailsScreen)

@@ -1,32 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import Spacer from './Spacer';
+import { Ionicons } from '@expo/vector-icons'
 import { Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
+import { clearFormError } from '../../actions';
+
+//Component that displays error message when there are form update errors
 const SnackbarError = (props) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
 
+    //to show the Snackbar when there is a form error
     useEffect(() => {
+        console.log('SNACKBAR USE STATE', props.error)
         if (props.error) {
+            console.log('setting snackbar true')
             setSnackbarVisible(true);
         }
     }, [props.error]);
 
+    //dismiss the Snackbar and clear the form error
     const onDismissSnackbar = () => {
         setSnackbarVisible(false);
-        // onDismiss();
+        props.clearFormError();
     }
 
-    // const renderSnackBar = () => {
-    //     if (props.error) {
-    //         setSnackbarVisible(true)
-    //         return
-    //     }
-    // }
-
     return (<Snackbar
-        style={{}}
         visible={snackbarVisible}
         onDismiss={onDismissSnackbar}
         duration={3000}
@@ -36,34 +33,13 @@ const SnackbarError = (props) => {
 
         }} >{props.error}
     </Snackbar>
-
-
     );
 };
 
-// const styles = StyleSheet.create({
-//     optionContainer: {
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         marginVertical: 5,
-//     },
-//     text: {
-//         color: 'grey'
-//     },
-//     icon: {
-//         color: 'grey'
-
-//     }
-// });
-
-mapStateToProps = (state, ownProps) => {
+mapStateToProps = (state) => {
     return {
         error: state.contactForm.error,
-        onDismiss: ownProps.onDismiss
     }
-
 }
 
-
-
-export default connect(mapStateToProps)(SnackbarError);
+export default connect(mapStateToProps, {clearFormError})(SnackbarError);

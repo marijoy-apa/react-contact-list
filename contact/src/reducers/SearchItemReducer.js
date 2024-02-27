@@ -1,4 +1,7 @@
-import { CLEAR_SEARCH_ITEM, CONTACT_FETCH_SUCCESS, SET_SEARCH_ITEM } from '../actions/types'
+import {
+    CLEAR_SEARCH_ITEM,
+    SET_SEARCH_ITEM
+} from '../actions/types'
 
 const INITIAL_STATE = ''
 

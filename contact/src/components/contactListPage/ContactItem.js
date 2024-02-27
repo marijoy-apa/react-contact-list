@@ -5,23 +5,12 @@ import { connect } from "react-redux";
 import { deleteContact, updateEmergencyContact, filterList } from "../../actions";
 import { useNavigation } from "@react-navigation/native";
 
+// ContactItem component renders a single contact item in the list
 const ContactItem = (props) => {
+
+    // Retrieve contact details from the Redux state
     const item = props.contactList.find(contact => contact.id === props.item.id)
     const navigation = useNavigation();
-
-    const renderEmergencyIcon = () => {
-        props.item.emergencyContact === true;
-        return (
-            <TouchableOpacity onPress={onPressEmergencyButton}>{
-                item.emergencyContact ?
-                    <MaterialIcons
-                        name="emergency"
-                        style={styles.isEmergency} />
-                    : <Ionicons name="medical-outline"
-                        style={styles.isNotEmergency} />}
-            </TouchableOpacity>
-        )
-    }
 
     const onPressDelete = () => {
         props.deleteContact(item.id)
@@ -35,13 +24,24 @@ const ContactItem = (props) => {
         navigation.navigate('Contact Details', { id: item.id })
     }
 
+    const renderEmergencyIcon = () => {
+        props.item.emergencyContact === true;
+        return (
+            <TouchableOpacity onPress={onPressEmergencyButton}>
+                {item.emergencyContact ? (
+                    <MaterialIcons name="emergency" style={styles.isEmergency} />
+                ) : (
+                    <Ionicons name="medical-outline" style={styles.isNotEmergency} />
+                )}
+            </TouchableOpacity>
+        )
+    }
+
 
     return (
         <TouchableOpacity onPress={onPressContactItem}>
             <View style={styles.container}>
-                <Text style={styles.nameText}>
-                    {item.firstName}
-                </Text>
+                <Text style={styles.nameText}>{item.firstName}</Text>
                 {renderEmergencyIcon()}
                 <TouchableOpacity onPress={onPressDelete}>
                     <MaterialIcons

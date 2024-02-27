@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'
 import Spacer from './Spacer';
+
+// RadioElement component representing a single radio option
 const RadioElement = ({ value, onSelect, selectedOption }) => {
 
+    // handler function to notify parent component of the selected option
     const handleOptionPress = (option) => {
         onSelect(option)
     };
 
+    // Function to render the radio icon based on the selected state
     const renderRadioIcon = (option) => {
         console.log(option, selectedOption)
         return (

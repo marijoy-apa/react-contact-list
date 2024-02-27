@@ -1,4 +1,8 @@
-import { CONTACT_FETCH_FAIL, CONTACT_FETCH_START, CONTACT_FETCH_SUCCESS } from '../actions/types'
+import {
+    CONTACT_FETCH_FAIL,
+    CONTACT_FETCH_START,
+    CONTACT_FETCH_SUCCESS
+} from '../actions/types'
 
 const INITIAL_STATE = {
     list: [],

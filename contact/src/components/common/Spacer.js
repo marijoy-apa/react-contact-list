@@ -1,23 +1,13 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { View} from 'react-native'
 
+// Spacer component adds empty space with optional styling
 const Spacer = ({ style }) => {
     return (
-        <View style={[styles.container, style]}>
-
+        <View style={[style]}>
         </View>
 
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        // width: '100%',
-        // height: '100%'
-    }
-})
-
-
 
 export default Spacer

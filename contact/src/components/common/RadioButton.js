@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-
 import RadioElement from './RadioElement';
+
+// RadioButton component that displays a list of radio options
 const RadioButton = ({ onSelectPhoneType, preselectedOption, options }) => {
     const [selectedOption, setSelectedOption] = useState(preselectedOption);
 
@@ -9,7 +10,6 @@ const RadioButton = ({ onSelectPhoneType, preselectedOption, options }) => {
         setSelectedOption(option);
         onSelectPhoneType(option);
     };
-
 
     return (
         <View style={styles.radioStyle}>
@@ -31,14 +31,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 5,
     },
-    text: {
-
-    },
-    icon: {
-
-    },
-
-
 });
 
 export default RadioButton;

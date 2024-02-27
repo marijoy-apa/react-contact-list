@@ -1,6 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import {  View, StyleSheet, TextInput } from 'react-native'
 
 const Textbox = ({ placeholderText, value, onChangeText, keyboardType }) => {
     return (
@@ -30,15 +29,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'
     }
-
 })
-
-Textbox.options = {
-
-
-    headerTitle: ''
-}
-
-
 
 export default Textbox

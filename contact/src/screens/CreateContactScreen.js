@@ -5,18 +5,14 @@ import { createContact, clearContactForm } from '../actions'
 import ContactForm from "../components/createContactPage/ContactForm";
 import { Snackbar } from 'react-native-paper'
 import { Ionicons } from "@expo/vector-icons";
+
 const height = Dimensions.get('window').height;
+
+
 const CreateContactScreen = (props) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
 
-    // useEffect(()=>{
-    //     if (props.error) {
-    //         setSnackbarVisible(true)
-    //     }
-    // }, [props.error])
-
     const onSaveForm = async () => {
-        setSnackbarVisible(true)
         const {
             firstName,
             lastName,
@@ -37,7 +33,6 @@ const CreateContactScreen = (props) => {
             setSnackbarVisible(true);
             return;
         }
-        console.log('isSuccess', isSuccess)
         props.onCancel()
     }
 
@@ -91,9 +86,7 @@ const styles = StyleSheet.create({
     cancelLink: {
         color: '#007AFF'
     },
-    // createLink: {
 
-    // },
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
@@ -102,17 +95,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    // addPhotoButton: {
-    //     marginBottom: 30,
-    //     color: 'blue'
-    // },
     headerContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        // backgroundColor: 'lightgrey',
         width: '100%',
         height: 40,
         paddingHorizontal: 15

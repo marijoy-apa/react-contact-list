@@ -4,12 +4,16 @@ import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Dialog } from "react-native-elements";
 import RadioButton from "../common/RadioButton";
-const ContactIcons = ({ phone }) => {
-    const digits = phone.map(num => num.digit)
 
+// ContactIcons component for displaying icons such as Message, Call, Video and Mail
+const ContactIcons = ({ phone, onError }) => {
     const [modalVisible, setModalVisible] = useState(false);
 
+    //extract digits from phone array object
+    const digits = phone.map(num => num.digit)
+
     const handleCallPress = () => {
+        //Show modal for selection of phone number if there are multiple phone numbers, otherwise directly initiate the call
         if (phone.length > 1) {
             setModalVisible(true)
         }
@@ -22,9 +26,17 @@ const ContactIcons = ({ phone }) => {
         setModalVisible(false);
         onCall(value);
     }
-    const onCall = (value) =>{
+    const onCall = async (value) => {
         const phoneUrl = `tel:${value}`;
-        Linking.openURL(phoneUrl)
+        try {
+            await Linking.openURL(phoneUrl);
+
+        } catch (error) {
+            // If not supported, update state for error to display error message
+            console.log('Error opening phone URL:', error);
+            onError('Unable to make phone call')
+
+        }
     }
 
 
@@ -38,6 +50,7 @@ const ContactIcons = ({ phone }) => {
                     <Text style={styles.iconText}>Message</Text>
                 </View>
             </TouchableOpacity>
+
             <TouchableOpacity onPress={handleCallPress}>
                 <View style={styles.iconContainer}>
                     <MaterialIcons
@@ -46,6 +59,7 @@ const ContactIcons = ({ phone }) => {
                     <Text style={styles.enabledIconText}>Call</Text>
                 </View>
             </TouchableOpacity>
+
             <TouchableOpacity disabled>
                 <View style={styles.iconContainer}>
                     <FontAwesome
@@ -54,6 +68,7 @@ const ContactIcons = ({ phone }) => {
                     <Text style={styles.iconText}>Video</Text>
                 </View>
             </TouchableOpacity>
+
             <TouchableOpacity disabled>
                 <View style={styles.iconContainer}>
                     <MaterialIcons
@@ -62,14 +77,12 @@ const ContactIcons = ({ phone }) => {
                     <Text style={styles.iconText}>Mail</Text>
                 </View>
             </TouchableOpacity>
+
             <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
                 <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneNum} preselectedOption={digits[0]} options={digits} />
             </Dialog>
 
         </View>
-
-
-
     )
 }
 
@@ -111,10 +124,6 @@ const styles = StyleSheet.create({
         color: '#007AFF',
         fontSize: 12,
     },
-
-
 })
-
-
 
 export default ContactIcons

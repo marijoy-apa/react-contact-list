@@ -21,10 +21,7 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: 'center'
     },
-    // textButton: {
-    //     color: 'blue',
-    //     marginLeft: 20
-    // },
+
     touchableStyle: {
         width: '100%',
     }

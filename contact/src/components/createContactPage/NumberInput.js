@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Modal, TouchableOpacity, Button } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import Textbox from '../common/Textbox';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Dialog, Radio } from 'react-native-elements'
+import { Dialog } from 'react-native-elements'
 import RadioButton from "../common/RadioButton";
 
 const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) => {
@@ -33,7 +32,9 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
                         <Text style={styles.textInput}>
                             {phoneInput.type}
                         </Text>
-                        <MaterialCommunityIcons name="greater-than" style={[styles.textInput, { fontSize: 15, }]} />
+                        <MaterialCommunityIcons
+                            name="greater-than"
+                            style={[styles.textInput, { fontSize: 15, }]} />
                     </View>
                 </TouchableOpacity>
                 <View style={styles.textboxContainer}>

@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import React, { useEffect } from "react";
+import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, createContact, clearContactForm, updateContact } from '../actions'
+import { contactFormUpdate, clearContactForm, updateContact, updateError } from '../actions'
 
-// import Textbox from '../components/common/Textbox'
-// import Spacer from '../components/common/Spacer';
-// import AddButton from '../components/contactListPage/AddButton'
-// import NumberInput from "../components/createContactPage/NumberInput";
-// import NotesInput from '../components/createContactPage/NotesInput';
-// import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
-// import AddImage from '../components/createContactPage/AddImage'
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ContactForm from "../components/createContactPage/ContactForm";
 import SnackbarError from "../components/common/SnackbarError";
 
-const height = Dimensions.get('window').height;
 const EditContactScreen = (props) => {
     const { id } = useRoute().params
     const navigation = useNavigation();
@@ -23,22 +15,23 @@ const EditContactScreen = (props) => {
         navigation.setOptions({
             headerTitle: '',
             headerBackTitleStyle: { fontSize: 14 },
-            headerRight: () => (
-                <TouchableOpacity disabled={!props.isValid}
-                    onPress={() => {
-                        onSaveForm();
-                    }} >
-                    <Text style={{ color: props.isValid ? '#007AFF' : 'grey', marginRight: 10 }}>Save</Text>
-                </TouchableOpacity>
-            )
+            headerRight
         })
 
-    }, [props.isValid, props])
+    }, [props])
 
-    // execute clearContactForm when screen is unmounted
     useEffect(() => () => {
         props.clearContactForm();
     }, [])
+
+    const headerRight = () => (
+        <TouchableOpacity disabled={!props.isValid}
+            onPress={() => {
+                onSaveForm();
+            }} >
+            <Text style={{ color: props.isValid ? '#007AFF' : 'grey', marginRight: 10 }}>Save</Text>
+        </TouchableOpacity>
+    )
 
     const onSaveForm = async () => {
         const {
@@ -67,8 +60,8 @@ const EditContactScreen = (props) => {
     }
 
     return (<>
-        <ContactForm />
-        <SnackbarError onDismiss={null}/>
+        <ContactForm onError={props.updateError} />
+        <SnackbarError />
     </>
     )
 }
@@ -87,4 +80,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm, updateContact })(EditContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, clearContactForm, updateContact, updateError })(EditContactScreen)

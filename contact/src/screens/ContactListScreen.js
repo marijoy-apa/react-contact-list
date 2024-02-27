@@ -1,33 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator, Text } from 'react-native'
-import SearchBar from '../components/contactListPage/SearchBar'
-import ContactItem from '../components/contactListPage/ContactItem'
-import CreateContactScreen from "./CreateContactScreen";
 import { FAB, BottomSheet } from 'react-native-elements'
 import { connect } from "react-redux";
 import { contactFetch } from "../actions";
+
 import initializeFirebaseApp from '../initializeFirebaseApp'
 import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
-import { useNavigation } from "@react-navigation/native";
-import { FontAwesome } from "@expo/vector-icons";
 import ErrorMessage from "../components/contactListPage/ErrorMessage";
-import { Snackbar } from "react-native-paper";
 import SnackbarError from "../components/common/SnackbarError";
+import SearchBar from '../components/contactListPage/SearchBar'
+import ContactItem from '../components/contactListPage/ContactItem'
+import CreateContactScreen from "./CreateContactScreen";
+
 const ContactListScreen = (props) => {
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
-    const navigation = useNavigation();
 
     useEffect(() => {
         initializeFirebaseApp();
         props.contactFetch();
-        // navigation.setOptions({
-        //     tabBarIcon: ({ color }) => (<FontAwesome name='phone' size={25} color={color} />),
-        //     headerTitleAlign: "center",
-        //     tabBarLabelStyle: { paddingBottom: 5, fontSize: 14 },
-        //     tabBarStyle: { height: 90, padding: 10 }
-        // })
-
     }, [])
 
     const navigateContactDetilsScreen = () => {
@@ -64,7 +55,6 @@ const ContactListScreen = (props) => {
 
     const onCancelCreate = () => {
         setBottomSheetVisible(false)
-
     }
 
     return (
@@ -77,7 +67,7 @@ const ContactListScreen = (props) => {
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
-            <SnackbarError onDismiss={null}/>
+            <SnackbarError onDismiss={null} />
         </View >
     )
 }
