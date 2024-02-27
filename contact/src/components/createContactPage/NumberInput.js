@@ -13,6 +13,8 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
         setModalVisible(true);
     };
 
+    const numTypes = ['Mobile', 'Phone', 'Work', 'Main', 'Fax', 'Pager', 'Custom']
+
     const onSelectPhoneType = (value) => {
         onChangePhoneType(value, index)
         setModalVisible(false);
@@ -38,7 +40,7 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
                     <Textbox placeholderText={phoneInput.type} onChangeText={onChangeText} keyboardType="phone-pad" value={phoneInput.digit} />
                 </View>
                 <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
-                    <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneInput.type} />
+                    <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneInput.type} options={numTypes} />
                 </Dialog>
             </View>
             {isValidNumber ? null : <Text style={styles.errorMessage}>Phone Number should only contain number</Text>}

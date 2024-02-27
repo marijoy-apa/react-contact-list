@@ -2,43 +2,25 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import RadioElement from './RadioElement';
-const RadioButton = ({ onSelectPhoneType, preselectedOption }) => {
+const RadioButton = ({ onSelectPhoneType, preselectedOption, options }) => {
     const [selectedOption, setSelectedOption] = useState(preselectedOption);
 
     const handleOptionPress = (option) => {
         setSelectedOption(option);
         onSelectPhoneType(option);
     };
+
+
     return (
         <View style={styles.radioStyle}>
-            <RadioElement
-                value="Mobile"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
-            <RadioElement
-                value="Phone"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
-            <RadioElement
-                value="Work"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
-            <RadioElement
-                value="Main"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
-            <RadioElement
-                value="Fax"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
-            <RadioElement
-                value="Pager"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
-            <RadioElement
-                value="Custom"
-                onSelect={handleOptionPress}
-                selectedOption={selectedOption} />
+            {options.map((option) => (
+                <RadioElement
+                    key={option}
+                    value={option}
+                    onSelect={handleOptionPress}
+                    selectedOption={selectedOption}
+                />
+            ))}
         </View>
     );
 };
@@ -54,7 +36,7 @@ const styles = StyleSheet.create({
     },
     icon: {
 
-    }, 
+    },
 
 
 });

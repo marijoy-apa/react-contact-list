@@ -11,6 +11,7 @@ import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
+import ErrorMessage from "../components/contactListPage/ErrorMessage";
 const ContactListScreen = (props) => {
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
     const navigation = useNavigation();
@@ -37,11 +38,13 @@ const ContactListScreen = (props) => {
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <ActivityIndicator />
                 </View>)
+        } else if (props.error) {
+            return (
+                <ErrorMessage error={props.error} />)
         } else if (props.contactList.length === 0 && !props.searchKeyword) {
             return (
                 <NoContactsMessage contactText="Contacts" />
             )
-
         } else if (props.contactList.length === 0) {
             return (
                 <NoSearchResult searchKeyword={props.searchKeyword} />)
@@ -95,6 +98,7 @@ const mapStateToProps = (state, ownProps) => {
         navigation: ownProps.navigation,
         searchKeyword: state.searchKeyword,
         isFetching: state.contactList.isFetching,
+        error: state.contactList.error
     }
 }
 

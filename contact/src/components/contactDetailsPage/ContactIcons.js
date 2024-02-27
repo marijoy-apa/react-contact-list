@@ -5,28 +5,26 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Dialog } from "react-native-elements";
 import RadioButton from "../common/RadioButton";
 const ContactIcons = ({ phone }) => {
+    const digits = phone.map(num => num.digit)
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleCallPress = () => {
-        console.log('number to call hehe', phone)
-
-        const number = numberSelectionModal()
-        console.log('number to call', number)
-
-        // const phoneNum = 123213123
-        // const phoneUrl = `tel:${phoneNum}`;
-        // Linking.openURL(phoneUrl)
-    }
-
-    const numberSelectionModal = () => {
-        phoneNum = phone[0].digit;
-        console.log(phone.length)
         if (phone.length > 1) {
-            console.log(phone.length)
-
             setModalVisible(true)
         }
-        return phoneNum
+        else {
+            onCall(digits[0])
+        }
+    }
+
+    const onSelectPhoneNum = (value) => {
+        setModalVisible(false);
+        onCall(value);
+    }
+    const onCall = (value) =>{
+        const phoneUrl = `tel:${value}`;
+        Linking.openURL(phoneUrl)
     }
 
 
@@ -44,8 +42,8 @@ const ContactIcons = ({ phone }) => {
                 <View style={styles.iconContainer}>
                     <MaterialIcons
                         name="call"
-                        style={styles.iconStyle} />
-                    <Text style={styles.iconText}>Call</Text>
+                        style={styles.enabledIconStyle} />
+                    <Text style={styles.enabledIconText}>Call</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity disabled>
@@ -65,7 +63,7 @@ const ContactIcons = ({ phone }) => {
                 </View>
             </TouchableOpacity>
             <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
-                <RadioButton style={styles.dialog} onSelectPhoneType={()=>{}} preselectedOption={phone[0]} />
+                <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneNum} preselectedOption={digits[0]} options={digits} />
             </Dialog>
 
         </View>
@@ -103,6 +101,15 @@ const styles = StyleSheet.create({
     dialog: {
         backgroundColor: '#f1eeee',
         borderRadius: 23
+    },
+    enabledIconStyle: {
+        fontSize: 20,
+        color: '#007AFF'
+    },
+    enabledIconText: {
+        marginTop: 5,
+        color: '#007AFF',
+        fontSize: 12,
     },
 
 

@@ -4,6 +4,7 @@ export const CLEAR_CONTACT_FORM = 'clear_contact_form'
 
 export const CONTACT_FETCH_SUCCESS = 'contact_fetch_success'
 export const CONTACT_FETCH_START = 'contact_fetch_start'
+export const CONTACT_FETCH_FAIL = 'contact_fetch_fail'
 
 export const SET_SEARCH_ITEM = 'set_search_item'
 export const CLEAR_SEARCH_ITEM = 'clear_search_item'

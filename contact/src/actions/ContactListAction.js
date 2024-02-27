@@ -1,5 +1,5 @@
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
-import { CONTACT_FETCH_START, CONTACT_FETCH_SUCCESS } from "./types";
+import { CONTACT_FETCH_FAIL, CONTACT_FETCH_START, CONTACT_FETCH_SUCCESS } from "./types";
 
 export const contactFetch = () => {
     return (dispatch) => {
@@ -9,14 +9,25 @@ export const contactFetch = () => {
             orderByChild('firstName'),
         );
         onValue(reference, (snapshot) => {
-            var contactList = []
-            if (snapshot.val() !== null) {
-                contactList = convertContactListObject(snapshot.val());
+            try {
+                if (!snapshot.exists()) {
+                    throw new Error("Path does not exist")
+                }
+                var contactList = []
+                if (snapshot.val() !== null) {
+                    contactList = convertContactListObject(snapshot.val());
+                }
+                dispatch({
+                    type: CONTACT_FETCH_SUCCESS,
+                    payload: contactList
+                })
+            } catch (error) {
+                console.log(error);
+                dispatch({
+                    type: CONTACT_FETCH_FAIL,
+                })
             }
-            dispatch({
-                type: CONTACT_FETCH_SUCCESS,
-                payload: contactList
-            })
+
         })
     }
 }

@@ -9,6 +9,7 @@ import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
+import ErrorMessage from "../components/contactListPage/ErrorMessage";
 const EmergencyListScreen = (props) => {
     const navigation = useNavigation();
     useEffect(() => {
@@ -33,6 +34,9 @@ const EmergencyListScreen = (props) => {
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <ActivityIndicator />
                 </View>)
+        } else if (props.error) {
+            return (
+                <ErrorMessage error={props.error} />)
         } else if (props.contactList.length === 0 && !props.searchKeyword) {
             return (
                 <NoContactsMessage contactText="Emergency Contacts" />
@@ -57,7 +61,7 @@ const EmergencyListScreen = (props) => {
     return (
         <View style={styles.container}>
             <SearchBar />
-           {renderItems()}
+            {renderItems()}
         </View >
     )
 }
@@ -80,6 +84,7 @@ const mapStateToProps = (state, ownProps) => {
         contactList: filteredData,
         navigation: ownProps.navigation,
         searchKeyword: state.searchKeyword,
+        error: state.contactList.error
     }
 }
 

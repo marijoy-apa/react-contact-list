@@ -19,10 +19,14 @@ export const createContact = ({ firstName, lastName, phone, notes, emergencyCont
         const validPhoneNum = filterValidPhoneNumber(phone)
 
         const reference = ref(getDatabase(), 'contact-list');
-        push(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image }).then(() => {
-            console.log('perfect')
-            dispatch({ type: CLEAR_CONTACT_FORM })
-        })
+        push(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image })
+            .then(() => {
+                console.log('perfect')
+                dispatch({ type: CLEAR_CONTACT_FORM })
+            })
+            .catch((error => {
+                console.log(error)
+            }))
     }
 }
 
