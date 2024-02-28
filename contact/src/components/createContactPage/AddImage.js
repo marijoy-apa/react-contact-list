@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import LinkButton from '../common/LinkButton'
+import { requestCameraPermissionsAsync, CameraType, launchCameraAsync } from 'expo-image-picker';
 
-import { requestCameraPermissionsAsync, CameraType, launchImageLibraryAsync, MediaTypeOptions, launchCameraAsync } from 'expo-image-picker';
-
-const AddImage = ({ onPickImage, imageUrl }) => {
+const AddImage = ({ onPickImage, imageUrl, onError }) => {
 
     const handleCameraLaunch = async () => {
         try {
@@ -19,7 +16,8 @@ const AddImage = ({ onPickImage, imageUrl }) => {
                 onPickImage(result.assets[0].uri);
             }
         } catch (error) {
-            console.log(error)
+            onError('Unable to use camera')
+            console.log('ERROR with camera', error)
         }
 
     }
@@ -38,9 +36,9 @@ const AddImage = ({ onPickImage, imageUrl }) => {
 
 const styles = StyleSheet.create({
     imageStyle: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 120,
+        height: 120,
+        borderRadius: 60,
         backgroundColor: 'lightgrey',
         marginVertical: 20,
     },

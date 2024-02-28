@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
+import React, { useEffect, useState } from "react";
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions, ToastAndroid, Image, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
 import { createContact, clearContactForm } from '../actions'
-
 import ContactForm from "../components/createContactPage/ContactForm";
+import { Snackbar } from 'react-native-paper'
+import { Ionicons } from "@expo/vector-icons";
+
 const height = Dimensions.get('window').height;
+
+
 const CreateContactScreen = (props) => {
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
 
-
-    const onSaveForm = () => {
+    const onSaveForm = async () => {
         const {
             firstName,
             lastName,
@@ -17,7 +21,7 @@ const CreateContactScreen = (props) => {
             emergencyContact,
             image,
         } = props
-        props.createContact({
+        const isSuccess = await props.createContact({
             firstName,
             lastName,
             phone,
@@ -25,6 +29,10 @@ const CreateContactScreen = (props) => {
             emergencyContact,
             image,
         })
+        if (!isSuccess) {
+            setSnackbarVisible(true);
+            return;
+        }
         props.onCancel()
     }
 
@@ -32,6 +40,10 @@ const CreateContactScreen = (props) => {
         props.clearContactForm();
         props.onCancel();
 
+    }
+
+    const onDismissSnackbar = () => {
+        setSnackbarVisible(false);
     }
 
     return (
@@ -44,10 +56,20 @@ const CreateContactScreen = (props) => {
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!props.isValid}
                         onPress={onSaveForm}>
-                        <Text style={{ color: props.isValid ? 'blue' : 'grey' }}>Done</Text>
+                        <Text style={{ color: props.isValid ? '#007AFF' : 'grey' }}>Done</Text>
                     </TouchableOpacity>
                 </View>
                 <ContactForm />
+                <Snackbar
+                    visible={snackbarVisible}
+                    onDismiss={onDismissSnackbar}
+                    duration={3000}
+                    action={{
+                        icon: (() => <Ionicons name="close-circle" color='grey' size={20} />),
+                        onPress:  onDismissSnackbar ,
+
+                    }}>{props.error}
+                </Snackbar>
             </View>
         </View>
     )
@@ -62,11 +84,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     cancelLink: {
-        color: 'blue'
+        color: '#007AFF'
     },
-    createLink: {
 
-    },
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
@@ -75,17 +95,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    addPhotoButton: {
-        marginBottom: 30,
-        color: 'blue'
-    },
     headerContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'lightgrey',
         width: '100%',
         height: 40,
         paddingHorizontal: 15
@@ -93,13 +108,14 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const  {
+    const {
         firstName,
         lastName,
         phone,
         notes,
         emergencyContact,
         image,
+        error
     } = state.contactForm
     return {
         firstName,
@@ -108,8 +124,10 @@ const mapStateToProps = (state, ownProps) => {
         notes,
         emergencyContact,
         image,
+        error,
         isValid: state.contactForm.isValid,
-        onCancel: ownProps.onCancel
+        onCancel: ownProps.onCancel,
+
     }
 }
 

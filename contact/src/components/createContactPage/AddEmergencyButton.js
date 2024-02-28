@@ -7,7 +7,7 @@ const AddEmergencyButton = ({ isEmergency, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.touchableStyle}>
             <View style={styles.container}>
-                <Text style={[isEmergency ? { color: 'blue' } : { color: 'red' }, 
+                <Text style={[isEmergency ? { color: '#007AFF' } : { color: 'red' }, 
                 { marginLeft: 20 }]}>{text}</Text>
             </View>
         </TouchableOpacity>
@@ -21,10 +21,7 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: 'center'
     },
-    textButton: {
-        color: 'blue',
-        marginLeft: 20
-    },
+
     touchableStyle: {
         width: '100%',
     }

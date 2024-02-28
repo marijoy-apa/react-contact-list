@@ -1,20 +1,15 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import NumberInput from "../createContactPage/NumberInput";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const AddButton = ({ onPress }) => {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-
             <View style={styles.container}>
                 <MaterialIcons name="add-circle" style={styles.addCircle}/>
                 <Text>Add phone</Text>
             </View>
         </TouchableOpacity>
-
-
-
     )
 }
 
@@ -34,7 +29,6 @@ const styles = StyleSheet.create({
         color: 'green'
     }
 })
-
 
 
 export default AddButton

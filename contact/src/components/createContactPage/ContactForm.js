@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
+import React from "react";
+import { View, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, createContact, clearContactForm } from '../../actions'
+import { contactFormUpdate, createContact, clearContactForm, updateError } from '../../actions'
 
 import Textbox from '../common/Textbox'
 import Spacer from '../common/Spacer';
@@ -11,8 +11,9 @@ import NotesInput from '../createContactPage/NotesInput';
 import AddEmergencyButton from '../createContactPage/AddEmergencyButton';
 import AddImage from '../createContactPage/AddImage'
 
-const height = Dimensions.get('window').height;
 const ContactForm = (props) => {
+
+    //render the numberInput depending on the state of phone length of form
     const renderNumberInput = () => {
         const numberInputs = [];
         for (let index = 0; index < props.phone.length; index++) {
@@ -29,6 +30,7 @@ const ContactForm = (props) => {
         }
         return numberInputs;
     }
+
     const onUpdatePhoneType = (value, index) => {
         var phone = [...props.phone]
         phone[index] = { ...phone[index], type: value };
@@ -64,42 +66,18 @@ const ContactForm = (props) => {
     const onUpdateIsEmergency = () => {
         props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
     }
+    
     const onPickImage = (value) => {
         console.log('on Pick Image', value)
         props.contactFormUpdate({ prop: 'image', value })
     }
 
-    // const onSaveForm = () => {
-    //     const {
-    //         firstName,
-    //         lastName,
-    //         phone,
-    //         notes,
-    //         emergencyContact,
-    //         image,
-    //     } = props
-    //     props.createContact({
-    //         firstName,
-    //         lastName,
-    //         phone,
-    //         notes,
-    //         emergencyContact,
-    //         image,
-    //     })
-    //     props.onCancel()
-    // }
-
-    // const onCancelForm = () => {
-    //     props.clearContactForm();
-    //     props.onCancel();
-
-    // }
 
     return (
         <View style={styles.bottomSheet}>
             <ScrollView contentInsetAdjustmentBehavior="automatic" >
                 <View style={styles.scrollContainer}>
-                    <AddImage onPickImage={onPickImage} imageUrl={props.image} />
+                    <AddImage onPickImage={onPickImage} imageUrl={props.image} onError={props.updateError} />
                     <Textbox
                         value={props.firstName}
                         placeholderText={"First Name"}
@@ -126,29 +104,17 @@ const styles = StyleSheet.create({
     bottomSheet: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
-        height: height * 0.85,
-        backgroundColor: 'white',
         flex: 1,
         width: '100%'
     },
-    cancelLink: {
-        color: 'blue'
-    },
-    createLink: {
 
-    },
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
-        backgroundColor: 'white',
         flex: 1,
         alignItems: 'center',
     },
 
-    addPhotoButton: {
-        marginBottom: 30,
-        color: 'blue'
-    },
     headerContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
@@ -176,4 +142,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm })(ContactForm)
+export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm, updateError })(ContactForm)

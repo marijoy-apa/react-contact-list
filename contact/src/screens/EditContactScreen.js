@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, SafeAreaView, Image, ScrollView } from 'react-native'
+import React, { useEffect } from "react";
+import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, createContact, clearContactForm, updateContact } from '../actions'
+import { contactFormUpdate, clearContactForm, updateContact, updateError } from '../actions'
 
-import Textbox from '../components/common/Textbox'
-import Spacer from '../components/common/Spacer';
-import AddButton from '../components/contactListPage/AddButton'
-import NumberInput from "../components/createContactPage/NumberInput";
-import NotesInput from '../components/createContactPage/NotesInput';
-import AddEmergencyButton from '../components/createContactPage/AddEmergencyButton';
-import AddImage from '../components/createContactPage/AddImage'
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ContactForm from "../components/createContactPage/ContactForm";
+import SnackbarError from "../components/common/SnackbarError";
 
-const height = Dimensions.get('window').height;
 const EditContactScreen = (props) => {
     const { id } = useRoute().params
     const navigation = useNavigation();
@@ -21,28 +14,26 @@ const EditContactScreen = (props) => {
     useEffect(() => {
         navigation.setOptions({
             headerTitle: '',
-            headerRight: () => (
-                <TouchableOpacity disabled={!props.isValid}
-                    onPress={() => {
-                        onSaveForm();
-                        navigation.pop(2)
-                    }} >
-                    <Text style={{ color: props.isValid ? 'blue' : 'grey', marginRight: 10 }}>Save</Text>
-                </TouchableOpacity>
-            )
+            headerBackTitleStyle: { fontSize: 14 },
+            headerRight
         })
 
-    }, [props.isValid, props])
+    }, [props])
 
-    // execute clearContactForm when screen is unmounted
-    useEffect(() => {
-        return () => {
-            console.log('on Edit Contact Screen unmount')
-            props.clearContactForm();
-        }
+    useEffect(() => () => {
+        props.clearContactForm();
     }, [])
 
-    const onSaveForm = () => {
+    const headerRight = () => (
+        <TouchableOpacity disabled={!props.isValid}
+            onPress={() => {
+                onSaveForm();
+            }} >
+            <Text style={{ color: props.isValid ? '#007AFF' : 'grey', marginRight: 10 }}>Save</Text>
+        </TouchableOpacity>
+    )
+
+    const onSaveForm = async () => {
         const {
             firstName,
             lastName,
@@ -51,8 +42,9 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         } = props
+        console.log('image', image)
 
-        props.updateContact({
+        const isSuccess = await props.updateContact({
             id,
             firstName,
             lastName,
@@ -61,131 +53,18 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         })
-    }
 
-    const renderNumberInput = () => {
-        const numberInputs = [];
-        for (let index = 0; index < props.phone.length; index++) {
-            numberInputs.push(<NumberInput
-                key={index}
-                onChangeNumber={onUpdatePhoneNumber}
-                onChangePhoneType={onUpdatePhoneType}
-                index={index}
-                phoneInput={{
-                    type: props.phone[index].type,
-                    digit: props.phone[index].digit
-                }} />
-            )
+        if (isSuccess) {
+            navigation.pop(2)
         }
-        return numberInputs;
-    }
-    const onUpdatePhoneType = (value, index) => {
-        var phone = [...props.phone]
-        phone[index] = { ...phone[index], type: value };
-        props.contactFormUpdate({ prop: 'phone', value: phone })
     }
 
-    const onUpdatePhoneNumber = (value, index) => {
-        var phone = [...props.phone]
-        phone[index] = { ...phone[index], digit: value };
-        props.contactFormUpdate({ prop: 'phone', value: phone })
-    }
-
-    const onAddPhoneField = () => {
-        var phone = [...props.phone, { type: 'Phone', digit: '' }]
-        props.contactFormUpdate({ prop: 'phone', value: phone })
-    }
-
-    const onUpdateFirstName = (value) => {
-        var newvalue = value.charAt(0).toUpperCase() + value.slice(1)
-        props.contactFormUpdate({ prop: 'firstName', value: newvalue })
-    }
-
-    const onUpdateLastName = (value) => {
-        newvalue = value.charAt(0).toUpperCase() + value.slice(1)
-        props.contactFormUpdate({ prop: 'lastName', value: newvalue })
-    }
-
-    const onUpdateNotes = (value) => {
-        console.log('notes value', value)
-        props.contactFormUpdate({ prop: 'notes', value })
-    }
-
-    const onUpdateIsEmergency = () => {
-        props.contactFormUpdate({ prop: 'emergencyContact', value: !props.emergencyContact })
-    }
-    const onPickImage = (value) => {
-        console.log('on Pick Image', value)
-        props.contactFormUpdate({ prop: 'image', value })
-    }
-
-    return (
-        // <ContactForm/>
-        <View style={styles.bottomSheet}>
-            <ScrollView contentInsetAdjustmentBehavior="automatic" >
-                <View style={styles.scrollContainer}>
-                    <AddImage onPickImage={onPickImage} imageUrl={props.image} />
-                    <Textbox
-                        value={props.firstName}
-                        placeholderText={"First Name"}
-                        onChangeText={onUpdateFirstName} />
-                    <Textbox
-                        value={props.lastName}
-                        placeholderText={"Last Name"}
-                        onChangeText={onUpdateLastName}
-                    />
-                    <Spacer style={{ height: 30 }} />
-                    {renderNumberInput()}
-                    <AddButton onPress={onAddPhoneField} />
-                    <NotesInput onChangeText={onUpdateNotes} value={props.notes} />
-                    <AddEmergencyButton onPress={onUpdateIsEmergency} isEmergency={props.emergencyContact} />
-                </View>
-
-            </ScrollView>
-
-        </View>
+    return (<>
+        <ContactForm onError={props.updateError} />
+        <SnackbarError />
+    </>
     )
 }
-
-const styles = StyleSheet.create({
-    bottomSheet: {
-        // borderStartEndRadius: 20,
-        // borderStartStartRadius: 20,
-        height: height * 0.85,
-        backgroundColor: 'white',
-        flex: 1,
-        width: '100%'
-    },
-    cancelLink: {
-        color: 'blue'
-    },
-    createLink: {
-
-    },
-    scrollContainer: {
-        borderStartEndRadius: 20,
-        borderStartStartRadius: 20,
-        backgroundColor: 'white',
-        flex: 1,
-        alignItems: 'center',
-    },
-
-    addPhotoButton: {
-        marginBottom: 30,
-        color: 'blue'
-    },
-    headerContainer: {
-        borderStartEndRadius: 20,
-        borderStartStartRadius: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'lightgrey',
-        width: '100%',
-        height: 40,
-        paddingHorizontal: 15
-    }
-})
 
 const mapStateToProps = (state, ownProps) => {
     const { firstName, lastName, phone, notes, emergencyContact, image, isValid } = state.contactForm;
@@ -201,4 +80,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, createContact, clearContactForm, updateContact })(EditContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, clearContactForm, updateContact, updateError })(EditContactScreen)

@@ -6,40 +6,39 @@ import ContactIcons from "../components/contactDetailsPage/ContactIcons";
 import PhoneNumbers from "../components/contactDetailsPage/PhoneNumbers";
 import AddEmergencyButton from "../components/createContactPage/AddEmergencyButton";
 import NotesDetails from "../components/contactDetailsPage/NotesDetails";
-import { updateEmergencyContact, contactFormFillout, validateForm } from "../actions";
+import { updateEmergencyContact, contactFormFillout, updateError } from "../actions";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import SnackbarError from "../components/common/SnackbarError";
+
+
 const ContactDetailsScreen = (props) => {
+
     const { id } = useRoute().params
     const item = props.contactList.find(contact => contact.id === id)
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log('use effect in contact details is executed', item.id
-        )
         navigation.setOptions({
             headerTitle: '',
-            headerRight: () => (
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('Edit Contact Screen', { id: item.id });
-                        props.contactFormFillout(item);
-                        props.validateForm()
-
-                    }}
-                ><Text style={{ color: 'blue', marginRight: 10 }}>
-                        Edit</Text></TouchableOpacity>
-            )
+            headerBackTitleStyle: { fontSize: 14 },
+            headerRight
         })
     }, [item])
 
-
+    const headerRight = () => (
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('Edit Contact Screen', { id: item.id });
+                props.contactFormFillout(item);
+            }}>
+            <Text style={{ color: '#007AFF', marginRight: 12 }}>Edit</Text>
+        </TouchableOpacity>
+    )
 
     const renderContactNumber = () => {
-        // console.log(item)
         var contactDetail = []
         for (let index = 0; index < item.phone.length; index++) {
             var isLast = index === item.phone.length - 1
-            // console.log(isLast)
             const itemDetail = item.phone[index];
             contactDetail.push(<PhoneNumbers
                 item={itemDetail}
@@ -49,43 +48,75 @@ const ContactDetailsScreen = (props) => {
         return contactDetail;
     }
 
+    const renderImage = () => {
+        if (item.image) {
+            return <Image
+                source={{ uri: item.image }}
+                style={styles.imageStyle} />
+        } else {
+            return <View style={styles.imageContainer}>
+                <Text style={styles.textImage}>{item.firstName[0]}</Text>
+            </View>
+        }
+    }
 
     const onPressEmergencyButton = () => {
         props.updateEmergencyContact(item.id, !item.emergencyContact)
     }
     return (
         <View style={styles.container}>
-            <Image
-                source={item.image ? { uri: item.image } : null}
-                style={styles.imageStyle} />
-            <Text>{item.firstName} {item.lastName}</Text>
-            <ContactIcons />
+            {renderImage()}
+            <Text style={styles.contactName}>{item.firstName} {item.lastName}</Text>
+            <ContactIcons phone={item.phone} onError={props.updateError} />
             <View style={styles.contactNumContainer}>
                 {renderContactNumber()}
             </View>
             <NotesDetails notes={item.notes} />
             <AddEmergencyButton isEmergency={item.emergencyContact} onPress={onPressEmergencyButton} />
+            <SnackbarError onDismiss={null} />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        height: '100%',
         flexDirection: 'column',
-        // justifyContent: 'center', 
         alignItems: 'center',
     },
     imageStyle: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 120,
+        height: 120,
+        borderRadius: 60,
         backgroundColor: 'lightgrey',
         marginVertical: 20,
+        marginTop: 100,
     },
     contactNumContainer: {
         width: '100%',
         backgroundColor: 'lightgrey',
         borderRadius: 12,
+    },
+    contactName: {
+        marginHorizontal: 80,
+        textAlign: 'center',
+        fontSize: 20,
+    },
+    imageContainer: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: 'lightgrey',
+        marginVertical: 20,
+        marginTop: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    textImage: {
+        fontSize: 70,
+        fontWeight: 'bold',
+        color: 'grey'
     }
 })
 
@@ -97,9 +128,10 @@ ContactDetailsScreen.options = {
 const mapStateToProps = (state) => {
     return {
         contactList: state.contactList.list,
+        error: state.contactForm.error,
     }
 }
 
 
 
-export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout, validateForm })(ContactDetailsScreen)
+export default connect(mapStateToProps, { updateEmergencyContact, contactFormFillout, updateError })(ContactDetailsScreen)

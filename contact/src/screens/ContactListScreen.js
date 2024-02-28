@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator, Text } from 'react-native'
-import SearchBar from '../components/contactListPage/SearchBar'
-import ContactItem from '../components/contactListPage/ContactItem'
-import CreateContactScreen from "./CreateContactScreen";
 import { FAB, BottomSheet } from 'react-native-elements'
 import { connect } from "react-redux";
 import { contactFetch } from "../actions";
+
 import initializeFirebaseApp from '../initializeFirebaseApp'
 import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
+import ErrorMessage from "../components/contactListPage/ErrorMessage";
+import SnackbarError from "../components/common/SnackbarError";
+import SearchBar from '../components/contactListPage/SearchBar'
+import ContactItem from '../components/contactListPage/ContactItem'
+import CreateContactScreen from "./CreateContactScreen";
 
 const ContactListScreen = (props) => {
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
@@ -28,11 +31,13 @@ const ContactListScreen = (props) => {
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <ActivityIndicator />
                 </View>)
+        } else if (props.error) {
+            return (
+                <ErrorMessage error={props.error} />)
         } else if (props.contactList.length === 0 && !props.searchKeyword) {
             return (
                 <NoContactsMessage contactText="Contacts" />
             )
-
         } else if (props.contactList.length === 0) {
             return (
                 <NoSearchResult searchKeyword={props.searchKeyword} />)
@@ -50,7 +55,6 @@ const ContactListScreen = (props) => {
 
     const onCancelCreate = () => {
         setBottomSheetVisible(false)
-
     }
 
     return (
@@ -63,13 +67,15 @@ const ContactListScreen = (props) => {
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
+            <SnackbarError onDismiss={null} />
         </View >
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        height: '100%'
     },
 })
 
@@ -86,6 +92,7 @@ const mapStateToProps = (state, ownProps) => {
         navigation: ownProps.navigation,
         searchKeyword: state.searchKeyword,
         isFetching: state.contactList.isFetching,
+        error: state.contactList.error
     }
 }
 

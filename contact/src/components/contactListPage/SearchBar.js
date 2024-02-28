@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { setSearchItem, clearSearchItem } from "../../actions";
 
 const SearchBar = (props) => {
-
     const onInputSearch = (value) => {
         props.setSearchItem(value)
     }
@@ -14,16 +13,15 @@ const SearchBar = (props) => {
         props.clearSearchItem()
     }
 
-    const renderCloseCircle = () => {
-        return props.searchKeyword ? <TouchableOpacity onPress={onPressCancelButton}>
-            <Ionicons name="close-circle" style={styles.xbutton} />
-        </TouchableOpacity> : null
-    }
-
     return (
         <View style={styles.container}>
             <FontAwesome name="search" style={styles.searchButton} />
-            <TextInput placeholder="Search" style={styles.textInput} value={props.searchKeyword} onChangeText={onInputSearch} />
+            <TextInput
+                placeholder="Search"
+                style={styles.textInput}
+                value={props.searchKeyword}
+                onChangeText={onInputSearch}
+                autoCorrect={false} />
             {props.searchKeyword ? <TouchableOpacity onPress={onPressCancelButton}>
                 <Ionicons name="close-circle" style={styles.xbutton} />
             </TouchableOpacity> : null}
@@ -35,12 +33,12 @@ const SearchBar = (props) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        margin: 10,
+        margin: 18,
         alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: 'lightgray',
-        height: 40,
-        borderRadius: 13,
+        height: 50,
+        borderRadius: 18,
         paddingHorizontal: 20
     },
     searchButton: {
@@ -59,16 +57,9 @@ const styles = StyleSheet.create({
 
 })
 
-SearchBar.options = {
-
-
-    headerTitle: ''
-}
 
 const mapStateToProps = (state) => {
     return { searchKeyword: state.searchKeyword }
 }
-
-
 
 export default connect(mapStateToProps, { setSearchItem, clearSearchItem })(SearchBar)

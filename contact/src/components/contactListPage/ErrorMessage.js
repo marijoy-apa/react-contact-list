@@ -1,13 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet } from 'react-native'
-import { Ionicons } from "@expo/vector-icons";
 
-const NoContactsMessage = ({ contactText }) => {
+const ErrorMessage = ({ error }) => {
     return (
         <View style={styles.container}>
-            <Ionicons name="person-circle" size={50} color='grey'/>
-            <Text style={styles.headerStyle}>No {contactText}</Text>
-            <Text style={styles.textStyle}>{contactText} you've added will appear here</Text>
+            <Text style={styles.textStyle}>Oops!</Text>
+            <Text style={styles.textStyle}>{error}</Text>
         </View>
     )
 }
@@ -27,16 +25,10 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: 'grey'
     },
-    
     textStyle: {
         fontSize: 12,
         color: 'grey'
-
     }
-
-
 })
 
-
-
-export default NoContactsMessage
+export default ErrorMessage

@@ -1,17 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet, TextInput } from 'react-native'
-import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const NotesDetails = ({ notes }) => {
-
-
-
     return (
         <View style={styles.container}>
             <Text style={styles.notes}>Notes</Text>
             <Text style={styles.noteDetails}>{notes}</Text>
-
         </View>
     )
 }
@@ -24,23 +18,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         borderRadius: 12,
         padding: 10,
+        paddingHorizontal: 15,
     },
     notes: {
-        fontSize: 10,
+        fontSize: 12,
+        color: 'grey'
     },
     noteDetails: {
-        // flex: 1,
         textAlign: 'justify',
-        // justifyContent: 'center',
         marginTop: 5,
         fontSize: 12,
-        // color: 'blue'
     }
-
-
-
 })
-
-
 
 export default NotesDetails
