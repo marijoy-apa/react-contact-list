@@ -17,7 +17,6 @@ export const contactFormUpdate = ({ prop, value }) => {
 export const createContact = ({ firstName, lastName, phone, notes, emergencyContact, image }) => {
     return (dispatch) => {
         return new Promise((resolve) => {
-            
             // filter out valid numbers
             const validPhoneNum = filterValidPhoneNumber(phone)
             const reference = ref(getDatabase(), 'contact-list');
@@ -25,6 +24,8 @@ export const createContact = ({ firstName, lastName, phone, notes, emergencyCont
             // Push/add new contact data to the database
             push(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image })
                 .then(() => {
+                    console.log('i am called')
+
                     //dispatch and action to clear contact form
                     dispatch({ type: CLEAR_CONTACT_FORM })
                     resolve(true)

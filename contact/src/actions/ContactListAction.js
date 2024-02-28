@@ -12,10 +12,6 @@ export const contactFetch = () => {
         );
         onValue(reference, (snapshot) => {
             try {
-                //check if path exist
-                if (!snapshot.exists()) {
-                    throw new Error("Path does not exist")
-                }
                 var contactList = []
                 if (snapshot.val() !== null) {
                     contactList = convertContactListObject(snapshot.val());

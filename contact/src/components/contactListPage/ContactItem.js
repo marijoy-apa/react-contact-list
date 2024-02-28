@@ -12,7 +12,7 @@ const ContactItem = (props) => {
     const item = props.contactList.find(contact => contact.id === props.item.id)
     const navigation = useNavigation();
 
-    const fullName = (item.firstName + " " + item.lastName).slice(0,25)
+    const fullName = (item.firstName + " " + item.lastName).slice(0, 25)
 
     const onPressDelete = () => {
         props.deleteContact(item.id)
@@ -44,11 +44,15 @@ const ContactItem = (props) => {
         <TouchableOpacity onPress={onPressContactItem}>
             <View style={styles.container}>
                 <Text style={styles.nameText}>{fullName}</Text>
-                {renderEmergencyIcon()}
+                <View style={styles.iconContainer}>
+                    {renderEmergencyIcon()}
+                </View>
                 <TouchableOpacity onPress={onPressDelete}>
-                    <MaterialIcons
-                        name="delete-outline"
-                        style={styles.icon} />
+                    <View style={styles.iconContainer}>
+                        <MaterialIcons
+                            name="delete-outline"
+                            style={styles.icon} />
+                    </View>
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>
@@ -87,6 +91,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'grey'
 
+    },
+    iconContainer: {
+        // backgroundColor: 'blue', 
+        padding: 10,
+        paddingLeft: 5,
     }
 })
 
