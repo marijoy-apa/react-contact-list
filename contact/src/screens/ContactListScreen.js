@@ -84,9 +84,12 @@ ContactListScreen.options = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
-    const filteredData = state.contactList.list.filter(item =>
-        item.firstName.toLowerCase().includes(state.searchKeyword.toLowerCase()))
+    const filteredData = state.contactList.list.filter(item => {
+        const fullName = item.firstName.toLowerCase() + " " + item.lastName.toLowerCase();
+        return fullName.includes(state.searchKeyword.toLowerCase()
+        )
+    })
+    
     return {
         contactList: filteredData,
         navigation: ownProps.navigation,
