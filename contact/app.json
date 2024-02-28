@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "contact",
+    "name": "Contact List",
     "slug": "contact",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,16 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.marijoy.apa.contact"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.marijoy.apa.contact"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "748f98d4-6fb7-48ed-b461-87cc009a9e7f"
+      }
     }
   }
 }

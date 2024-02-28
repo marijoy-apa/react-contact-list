@@ -13,18 +13,21 @@ import SnackbarError from "../components/common/SnackbarError";
 
 const ContactDetailsScreen = (props) => {
 
+    //fetch id passed as parameter in navigation
     const { id } = useRoute().params
     const item = props.contactList.find(contact => contact.id === id)
     const navigation = useNavigation();
 
     useEffect(() => {
+        //set up Header right for Edit button component
         navigation.setOptions({
             headerTitle: '',
             headerBackTitleStyle: { fontSize: 14 },
-            headerRight
+            headerRight 
         })
     }, [item])
 
+    //Edit button component
     const headerRight = () => (
         <TouchableOpacity
             onPress={() => {
@@ -37,6 +40,7 @@ const ContactDetailsScreen = (props) => {
 
     const renderContactNumber = () => {
         var contactDetail = []
+        //render N number of PhoneNumbers component depending on phone.length, initial value is 1
         for (let index = 0; index < item.phone.length; index++) {
             var isLast = index === item.phone.length - 1
             const itemDetail = item.phone[index];
@@ -48,6 +52,7 @@ const ContactDetailsScreen = (props) => {
         return contactDetail;
     }
 
+    //render Circular image for profile picture, if image is null, circular container with Name initial will be displayed
     const renderImage = () => {
         if (item.image) {
             return <Image
@@ -60,9 +65,11 @@ const ContactDetailsScreen = (props) => {
         }
     }
 
+    //updates the emergency property of the contact item in firebase
     const onPressEmergencyButton = () => {
         props.updateEmergencyContact(item.id, !item.emergencyContact)
     }
+
     return (
         <View style={styles.container}>
             {renderImage()}
