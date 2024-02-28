@@ -12,6 +12,8 @@ const ContactItem = (props) => {
     const item = props.contactList.find(contact => contact.id === props.item.id)
     const navigation = useNavigation();
 
+    const fullName = (item.firstName + " " + item.lastName).slice(0,25)
+
     const onPressDelete = () => {
         props.deleteContact(item.id)
     }
@@ -41,7 +43,7 @@ const ContactItem = (props) => {
     return (
         <TouchableOpacity onPress={onPressContactItem}>
             <View style={styles.container}>
-                <Text style={styles.nameText}>{item.firstName}</Text>
+                <Text style={styles.nameText}>{fullName}</Text>
                 {renderEmergencyIcon()}
                 <TouchableOpacity onPress={onPressDelete}>
                     <MaterialIcons

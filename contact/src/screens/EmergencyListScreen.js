@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state, ownProps) => {
-    const filteredData = state.contactList.list.filter(item =>
-        item.firstName.toLowerCase().includes(state.searchKeyword.toLowerCase())
-        && item.emergencyContact
-    )
+    const filteredData = state.contactList.list.filter(item => {
+        const fullName = item.firstName.toLowerCase() + " " + item.lastName.toLowerCase();
+        return fullName.includes(state.searchKeyword.toLowerCase()) && item.emergencyContact
+    })
+
     return {
         contactList: filteredData,
         navigation: ownProps.navigation,

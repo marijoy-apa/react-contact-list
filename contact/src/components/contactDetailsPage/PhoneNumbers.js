@@ -13,9 +13,9 @@ const PhoneNumbers = ({ item, isLast }) => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        paddingLeft: 12,
         borderColor: 'grey',
         paddingVertical: 10,
+        paddingHorizontal: 15,
     },
     type: {
         color: 'grey',
