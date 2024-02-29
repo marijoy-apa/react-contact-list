@@ -5,12 +5,13 @@ import { createContact, clearContactForm } from '../actions'
 import ContactForm from "../components/createContactPage/ContactForm";
 import { Snackbar } from 'react-native-paper'
 import { Ionicons } from "@expo/vector-icons";
-
+import { useTheme } from "react-native-paper";
 const height = Dimensions.get('window').height;
 
 
 const CreateContactScreen = (props) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const {colors} = useTheme();
 
     const onSaveForm = async () => {
         const {
@@ -48,7 +49,7 @@ const CreateContactScreen = (props) => {
 
     return (
         <View style={styles.bottomSheet}>
-            <View style={styles.scrollContainer}>
+            <View style={[styles.scrollContainer, {backgroundColor: colors.surface}]}>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity
                         onPress={onCancelForm}>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
         height: height * 0.85,
-        backgroundColor: 'white',
+        // backgroundColor: 'blue',
         flex: 1,
     },
     cancelLink: {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         borderStartEndRadius: 20,
         borderStartStartRadius: 20,
-        backgroundColor: 'white',
+        // backgroundColor: 'blue',
         flex: 1,
         alignItems: 'center'
     },

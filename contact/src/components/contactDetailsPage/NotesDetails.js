@@ -1,11 +1,14 @@
 import React from "react";
 import { Text, View, StyleSheet, TextInput } from 'react-native'
-
+import { useTheme } from "react-native-paper";
 const NotesDetails = ({ notes }) => {
+
+    const {colors} = useTheme();
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.notes}>Notes</Text>
-            <Text style={styles.noteDetails}>{notes}</Text>
+        <View style={[styles.container, {backgroundColor: colors.primaryContainer}]}>
+            <Text style={[styles.notes, {color: colors.primary}]}>Notes</Text>
+            <Text style={[styles.noteDetails, {color: colors.secondary}]}>{notes}</Text>
         </View>
     )
 }

@@ -4,10 +4,11 @@ import Textbox from '../common/Textbox';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Dialog } from 'react-native-elements'
 import RadioButton from "../common/RadioButton";
-
+import { useTheme } from "react-native-paper";
 const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isValidNumber, setIsValidNumber] = useState(true)
+    const { colors } = useTheme()
     const showModal = () => {
         setModalVisible(true);
     };
@@ -26,7 +27,7 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
     }
     return (
         <View style={styles.parentContainer}>
-            <View style={styles.container}>
+            <View style={[styles.container, { backgroundColor: colors.primaryContainer, borderColor: colors.primary }]}>
                 <TouchableOpacity style={styles.buttonContainer} onPress={showModal}>
                     <View style={styles.dropdownContainer}>
                         <Text style={styles.textInput}>
@@ -40,7 +41,7 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
                 <View style={styles.textboxContainer}>
                     <Textbox placeholderText={phoneInput.type} onChangeText={onChangeText} keyboardType="phone-pad" value={phoneInput.digit} />
                 </View>
-                <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
+                <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={[styles.dialog, {backgroundColor: colors.onTertiary}]}>
                     <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneInput.type} options={numTypes} />
                 </Dialog>
             </View>

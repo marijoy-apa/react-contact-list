@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { requestCameraPermissionsAsync, CameraType, launchCameraAsync } from 'expo-image-picker';
-
+import { useTheme } from "react-native-paper";
 const AddImage = ({ onPickImage, imageUrl, onError }) => {
-
+    const {colors} = useTheme()
     const handleCameraLaunch = async () => {
         try {
             await requestCameraPermissionsAsync()
@@ -24,7 +24,7 @@ const AddImage = ({ onPickImage, imageUrl, onError }) => {
 
     return (
         <View>
-            <Image style={styles.imageStyle} source={{ uri: imageUrl }} />
+            <Image style={[styles.imageStyle, {backgroundColor: colors.primaryContainer}]} source={{ uri: imageUrl }} />
 
             <TouchableOpacity onPress={handleCameraLaunch}>
                 <Text style={styles.addPhotoButton}>{imageUrl ? 'Change Photo' : 'Add Photo'}</Text>

@@ -4,11 +4,11 @@ import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Dialog } from "react-native-elements";
 import RadioButton from "../common/RadioButton";
-
+import { useTheme } from "react-native-paper";
 // ContactIcons component for displaying icons such as Message, Call, Video and Mail
 const ContactIcons = ({ phone, onError }) => {
     const [modalVisible, setModalVisible] = useState(false);
-
+    const { colors } = useTheme()
     //extract digits from phone array object
     const digits = phone.map(num => num.digit)
 
@@ -43,16 +43,16 @@ const ContactIcons = ({ phone, onError }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity disabled>
-                <View style={styles.iconContainer}>
+                <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <MaterialIcons
                         name="message"
-                        style={styles.iconStyle} />
+                        style={[styles.iconStyle, { color: colors.primary }]} />
                     <Text style={styles.iconText}>Message</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={handleCallPress}>
-                <View style={styles.iconContainer}>
+                <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <MaterialIcons
                         name="call"
                         style={styles.enabledIconStyle} />
@@ -61,24 +61,24 @@ const ContactIcons = ({ phone, onError }) => {
             </TouchableOpacity>
 
             <TouchableOpacity disabled>
-                <View style={styles.iconContainer}>
+                <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <FontAwesome
                         name="video-camera"
-                        style={styles.iconStyle} />
+                        style={[styles.iconStyle, { color: colors.primary }]} />
                     <Text style={styles.iconText}>Video</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity disabled>
-                <View style={styles.iconContainer}>
+                <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <MaterialIcons
                         name="email"
-                        style={styles.iconStyle} />
+                        style={[styles.iconStyle, { color: colors.primary }]} />
                     <Text style={styles.iconText}>Mail</Text>
                 </View>
             </TouchableOpacity>
 
-            <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={styles.dialog}>
+            <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={[styles.dialog, {backgroundColor: colors.secondaryContainer}]}>
                 <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneNum} preselectedOption={digits[0]} options={digits} />
             </Dialog>
 

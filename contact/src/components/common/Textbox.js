@@ -1,16 +1,18 @@
 import React from "react";
 import {  View, StyleSheet, TextInput } from 'react-native'
+import { useTheme } from "react-native-paper";
 
 const Textbox = ({ placeholderText, value, onChangeText, keyboardType }) => {
+    const {colors} = useTheme();
     return (
-        <View style={styles.textContainer}>
+        <View style={[styles.textContainer, {backgroundColor: colors.primaryContainer, borderColor: colors.primary}]}>
             <TextInput placeholder={placeholderText}
                 keyboardType={keyboardType}
                 value={value}
                 onChangeText={onChangeText}
                 autoCapitalize="none"
                 autoCorrect={false}
-                style={styles.inputStyle}/>
+                style={[styles.inputStyle, {color: colors.secondary}]}/>
         </View>
     )
 }

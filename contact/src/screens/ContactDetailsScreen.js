@@ -9,10 +9,10 @@ import NotesDetails from "../components/contactDetailsPage/NotesDetails";
 import { updateEmergencyContact, contactFormFillout, updateError } from "../actions";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SnackbarError from "../components/common/SnackbarError";
-
+import { useTheme } from "react-native-paper";
 
 const ContactDetailsScreen = (props) => {
-
+    const {colors} = useTheme()
     //fetch id passed as parameter in navigation
     const { id } = useRoute().params
     const item = props.contactList.find(contact => contact.id === id)
@@ -59,8 +59,8 @@ const ContactDetailsScreen = (props) => {
                 source={{ uri: item.image }}
                 style={styles.imageStyle} />
         } else {
-            return <View style={styles.imageContainer}>
-                <Text style={styles.textImage}>{item.firstName[0]}</Text>
+            return <View style={[styles.imageContainer, {backgroundColor: colors.primaryContainer}]}>
+                <Text style={[styles.textImage, {color: colors.primary}]}>{item.firstName[0]}</Text>
             </View>
         }
     }
@@ -73,9 +73,9 @@ const ContactDetailsScreen = (props) => {
     return (
         <View style={styles.container}>
             {renderImage()}
-            <Text style={styles.contactName}>{item.firstName} {item.lastName}</Text>
+            <Text style={[styles.contactName, {color: colors.primary}]}>{item.firstName} {item.lastName}</Text>
             <ContactIcons phone={item.phone} onError={props.updateError} />
-            <View style={styles.contactNumContainer}>
+            <View style={[styles.contactNumContainer, {backgroundColor: colors.primaryContainer}]}>
                 {renderContactNumber()}
             </View>
             <NotesDetails notes={item.notes} />

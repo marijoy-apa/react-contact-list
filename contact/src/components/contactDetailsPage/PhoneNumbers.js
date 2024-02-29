@@ -1,10 +1,12 @@
 import React from "react";
 import { Text, View, StyleSheet } from 'react-native'
+import { useTheme } from "react-native-paper";
 
 const PhoneNumbers = ({ item, isLast }) => {
+    const { colors } = useTheme()
     return (
-        <View style={[styles.container, { borderBottomWidth: isLast ? 0 : 0.3 }]}>
-            <Text style={styles.type}>{item.type}</Text>
+        <View style={[styles.container, { borderBottomWidth: isLast ? 0 : 0.3 },]}>
+            <Text style={[styles.type, { color: colors.primary }]}>{item.type}</Text>
             <Text style={styles.number}>{item.digit}</Text>
         </View>
     )
