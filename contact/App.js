@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native'
 import 'react-native-gesture-handler';
+import "react-native-reanimated";
+import "react-native-safe-area-context";
+import "react-native-screens";
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
