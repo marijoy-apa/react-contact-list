@@ -8,12 +8,11 @@ import { Text } from 'react-native';
 //Component that displays error message when there are form update errors
 const SnackbarError = (props) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
-    const { colors } = useTheme()
+    const { colors } = useTheme();
+    
     //to show the Snackbar when there is a form error
     useEffect(() => {
-        console.log('SNACKBAR USE STATE', props.error)
         if (props.error) {
-            console.log('setting snackbar true')
             setSnackbarVisible(true);
         }
     }, [props.error]);
