@@ -12,8 +12,10 @@ import SnackbarError from "../components/common/SnackbarError";
 import SearchBar from '../components/contactListPage/SearchBar'
 import ContactItem from '../components/contactListPage/ContactItem'
 import CreateContactScreen from "./CreateContactScreen";
+import { useTheme } from "react-native-paper";
 
 const ContactListScreen = (props) => {
+    const { colors } = useTheme()
     const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
 
     useEffect(() => {
@@ -58,7 +60,7 @@ const ContactListScreen = (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.surface}]}>
             <SearchBar />
             {renderItems()}
 
@@ -75,7 +77,8 @@ const ContactListScreen = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: '100%'
+        height: '100%', 
+
     },
 })
 
@@ -89,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
         return fullName.includes(state.searchKeyword.toLowerCase()
         )
     })
-    
+
     return {
         contactList: filteredData,
         navigation: ownProps.navigation,

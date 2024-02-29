@@ -1,13 +1,15 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTheme } from "react-native-paper";
 
 const AddButton = ({ onPress }) => {
+    const {colors} = useTheme()
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <View style={styles.container}>
                 <MaterialIcons name="add-circle" style={styles.addCircle}/>
-                <Text>Add phone</Text>
+                <Text style={{color: colors.secondary}}>Add phone</Text>
             </View>
         </TouchableOpacity>
     )

@@ -9,9 +9,10 @@ import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
 import ErrorMessage from "../components/contactListPage/ErrorMessage";
 import SnackbarError from "../components/common/SnackbarError";
-
+import { useTheme } from "react-native-paper";
 
 const EmergencyListScreen = (props) => {
+    const {colors} = useTheme()
     useEffect(() => {
         initializeFirebaseApp();
         props.contactFetch();
@@ -50,7 +51,7 @@ const EmergencyListScreen = (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.surface}]}>
             <SearchBar />
             {renderItems()}
             <SnackbarError onDismiss={null} />

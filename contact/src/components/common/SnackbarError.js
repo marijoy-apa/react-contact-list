@@ -3,11 +3,12 @@ import { Ionicons } from '@expo/vector-icons'
 import { Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { clearFormError } from '../../actions';
-
+import { useTheme } from 'react-native-paper';
+import { Text } from 'react-native';
 //Component that displays error message when there are form update errors
 const SnackbarError = (props) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
-
+    const { colors } = useTheme()
     //to show the Snackbar when there is a form error
     useEffect(() => {
         console.log('SNACKBAR USE STATE', props.error)
@@ -24,14 +25,18 @@ const SnackbarError = (props) => {
     }
 
     return (<Snackbar
+        style={{ backgroundColor: colors.tertiaryContainer, color: 'red' }}
+
+        // style={{ color: 'red' }}
         visible={snackbarVisible}
         onDismiss={onDismissSnackbar}
         duration={3000}
         action={{
-            icon: (() => <Ionicons name="close-circle" color='grey' size={20} />),
+            textColor: colors.primary,
+            icon: (() => <Ionicons name="close-circle" color={colors.onTertiary} size={20} />),
             onPress: onDismissSnackbar,
 
-        }} >{props.error}
+        }} ><Text style={{color: colors.onTertiary}}>{props.error}</Text>
     </Snackbar>
     );
 };
@@ -42,4 +47,4 @@ mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {clearFormError})(SnackbarError);
+export default connect(mapStateToProps, { clearFormError })(SnackbarError);

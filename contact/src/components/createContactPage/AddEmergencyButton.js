@@ -1,12 +1,13 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { useTheme } from "react-native-paper";
 
 const AddEmergencyButton = ({ isEmergency, onPress }) => {
+    const {colors} = useTheme()
     const text = isEmergency ? 'Remove from emergency contacts' : 'Add to emergency contacts'
     return (
         <TouchableOpacity onPress={onPress} style={styles.touchableStyle}>
-            <View style={styles.container}>
+            <View style={[styles.container, {backgroundColor: colors.primaryContainer}]}>
                 <Text style={[isEmergency ? { color: '#007AFF' } : { color: 'red' }, 
                 { marginLeft: 20 }]}>{text}</Text>
             </View>
