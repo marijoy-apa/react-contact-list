@@ -8,7 +8,12 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "image": "...",
+        "resizeMode": "cover",
+        "backgroundColor": "#000000"
+      }
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,6 +29,10 @@
       },
       "package": "com.marijoy.apa.contact"
     },
+    "androidStatusBar": {
+      "backgroundColor": "#000000"
+    },
+    "userInterfaceStyle": "automatic",
     "web": {
       "favicon": "./assets/favicon.png"
     },

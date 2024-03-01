@@ -4,11 +4,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Appearance } from 'react-native'
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'
+import { Provider as PaperProvider } from 'react-native-paper';
+import { darkTheme, lightTheme } from './src/theme/theme';
 
 import reducers from './src/reducers'
 import initializeFirebaseApp from './src/initializeFirebaseApp';
-import { Provider as PaperProvider, useTheme } from 'react-native-paper';
-import { darkTheme, lightTheme } from './src/theme/theme';
 import MainStackNavigator from './src/navigation/MainStackNavigator';
 
 const App = () => {
@@ -28,7 +28,7 @@ const App = () => {
   return (
     <PaperProvider theme={theme}>
       <Provider store={configureStore({ reducer: reducers, })}>
-        <NavigationContainer>
+        <NavigationContainer theme={theme}>
           <MainStackNavigator theme={theme} />
         </NavigationContainer>
       </Provider>

@@ -24,6 +24,8 @@ export const tabNavigatorOptions = (colors) => ({
         backgroundColor: colors.background,
         borderTopWidth: 0,
     },
+    tabBarActiveTintColor: '#007AFF', 
+    tabBarInactiveTintColor: 'grey'
 });
 
 export const tabContactListOptions = (
@@ -46,9 +48,10 @@ export const tabEmergencyListOptions = (
 
 export const stackNavigationOptions = (theme) => (
     {
+        headerTintColor: '#007AFF',
         headerShadowVisible: false,
-        headerStyle:
-            { backgroundColor: theme.colors.background },
+        // headerStyle:
+        //     { backgroundColor: theme.colors.background },
         cardStyle:
             { backgroundColor: theme.colors.surface }
     }

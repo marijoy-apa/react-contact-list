@@ -56,8 +56,9 @@ const ContactDetailsScreen = (props) => {
     const renderImage = () => {
         if (item.image) {
             return <Image
+
                 source={{ uri: item.image }}
-                style={styles.imageStyle} />
+                style={[styles.imageStyle, {backgroundColor: colors.primaryContainer}]} />
         } else {
             return <View style={[styles.imageContainer, {backgroundColor: colors.primaryContainer}]}>
                 <Text style={[styles.textImage, {color: colors.primary}]}>{item.firstName[0]}</Text>

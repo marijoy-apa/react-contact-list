@@ -7,6 +7,7 @@ const Textbox = ({ placeholderText, value, onChangeText, keyboardType }) => {
     return (
         <View style={[styles.textContainer, {backgroundColor: colors.primaryContainer, borderColor: colors.primary}]}>
             <TextInput placeholder={placeholderText}
+            placeholderTextColor={colors.primary}
                 keyboardType={keyboardType}
                 value={value}
                 onChangeText={onChangeText}

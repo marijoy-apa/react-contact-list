@@ -21,7 +21,7 @@ const SearchBar = (props) => {
             <FontAwesome name="search" style={[styles.searchButton, { color: colors.primary }]} />
             <TextInput
                 placeholder="Search"
-                style={[styles.textInput, { color: colors.primary }]}
+                style={[styles.textInput, { color: colors.secondary }]}
                 value={props.searchKeyword}
                 onChangeText={onInputSearch}
                 autoCorrect={false}
