@@ -1,19 +1,19 @@
 import { getDatabase, onValue, orderByChild, query, ref } from "firebase/database";
 import { CONTACT_FETCH_FAIL, CONTACT_FETCH_START, CONTACT_FETCH_SUCCESS } from "./types";
-import * as Network from 'expo-network';
+// import * as Network from 'expo-network';
 
 export const contactFetch = () => {
     return async (dispatch) => {
         dispatch({ type: CONTACT_FETCH_START })
 
-        const netInfo = await Network.getNetworkStateAsync();
+        // const netInfo = await Network.getNetworkStateAsync();
         
-        //check internet connection of user to provide error message 
-        if (!netInfo.isConnected) {
-            dispatch({
-                type: CONTACT_FETCH_FAIL,
-            })
-        }
+        // //check internet connection of user to provide error message 
+        // if (!netInfo.isConnected) {
+        //     dispatch({
+        //         type: CONTACT_FETCH_FAIL,
+        //     })
+        // }
         //get contact data ordered by firstName
         const reference = query(
             ref(getDatabase(), 'contact-list'),
