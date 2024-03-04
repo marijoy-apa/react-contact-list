@@ -19,7 +19,6 @@ const App = () => {
     const appearanceListener = Appearance.addChangeListener((theme) => {
       setScheme(theme.colorScheme);
     });
-    initializeFirebaseApp
     return () => {
       appearanceListener.remove();
     }

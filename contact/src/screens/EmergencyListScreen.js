@@ -14,7 +14,6 @@ import { useTheme } from "react-native-paper";
 const EmergencyListScreen = (props) => {
     const {colors} = useTheme()
     useEffect(() => {
-        initializeFirebaseApp();
         props.contactFetch();
     }, [])
 
