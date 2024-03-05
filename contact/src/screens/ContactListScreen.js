@@ -69,7 +69,7 @@ const ContactListScreen = (props) => {
             </BottomSheet>
 
             <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
-            <SnackbarError onDismiss={null} />
+            {/* <SnackbarError onDismiss={null} /> */}
         </View >
     )
 }
