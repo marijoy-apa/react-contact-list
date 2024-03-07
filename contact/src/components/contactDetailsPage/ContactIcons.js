@@ -33,7 +33,7 @@ const ContactIcons = ({ phone, onError }) => {
 
         } catch (error) {
             // If not supported, update state for error to display error message
-            console.log('Error opening phone URL:', error);
+            // console.log('Error opening phone URL:', error);
             onError('Unable to make phone call')
 
         }
@@ -42,7 +42,7 @@ const ContactIcons = ({ phone, onError }) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity disabled>
+            <TouchableOpacity disabled testID="message-icon">
                 <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <MaterialIcons
                         name="message"
@@ -51,7 +51,7 @@ const ContactIcons = ({ phone, onError }) => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleCallPress}>
+            <TouchableOpacity onPress={handleCallPress} testID="call-icon">
                 <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <MaterialIcons
                         name="call"
@@ -60,7 +60,7 @@ const ContactIcons = ({ phone, onError }) => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity disabled>
+            <TouchableOpacity disabled testID="video-camera-icon">
                 <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <FontAwesome
                         name="video-camera"
@@ -69,7 +69,7 @@ const ContactIcons = ({ phone, onError }) => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity disabled>
+            <TouchableOpacity disabled testID="email-icon">
                 <View style={[styles.iconContainer, { backgroundColor: colors.primaryContainer }]}>
                     <MaterialIcons
                         name="email"
@@ -78,8 +78,8 @@ const ContactIcons = ({ phone, onError }) => {
                 </View>
             </TouchableOpacity>
 
-            <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={[styles.dialog, {backgroundColor: colors.secondaryContainer}]}>
-                <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneNum} preselectedOption={digits[0]} options={digits} />
+            <Dialog testID="call-dialog" visible={modalVisible} onBackdropPress={() => { console.log('backdrop press'); setModalVisible(false) }} overlayStyle={[styles.dialog, { backgroundColor: colors.secondaryContainer }]}>
+                <RadioButton testID="radio-buttons" style={styles.dialog} onSelectPhoneType={onSelectPhoneNum} preselectedOption={digits[0]} options={digits} />
             </Dialog>
 
         </View>

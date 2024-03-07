@@ -23,15 +23,11 @@ const ContactListScreen = (props) => {
         props.contactFetch();
     }, [])
 
-    const navigateContactDetilsScreen = () => {
-        props.navigation.navigate('Contact Details')
-    }
-
     const renderItems = () => {
         if (props.isFetching) {
             return (
                 <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <ActivityIndicator />
+                    <ActivityIndicator testID="activity-indicator" />
                 </View>)
         } else if (props.error) {
             return (
@@ -47,10 +43,11 @@ const ContactListScreen = (props) => {
         } else {
             return (
                 <FlatList
+                    testID="contact-list"
                     data={props.contactList}
                     keyExtractor={(contact) => contact.id}
                     renderItem={({ item }) =>
-                        <ContactItem item={item} onPress={navigateContactDetilsScreen} />} />
+                        <ContactItem item={item} />} />
             )
         }
     }
@@ -64,12 +61,13 @@ const ContactListScreen = (props) => {
             <SearchBar />
             {renderItems()}
 
-            <BottomSheet isVisible={bottomSheetVisible} containerStyle={styles.bottomSheet}>
+            <BottomSheet testID="bottom-sheet" isVisible={bottomSheetVisible} containerStyle={styles.bottomSheet}>
                 <CreateContactScreen onCancel={onCancelCreate} />
             </BottomSheet>
 
-            <FAB color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
-            {/* <SnackbarError onDismiss={null} /> */}
+            <FAB testID="fab" color="grey" icon={{ name: 'add', color: 'white' }} placement="right" onPress={() => { setBottomSheetVisible(true) }} />
+            <SnackbarError onDismiss={null} />
+
         </View >
     )
 }
@@ -95,7 +93,6 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         contactList: filteredData,
-        navigation: ownProps.navigation,
         searchKeyword: state.searchKeyword,
         isFetching: state.contactList.isFetching,
         error: state.contactList.error

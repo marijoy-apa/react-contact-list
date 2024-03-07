@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'
 
 import reducers from './src/reducers'
-import initializeFirebaseApp from './src/initializeFirebaseApp';
+// import initializeFirebaseApp from './src/initializeFirebaseApp';
 import { Provider as PaperProvider, useTheme } from 'react-native-paper';
 import { darkTheme, lightTheme } from './src/theme/theme';
 import MainStackNavigator from './src/navigation/MainStackNavigator';

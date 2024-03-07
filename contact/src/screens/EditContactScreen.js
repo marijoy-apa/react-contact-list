@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
-import { contactFormUpdate, clearContactForm, updateContact, updateError } from '../actions'
+import { contactFormUpdate, clearContactForm, updateContact, contactFormFillout, updateError } from '../actions'
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ContactForm from "../components/createContactPage/ContactForm";
@@ -9,6 +9,8 @@ import SnackbarError from "../components/common/SnackbarError";
 
 const EditContactScreen = (props) => {
     const { id } = useRoute().params
+    const item = props.contactList.find(contact => contact.id === id)
+
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -20,12 +22,16 @@ const EditContactScreen = (props) => {
 
     }, [props])
 
-    useEffect(() => () => {
-        props.clearContactForm();
-    }, [])
+    useEffect(() => {
+        props.contactFormFillout(item);
+
+        return () => {
+            props.clearContactForm();
+        }
+    }, [props.isPopulated])
 
     const headerRight = () => (
-        <TouchableOpacity disabled={!props.isValid}
+        <TouchableOpacity disabled={!props.isValid} testID="on-save-button"
             onPress={() => {
                 onSaveForm();
             }} >
@@ -42,9 +48,7 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         } = props
-        console.log('image', image)
-
-        const isSuccess = await props.updateContact({
+        const result = await props.updateContact({
             id,
             firstName,
             lastName,
@@ -53,8 +57,7 @@ const EditContactScreen = (props) => {
             emergencyContact,
             image,
         })
-
-        if (isSuccess) {
+        if (result.success) {
             navigation.pop(2)
         }
     }
@@ -67,8 +70,9 @@ const EditContactScreen = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { firstName, lastName, phone, notes, emergencyContact, image, isValid } = state.contactForm;
+    const { firstName, lastName, phone, notes, emergencyContact, image, isValid, isPopulated } = state.contactForm;
     return {
+        contactList: state.contactList.list,
         firstName,
         lastName,
         phone,
@@ -76,8 +80,9 @@ const mapStateToProps = (state, ownProps) => {
         emergencyContact,
         image,
         isValid,
+        isPopulated,
         onCancel: ownProps.onCancel,
     }
 }
 
-export default connect(mapStateToProps, { contactFormUpdate, clearContactForm, updateContact, updateError })(EditContactScreen)
+export default connect(mapStateToProps, { contactFormUpdate, clearContactForm, updateContact, updateError, contactFormFillout })(EditContactScreen)

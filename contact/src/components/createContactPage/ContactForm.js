@@ -59,7 +59,6 @@ const ContactForm = (props) => {
     }
 
     const onUpdateNotes = (value) => {
-        console.log('notes value', value)
         props.contactFormUpdate({ prop: 'notes', value })
     }
 
@@ -68,7 +67,6 @@ const ContactForm = (props) => {
     }
     
     const onPickImage = (value) => {
-        console.log('on Pick Image', value)
         props.contactFormUpdate({ prop: 'image', value })
     }
 

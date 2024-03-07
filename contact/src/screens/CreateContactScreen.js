@@ -55,7 +55,7 @@ const CreateContactScreen = (props) => {
                         onPress={onCancelForm}>
                         <Text style={styles.cancelLink}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity disabled={!props.isValid}
+                    <TouchableOpacity testID="on-save-button"disabled={!props.isValid}
                         onPress={onSaveForm}>
                         <Text style={{ color: props.isValid ? '#007AFF' : 'grey' }}>Done</Text>
                     </TouchableOpacity>

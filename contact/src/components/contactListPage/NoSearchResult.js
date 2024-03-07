@@ -4,7 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const NoSearchResult = ({ searchKeyword }) => {
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="no-search-result">
             <FontAwesome name="search" size={50} color='grey'/>
             <Text style={styles.headerStyle}>No results for "{searchKeyword}"</Text>
             <Text style={styles.textStyle}>Check the spelling or try a new search</Text>

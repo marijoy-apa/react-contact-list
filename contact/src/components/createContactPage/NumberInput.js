@@ -28,9 +28,9 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
     return (
         <View style={styles.parentContainer}>
             <View style={[styles.container, { backgroundColor: colors.primaryContainer, borderColor: colors.primary }]}>
-                <TouchableOpacity style={styles.buttonContainer} onPress={showModal}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={showModal} testID="select-phone-type-button">
                     <View style={styles.dropdownContainer}>
-                        <Text style={styles.textInput}>
+                        <Text style={styles.textInput} testID="phone-type-label">
                             {phoneInput.type}
                         </Text>
                         <MaterialCommunityIcons
@@ -41,7 +41,7 @@ const NumberInput = ({ onChangePhoneType, onChangeNumber, index, phoneInput }) =
                 <View style={styles.textboxContainer}>
                     <Textbox placeholderText={phoneInput.type} onChangeText={onChangeText} keyboardType="phone-pad" value={phoneInput.digit} />
                 </View>
-                <Dialog visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={[styles.dialog, {backgroundColor: colors.onTertiary}]}>
+                <Dialog testID="radio-types-modal" visible={modalVisible} onBackdropPress={() => { setModalVisible(false) }} overlayStyle={[styles.dialog, {backgroundColor: colors.onTertiary}]}>
                     <RadioButton style={styles.dialog} onSelectPhoneType={onSelectPhoneType} preselectedOption={phoneInput.type} options={numTypes} />
                 </Dialog>
             </View>

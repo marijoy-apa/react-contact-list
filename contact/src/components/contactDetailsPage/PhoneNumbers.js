@@ -5,7 +5,7 @@ import { useTheme } from "react-native-paper";
 const PhoneNumbers = ({ item, isLast }) => {
     const { colors } = useTheme()
     return (
-        <View style={[styles.container, { borderBottomWidth: isLast ? 0 : 0.3 },]}>
+        <View testID="phone-number-input" style={[styles.container, { borderBottomWidth: isLast ? 0 : 0.3 },]}>
             <Text style={[styles.type, { color: colors.primary }]}>{item.type}</Text>
             <Text style={styles.number}>{item.digit}</Text>
         </View>

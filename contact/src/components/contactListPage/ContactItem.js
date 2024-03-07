@@ -11,7 +11,6 @@ const ContactItem = (props) => {
     // Retrieve contact details from the Redux state
     const item = props.contactList.find(contact => contact.id === props.item.id)
     const navigation = useNavigation();
-
     const fullName = (item.firstName + " " + item.lastName).slice(0, 25)
 
     const onPressDelete = () => {
@@ -29,11 +28,11 @@ const ContactItem = (props) => {
     const renderEmergencyIcon = () => {
         props.item.emergencyContact === true;
         return (
-            <TouchableOpacity onPress={onPressEmergencyButton}>
+            <TouchableOpacity onPress={onPressEmergencyButton} testID={`emergency-button-${item.id}`}>
                 {item.emergencyContact ? (
-                    <MaterialIcons name="emergency" style={styles.isEmergency} />
+                    <MaterialIcons name="emergency" style={styles.isEmergency} testID={`emergency-icon-${item.id}`}/>
                 ) : (
-                    <Ionicons name="medical-outline" style={[styles.isNotEmergency, {color: colors.onSecondary}]} />
+                    <Ionicons name="medical-outline" style={[styles.isNotEmergency, {color: colors.onSecondary}]} testID={`is-not-emergency-icon-${item.id}`} />
                 )}
             </TouchableOpacity>
         )
@@ -41,13 +40,13 @@ const ContactItem = (props) => {
 
 
     return (
-        <TouchableOpacity onPress={onPressContactItem}>
+        <TouchableOpacity onPress={onPressContactItem} testID={`contact-item-${item.id}`}>
             <View style={[styles.container, {borderColor: colors.onSecondary}]}>
                 <Text style={[styles.nameText, {color: colors.onSecondary}]}>{fullName}</Text>
                 <View style={styles.iconContainer}>
                     {renderEmergencyIcon()}
                 </View>
-                <TouchableOpacity onPress={onPressDelete}>
+                <TouchableOpacity onPress={onPressDelete} testID={`delete-button-${item.id}`}>
                     <View style={styles.iconContainer}>
                         <MaterialIcons
                             name="delete-outline"
@@ -104,7 +103,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
     return {
         item: ownProps.item,
-        onPress: ownProps.onPress,
         contactList: state.contactList.list
     }
 }

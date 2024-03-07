@@ -16,7 +16,8 @@ const INITIAL_STATE = {
     emergencyContact: false,
     image: null,
     isValid: false,
-    error: null
+    error: null, 
+    isPopulated: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         case CLEAR_CONTACT_FORM:
             return INITIAL_STATE
         case CONTACT_FORM_FILLOUT:
-            return { ...state, ...action.payload }
+            return { ...state, ...action.payload, isPopulated:true }
         case CLEAR_CONTACT_FORM_ERROR:
             return { ...state, error: null }
         case CONTACT_FORM_VALIDATE:
