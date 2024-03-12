@@ -4,7 +4,7 @@
 
 import { } from '@react-navigation/native'
 import { combineReducers } from 'redux';
-import { cleanup, fireEvent,  screen } from '@testing-library/react-native';
+import { cleanup, fireEvent, screen } from '@testing-library/react-native';
 import { configureStore } from '@reduxjs/toolkit'
 import EmergencyListScreen from '../../../src/screens/EmergencyListScreen';
 
@@ -18,7 +18,10 @@ import mockReducer from '../../__utils__/mockReducer';
 import { deleteContact, updateEmergencyContact } from '../../../src/actions'; import { renderContactList, renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
 import { createStackNavigator } from '@react-navigation/stack';
 import { emergencyList } from '../../data/emergencyList';
+import * as Network from 'expo-network';
+
 jest.useFakeTimers();
+jest.mock('expo-network');
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
     query: jest.fn(),
@@ -52,6 +55,9 @@ describe('Emergency List', () => {
     afterEach(() => {
         cleanup();
         jest.clearAllMocks()
+    })
+    beforeEach(() => {
+        Network.getNetworkStateAsync.mockResolvedValueOnce({ isConnected: true });
     })
 
     test('Contact List renders correctly', async () => {

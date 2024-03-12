@@ -1,11 +1,12 @@
 import '@react-navigation/native'
-import { cleanup } from '@testing-library/react-native';
+import { cleanup, act } from '@testing-library/react-native';
 
 import { contactFetch } from '../../../src/actions';
 import { onValue } from 'firebase/database';
 import { onValueList, transformedListData } from '../../data/contactList';
 import mockReduxStore from '../../store/reduxStore';
-
+import * as Network from 'expo-network';
+jest.mock('expo-network');
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
     query: jest.fn(),
@@ -16,11 +17,14 @@ jest.mock('firebase/database', () => ({
     push: jest.fn(),
     remove: jest.fn()
 }));
-
+ 
 describe('fetch contact list', () => {
     afterEach(() => {
         cleanup();
         jest.clearAllMocks()
+    })
+    beforeEach(()=>{
+        Network.getNetworkStateAsync.mockResolvedValueOnce({ isConnected: true });
     })
 
     test('is Fetching property should be true when contact fetch start', async () => {
@@ -39,8 +43,10 @@ describe('fetch contact list', () => {
 
         const store = mockReduxStore() 
 
-        store.dispatch(contactFetch())
-
+        await act(()=>{
+            store.dispatch(contactFetch())
+        })
+ 
         const listData = transformedListData
 
         const state = store.getState();
@@ -58,8 +64,9 @@ describe('fetch contact list', () => {
         })
         const store = mockReduxStore() 
 
-        store.dispatch(contactFetch())
-
+        await act(()=>{
+            store.dispatch(contactFetch())
+        })
         const state = store.getState();
         expect(state.contactList.isFetching).toBe(false)
         expect(state.contactList.list).toStrictEqual([])
@@ -77,8 +84,9 @@ describe('fetch contact list', () => {
         });
 
         const store = mockReduxStore() 
-        store.dispatch(contactFetch())
-
+        await act(()=>{
+            store.dispatch(contactFetch())
+        })
         const state = store.getState();
         expect(state.contactList.error).toBe('Something went wrong. Please try again later.')
     })

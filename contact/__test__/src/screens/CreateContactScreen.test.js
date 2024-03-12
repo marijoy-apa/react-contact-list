@@ -15,8 +15,10 @@ import { clearContactForm, createContact } from '../../../src/actions';
 import { renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createContactItem } from '../../data/createContact';
+import * as Network from 'expo-network';
 
 jest.useFakeTimers();
+jest.mock('expo-network');
 
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
@@ -49,6 +51,9 @@ describe('<Create Contact Screen/>', () => {
         cleanup();
         jest.clearAllMocks()
 
+    })
+    beforeEach(() => {
+        Network.getNetworkStateAsync.mockResolvedValueOnce({ isConnected: true });
     })
 
     test('Create contact screen should render properly', async () => {

@@ -18,10 +18,13 @@ import { deleteContact, updateEmergencyContact } from '../../../src/actions';imp
 import { createStackNavigator } from '@react-navigation/stack';
 import { renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
 import { emergencyList, nonEmergencyList } from '../../data/emergencyList';
+import * as Network from 'expo-network';
 
 const Stack = createStackNavigator();
  
 jest.useFakeTimers();
+jest.mock('expo-network');
+
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
     query: jest.fn(),
@@ -56,8 +59,13 @@ describe('<Contact List App/>', () => {
         cleanup();
         jest.clearAllMocks()
     })
+    beforeEach(()=>{
+        Network.getNetworkStateAsync.mockResolvedValueOnce({ isConnected: true });
+ 
+    })
 
     test('Contact List renders correctly', async () => {
+        
         const store = configureStore({
             reducer: combineReducers({
                 contactForm: ContactFormReducer,
