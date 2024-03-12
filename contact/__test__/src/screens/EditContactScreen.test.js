@@ -2,7 +2,6 @@
  * @jest-environment node
  */
 
-
 import { combineReducers } from 'redux';
 import { cleanup, fireEvent, act, screen, waitFor } from '@testing-library/react-native';
 import { configureStore } from '@reduxjs/toolkit'
@@ -58,7 +57,7 @@ jest.mock('expo-image-picker', () => ({
 const editContactScreen = <Stack.Screen name="Edit Contact Screen" component={EditContactScreen} />
 
 
-describe('<Create Contact Screen/>', () => {
+describe('Edit Contact Screen', () => {
     afterEach(() => {
         cleanup();
         jest.clearAllMocks()
@@ -103,7 +102,7 @@ describe('<Create Contact Screen/>', () => {
     });
 
 
-    test('Clicking Save button should create new contact', async () => {
+    test('Clicking Save button should update contact', async () => {
         updateContact.mockReturnValue({ type: 'success', success: true });
 
         const mockReducerSearchKeyword = mockReducer('')
@@ -169,7 +168,7 @@ describe('<Create Contact Screen/>', () => {
         expect(phoneTypeLabel).toBeTruthy();
     })
 
-    test('should be able to capture image', async () => {
+    test('should be able to update image', async () => {
         requestCameraPermissionsAsync.mockResolvedValueOnce({ status: 'granted' })
         const launchCameraAsyncResult = {
             cancelled: false,

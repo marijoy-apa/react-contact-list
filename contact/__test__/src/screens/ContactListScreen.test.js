@@ -20,7 +20,7 @@ import { renderNavigationComponent } from '../../__utils__/renderNavigationCompo
 import { emergencyList, nonEmergencyList } from '../../data/emergencyList';
 
 const Stack = createStackNavigator();
-
+ 
 jest.useFakeTimers();
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),

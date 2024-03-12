@@ -98,7 +98,7 @@ describe('<Contact Details App/>', () => {
 
     })
 
-    test('Render of header right should contain the edit button', async () => {
+    test('Header right should contain the edit button', async () => {
 
         const mockReducerContactList = mockReducer({
             isFetching: false,
@@ -177,7 +177,7 @@ describe('<Contact Details App/>', () => {
         expect(updateEmergencyContact).toHaveBeenCalled();
     })
 
-    test('Phone selection modal will display when calling with multiple phone numbers', async () => {
+    test('Phone selection modal will display when calling with multiple numbers', async () => {
 
         const mockReducerContactList = mockReducer({
             isFetching: false,

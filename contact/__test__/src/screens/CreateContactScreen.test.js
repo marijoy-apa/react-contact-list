@@ -5,19 +5,17 @@ import { combineReducers } from 'redux';
 import { cleanup, fireEvent, act, screen, waitFor } from '@testing-library/react-native';
 import { configureStore } from '@reduxjs/toolkit'
 import CreateContactScreen from '../../../src/screens/CreateContactScreen';
-
-import { requestCameraPermissionsAsync, launchCameraAsync } from 'expo-image-picker';
-
-import ContactFormReducer from '../../../src/reducers/ContactFormReducer';
-import ContactListReducer from '../../../src/reducers/ContactListReducer';
-import { clearContactForm, createContact } from '../../../src/actions';
 import mockReducer from '../../__utils__/mockReducer';
-import SearchItemReducer from '../../../src/reducers/SearchItemReducer';
-import { renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
-import { createStackNavigator } from '@react-navigation/stack';
+import ContactListReducer from '../../../src/reducers/ContactListReducer';
 import ContactListScreen from '../../../src/screens/ContactListScreen';
 import mockReduxStore from '../../store/reduxStore';
+
+import { requestCameraPermissionsAsync, launchCameraAsync } from 'expo-image-picker';
+import { clearContactForm, createContact } from '../../../src/actions';
+import { renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createContactItem } from '../../data/createContact';
+
 jest.useFakeTimers();
 
 jest.mock('firebase/database', () => ({

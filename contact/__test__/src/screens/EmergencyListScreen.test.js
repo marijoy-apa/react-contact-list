@@ -4,10 +4,9 @@
 
 import { } from '@react-navigation/native'
 import { combineReducers } from 'redux';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react-native';
+import { cleanup, fireEvent,  screen } from '@testing-library/react-native';
 import { configureStore } from '@reduxjs/toolkit'
 import EmergencyListScreen from '../../../src/screens/EmergencyListScreen';
-import { renderProviderComponent } from '../../__utils__/renderNavigationComponent';
 
 
 import ContactFormReducer from '../../../src/reducers/ContactFormReducer';
@@ -15,7 +14,6 @@ import ContactListReducer from '../../../src/reducers/ContactListReducer';
 import SearchItemReducer from '../../../src/reducers/SearchItemReducer';
 
 import mockReducer from '../../__utils__/mockReducer';
-
 
 import { deleteContact, updateEmergencyContact } from '../../../src/actions'; import { renderContactList, renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -50,7 +48,7 @@ const Stack = createStackNavigator();
 
 const emergencyListScreen = <Stack.Screen name="Contact List" component={EmergencyListScreen} />
 
-describe('<Contact List App/>', () => {
+describe('Emergency List', () => {
     afterEach(() => {
         cleanup();
         jest.clearAllMocks()
