@@ -11,7 +11,7 @@ const height = Dimensions.get('window').height;
 
 const CreateContactScreen = (props) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
-    const {colors} = useTheme();
+    const { colors } = useTheme();
 
     const onSaveForm = async () => {
         const {
@@ -22,7 +22,7 @@ const CreateContactScreen = (props) => {
             emergencyContact,
             image,
         } = props
-        const isSuccess = await props.createContact({
+        const result = await props.createContact({
             firstName,
             lastName,
             phone,
@@ -30,7 +30,8 @@ const CreateContactScreen = (props) => {
             emergencyContact,
             image,
         })
-        if (!isSuccess) {
+        console.log(result)
+        if (!result.isSuccess) {
             setSnackbarVisible(true);
             return;
         }
@@ -44,30 +45,32 @@ const CreateContactScreen = (props) => {
     }
 
     const onDismissSnackbar = () => {
+        console.log('on dismiss snackbar')
         setSnackbarVisible(false);
     }
 
     return (
         <View style={styles.bottomSheet}>
-            <View style={[styles.scrollContainer, {backgroundColor: colors.surface}]}>
+            <View style={[styles.scrollContainer, { backgroundColor: colors.surface }]}>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity
                         onPress={onCancelForm}>
                         <Text style={styles.cancelLink}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity testID="on-save-button"disabled={!props.isValid}
+                    <TouchableOpacity testID="on-save-button" disabled={!props.isValid}
                         onPress={onSaveForm}>
                         <Text style={{ color: props.isValid ? '#007AFF' : 'grey' }}>Done</Text>
                     </TouchableOpacity>
                 </View>
                 <ContactForm />
                 <Snackbar
+                    testID="snackbar-error"
                     visible={snackbarVisible}
                     onDismiss={onDismissSnackbar}
                     duration={3000}
                     action={{
-                        icon: (() => <Ionicons name="close-circle" color='grey' size={20} />),
-                        onPress:  onDismissSnackbar ,
+                        icon: (() => <Ionicons name="close-circle" color='grey' size={20} testID="close-snackbar-button" />),
+                        onPress: onDismissSnackbar,
 
                     }}>{props.error}
                 </Snackbar>

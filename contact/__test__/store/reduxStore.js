@@ -3,13 +3,15 @@ import ContactFormReducer from "../../src/reducers/ContactFormReducer";
 import ContactListReducer from "../../src/reducers/ContactListReducer";
 import SearchItemReducer from "../../src/reducers/SearchItemReducer";
 
-const reduxStore = configureStore({
-    reducer: combineReducers({
-        contactForm: ContactFormReducer,
-        contactList: ContactListReducer,
-        searchKeyword: SearchItemReducer,
-    }),
+const mockReduxStore = ({ mockContactForm = ContactFormReducer,
+    mockContactList = ContactListReducer,
+    mockSearchKeyword = SearchItemReducer } = {}) => configureStore({
+        reducer: combineReducers({
+            contactForm: mockContactForm,
+            contactList: mockContactList,
+            searchKeyword: mockSearchKeyword,
+        }),
 
-})
+    })
 
-export default reduxStore;
+export default mockReduxStore;

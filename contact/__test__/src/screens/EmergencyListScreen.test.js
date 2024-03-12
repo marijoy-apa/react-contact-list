@@ -17,12 +17,13 @@ import SearchItemReducer from '../../../src/reducers/SearchItemReducer';
 import mockReducer from '../../__utils__/mockReducer';
 
 
-import { deleteContact, updateEmergencyContact } from '../../../src/actions';import { renderContactList, renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
+import { deleteContact, updateEmergencyContact } from '../../../src/actions'; import { renderContactList, renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
 import { createStackNavigator } from '@react-navigation/stack';
+import { emergencyList } from '../../data/emergencyList';
 jest.useFakeTimers();
- jest.mock('firebase/database', () => ({
+jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
-    query: jest.fn(), 
+    query: jest.fn(),
     ref: jest.fn(),
     orderByChild: jest.fn(),
     onValue: jest.fn(),
@@ -64,7 +65,6 @@ describe('<Contact List App/>', () => {
             }),
         })
         renderNavigationComponent(emergencyListScreen, store)
-        // renderNav(<EmergencyListScreen />, store)
 
         const searchBar = screen.getByPlaceholderText('Search');
 
@@ -179,16 +179,7 @@ describe('<Contact List App/>', () => {
     test('correct emergency icon should be rendered', async () => {
         const mockReducerContactList = mockReducer({
             isFetching: false,
-            list: [{
-                firstName: 'test',
-                lastName: 'last',
-                id: '1',
-                phone: [{ type: 'Phone', digit: '324342' },
-                { type: 'Phone', digit: '231312' }],
-                notes: '',
-                emergencyContact: true,
-                image: 'testImage'
-            }],
+            list: emergencyList,
             error: ''
         })
         const mockReducerSearchKeyword = mockReducer('')
@@ -211,16 +202,7 @@ describe('<Contact List App/>', () => {
     test('should be able to click Emergency button', async () => {
         const mockReducerContactList = mockReducer({
             isFetching: false,
-            list: [{
-                firstName: 'test',
-                lastName: 'last',
-                id: '1',
-                phone: [{ type: 'Phone', digit: '324342' },
-                { type: 'Phone', digit: '231312' }],
-                notes: '',
-                emergencyContact: true,
-                image: 'testImage'
-            }],
+            list: emergencyList,
             error: ''
         })
         const mockReducerSearchKeyword = mockReducer('')
@@ -244,16 +226,7 @@ describe('<Contact List App/>', () => {
     test('should be able to delete contact item', async () => {
         const mockReducerContactList = mockReducer({
             isFetching: false,
-            list: [{
-                firstName: 'test',
-                lastName: 'last',
-                id: '1',
-                phone: [{ type: 'Phone', digit: '324342' },
-                { type: 'Phone', digit: '231312' }],
-                notes: '',
-                emergencyContact: true,
-                image: 'testImage'
-            }],
+            list: emergencyList,
             error: ''
         })
 
@@ -283,16 +256,7 @@ describe('<Contact List App/>', () => {
 
         const mockReducerContactList = mockReducer({
             isFetching: false,
-            list: [{
-                firstName: 'test',
-                lastName: 'last',
-                id: '1',
-                phone: [{ type: 'Phone', digit: '324342' },
-                { type: 'Phone', digit: '231312' }],
-                notes: '',
-                emergencyContact: true,
-                image: 'testImage'
-            }],
+            list: emergencyList,
             error: ''
         })
         const mockReducerSearchKeyword = mockReducer('')

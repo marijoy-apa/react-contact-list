@@ -1,16 +1,10 @@
 import '@react-navigation/native'
-import { combineReducers } from 'redux';
 import { cleanup } from '@testing-library/react-native';
-import { configureStore } from '@reduxjs/toolkit'
-
-import ContactFormReducer from '../../../src/reducers/ContactFormReducer';
-import ContactListReducer from '../../../src/reducers/ContactListReducer';
-import SearchItemReducer from '../../../src/reducers/SearchItemReducer';
 
 import { contactFetch } from '../../../src/actions';
 import { onValue } from 'firebase/database';
 import { onValueList, transformedListData } from '../../data/contactList';
-import reduxStore from '../../store/reduxStore';
+import mockReduxStore from '../../store/reduxStore';
 
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
@@ -30,13 +24,7 @@ describe('fetch contact list', () => {
     })
 
     test('is Fetching property should be true when contact fetch start', async () => {
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
-        })
+        const store = mockReduxStore() 
         store.dispatch(contactFetch())
         const state = store.getState();
         expect(state.contactList.isFetching).toBe(true)
@@ -49,7 +37,7 @@ describe('fetch contact list', () => {
             callback(mockSnapshot)
         })
 
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         store.dispatch(contactFetch())
 
@@ -68,7 +56,7 @@ describe('fetch contact list', () => {
         onValue.mockImplementationOnce((_, callback) => {
             callback(mockSnapshot)
         })
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         store.dispatch(contactFetch())
 
@@ -88,7 +76,7 @@ describe('fetch contact list', () => {
             }
         });
 
-        const store = reduxStore
+        const store = mockReduxStore() 
         store.dispatch(contactFetch())
 
         const state = store.getState();

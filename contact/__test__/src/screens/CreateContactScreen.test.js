@@ -1,20 +1,25 @@
 /**
  * @jest-environment node
  */
-import { Provider } from 'react-redux';
 import { combineReducers } from 'redux';
-import { cleanup, fireEvent, render, act, screen } from '@testing-library/react-native';
+import { cleanup, fireEvent, act, screen, waitFor } from '@testing-library/react-native';
 import { configureStore } from '@reduxjs/toolkit'
 import CreateContactScreen from '../../../src/screens/CreateContactScreen';
 
-import { requestCameraPermissionsAsync, CameraType, launchCameraAsync } from 'expo-image-picker';
+import { requestCameraPermissionsAsync, launchCameraAsync } from 'expo-image-picker';
 
 import ContactFormReducer from '../../../src/reducers/ContactFormReducer';
 import ContactListReducer from '../../../src/reducers/ContactListReducer';
 import { clearContactForm, createContact } from '../../../src/actions';
 import mockReducer from '../../__utils__/mockReducer';
-import { renderProviderComponent } from '../../__utils__/renderProviderComponent';
 import SearchItemReducer from '../../../src/reducers/SearchItemReducer';
+import { renderNavigationComponent } from '../../__utils__/renderNavigationComponent';
+import { createStackNavigator } from '@react-navigation/stack';
+import ContactListScreen from '../../../src/screens/ContactListScreen';
+import mockReduxStore from '../../store/reduxStore';
+import { createContactItem } from '../../data/createContact';
+jest.useFakeTimers();
+
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
     query: jest.fn(),
@@ -36,6 +41,10 @@ jest.mock('expo-image-picker', () => ({
     requestCameraPermissionsAsync: jest.fn(),
     launchCameraAsync: jest.fn(),
 }));
+const Stack = createStackNavigator();
+const createContactScreen = <Stack.Screen name="Create Contact Screen" component={CreateContactScreen} />
+
+const contactListScreen = <Stack.Screen name="Contact List" component={ContactListScreen} />
 
 describe('<Create Contact Screen/>', () => {
     afterEach(() => {
@@ -53,16 +62,12 @@ describe('<Create Contact Screen/>', () => {
 
         const mockReducerSearchKeyword = mockReducer('')
 
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: mockReducerContactList,
-                searchKeyword: mockReducerSearchKeyword,
-            }),
-
+        const store = mockReduxStore({
+            contactList: mockReducerContactList,
+            searchKeyword: mockReducerSearchKeyword,
         })
 
-        renderProviderComponent(<CreateContactScreen />, store)
+        renderNavigationComponent(createContactScreen, store)
 
         const cancelText = screen.getByText('Cancel');
         const doneText = screen.getByText('Done');
@@ -96,63 +101,107 @@ describe('<Create Contact Screen/>', () => {
 
         const mockReducerSearchKeyword = mockReducer('')
 
+        const store = mockReduxStore({
+            contactList: mockReducerContactList,
+            searchKeyword: mockReducerSearchKeyword,
+        })
+        renderNavigationComponent(contactListScreen, store)
+        const fab = screen.getByTestId('fab');
+        fireEvent.press(fab)
+        const cancelText = screen.getByText('Cancel');
+
+        await act(() => {
+            fireEvent.press(cancelText);
+        })
+        expect(clearContactForm).toHaveBeenCalled();
+
+    })
+    test('Clicking Save button should create new contact', async () => {
+        const mockReducerSearchKeyword = mockReducer('')
+        const mockReducerContactForm = mockReducer(createContactItem)
         const store = configureStore({
             reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: mockReducerContactList,
+                contactForm: mockReducerContactForm,
+                contactList: ContactListReducer,
                 searchKeyword: mockReducerSearchKeyword,
             }),
 
         })
 
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
+        renderNavigationComponent(contactListScreen, store)
+        const fab = screen.getByTestId('fab');
+        fireEvent.press(fab);
+        const saveForm = screen.getByTestId('on-save-button');
 
-        const cancelText = screen.getByText('Cancel');
-
-        fireEvent.press(cancelText);
-        expect(clearContactForm).toHaveBeenCalled();
-
-    }),
-
-        test('Clicking Save button should create new contact', async () => {
-            const mockReducerSearchKeyword = mockReducer('')
-            const mockReducerContactForm = mockReducer({
-                firstName: 'John',
-                lastName: 'Doe',
-                phone: [{ type: 'Phone', digit: '23123' }],
-                notes: 'Some notes',
-                emergencyContact: false,
-                image: null,
-                isValid: true,
-            })
-            const store = configureStore({
-                reducer: combineReducers({
-                    contactForm: mockReducerContactForm,
-                    contactList: ContactListReducer,
-                    searchKeyword: mockReducerSearchKeyword,
-                }),
-
-            })
-
-            renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
-
-            const saveForm = screen.getByTestId('on-save-button');
-
+        await act(async () => {
             fireEvent.press(saveForm);
-            expect(createContact).toHaveBeenCalled();
         })
+        expect(createContact).toHaveBeenCalled();
+    })
+
+    test('snack bar should display when error on create occurs', async () => {
+        createContact.mockReturnValue({ success: false, type: 'test' });
+
+        const mockReducerSearchKeyword = mockReducer('')
+        const mockReducerContactForm = mockReducer(createContactItem)
+        const store = configureStore({
+            reducer: combineReducers({
+                contactForm: mockReducerContactForm,
+                contactList: ContactListReducer,
+                searchKeyword: mockReducerSearchKeyword,
+            }),
+
+        })
+
+        renderNavigationComponent(contactListScreen, store)
+        const fab = screen.getByTestId('fab');
+        fireEvent.press(fab);
+        const saveForm = screen.getByTestId('on-save-button');
+
+        await act(async () => {
+            fireEvent.press(saveForm);
+        })
+        const snackBar = screen.getByTestId('snackbar-error');
+        expect(snackBar).toBeTruthy()
+    })
+
+    test('pressing close snackbar should remove snackbar', async () => {
+        createContact.mockReturnValue({ success: false, type: 'test' });
+
+        const mockReducerSearchKeyword = mockReducer('')
+        const mockReducerContactForm = mockReducer(createContactItem)
+        const store = configureStore({
+            reducer: combineReducers({
+                contactForm: mockReducerContactForm,
+                contactList: ContactListReducer,
+                searchKeyword: mockReducerSearchKeyword,
+            }),
+
+        })
+        renderNavigationComponent(contactListScreen, store)
+        const fab = screen.getByTestId('fab');
+        fireEvent.press(fab);
+        const saveForm = screen.getByTestId('on-save-button');
+
+
+        await act(async () => {
+            fireEvent.press(saveForm);
+        })
+        var snackBar = screen.getByTestId('snackbar-error');
+        expect(snackBar).toBeTruthy()
+
+        var closeSnackbar = screen.getByTestId('close-snackbar-button');
+        fireEvent.press(closeSnackbar);
+
+        await waitFor(() => {
+            snackBar = screen.queryByTestId('snackbar-error');
+            expect(snackBar).toBeTruthy()
+        })
+    })
 
     test('should be able to update state values of form', async () => {
 
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
- 
-        })
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
+        renderNavigationComponent(createContactScreen)
 
         const addPhoneText = screen.getByText('Add phone');
         const notesInput = screen.getByTestId('notes-input');
@@ -187,22 +236,8 @@ describe('<Create Contact Screen/>', () => {
     })
 
     test('should be able to update phone type', async () => {
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
-
-        })
-
-        const component = (
-            <Provider store={store}>
-                <CreateContactScreen onCancel={() => { }} />
-            </Provider>
-        )
-
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
+        const store = mockReduxStore()
+        renderNavigationComponent(createContactScreen, store)
 
         const phoneTypeButton = screen.getByTestId('select-phone-type-button');
 
@@ -217,16 +252,8 @@ describe('<Create Contact Screen/>', () => {
         expect(phoneTypeLabel).toBeTruthy();
     })
     test('error message displayed when invalid phone number', async () => {
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
 
-        })
-
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
+        renderNavigationComponent(createContactScreen)
 
         const phoneInput = screen.getByPlaceholderText('Phone');
 
@@ -247,16 +274,8 @@ describe('<Create Contact Screen/>', () => {
             assets: [{ uri: 'mocked_image_uri' }],
         };
         launchCameraAsync.mockResolvedValueOnce(launchCameraAsyncResult);
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
 
-        })
-
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
+        renderNavigationComponent(createContactScreen)
 
         const addPhotoButton = screen.getByText('Add Photo');
         await act(() => {
@@ -269,22 +288,13 @@ describe('<Create Contact Screen/>', () => {
     })
 
     test('should be able to open camera and not capture image', async () => {
-
         requestCameraPermissionsAsync.mockResolvedValueOnce({ status: 'granted' })
         const launchCameraAsyncResult = {
             canceled: true,
-            // assets: [{ uri: 'mocked_image_uri' }], 
         };
         launchCameraAsync.mockResolvedValueOnce(launchCameraAsyncResult);
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
 
-        })
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
+        renderNavigationComponent(createContactScreen)
         const addPhotoButton = screen.getByText('Add Photo');
         await act(() => {
             fireEvent.press(addPhotoButton)
@@ -295,23 +305,10 @@ describe('<Create Contact Screen/>', () => {
     test('should be able to update error when error occurs', async () => {
 
         requestCameraPermissionsAsync.mockResolvedValueOnce({ status: 'granted' })
-        const launchCameraAsyncResult = {
-            cancelled: false,
-            assets: [{ uri: 'mocked_image_uri' }],
-        };
+
         launchCameraAsync.mockRejectedValue(() => Promise.reject('Failed'));
 
-        const store = configureStore({
-            reducer: combineReducers({
-                contactForm: ContactFormReducer,
-                contactList: ContactListReducer,
-                searchKeyword: SearchItemReducer,
-            }),
-
-        })
-
-        renderProviderComponent(<CreateContactScreen onCancel={jest.fn()} />, store)
-
+        renderNavigationComponent(createContactScreen)
 
         const addPhotoButton = screen.getByText('Add Photo');
         await act(() => {
@@ -319,8 +316,6 @@ describe('<Create Contact Screen/>', () => {
         });
 
         expect(addPhotoButton).toBeTruthy();
-
-
     })
 })
 

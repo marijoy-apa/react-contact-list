@@ -3,12 +3,10 @@ import '@react-navigation/native'
 
 import { cleanup } from '@testing-library/react-native';
 
-
 import { clearContactForm, clearFormError, contactFormUpdate, createContact, deleteContact, updateContact, updateEmergencyContact } from '../../../src/actions';
-
 import { getDatabase, push, ref, update, remove } from 'firebase/database';
-import reduxStore from '../../store/reduxStore';
 import { contactItemForm } from '../../data/contactForm';
+import mockReduxStore from '../../store/reduxStore';
 
 jest.mock('firebase/database', () => ({
     getDatabase: jest.fn(),
@@ -19,9 +17,7 @@ jest.mock('firebase/database', () => ({
     update: jest.fn(),
     push: jest.fn(),
     remove: jest.fn(),
-
 }));
-
 
 
 describe('Create contact action', () => {
@@ -32,7 +28,7 @@ describe('Create contact action', () => {
 
 
     test('update form', async () => {
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         store.dispatch(contactFormUpdate({ prop: 'firstName', value: 'John' }))
 
@@ -45,7 +41,7 @@ describe('Create contact action', () => {
         push.mockResolvedValueOnce({})
         getDatabase.mockReturnValue({})
 
-        const store = reduxStore
+        const store = mockReduxStore() 
         const referencePath = 'contact-list'
         const contactItem = contactItemForm;
 
@@ -56,7 +52,7 @@ describe('Create contact action', () => {
 
     test('push function should be called with correct contact form object property', async () => {
         push.mockResolvedValueOnce({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const contactItem = contactItemForm
         store.dispatch(createContact(contactItem))
         expect(push).toHaveBeenCalledWith(undefined, contactItem);
@@ -64,7 +60,7 @@ describe('Create contact action', () => {
 
     test('error update when there are error with push function', async () => {
         push.mockRejectedValue({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const contactItem = contactItemForm
         await store.dispatch(createContact(contactItem))
         state = store.getState()
@@ -84,7 +80,7 @@ describe('Update Contact action', () => {
         update.mockResolvedValueOnce({})
         getDatabase.mockReturnValue({})
 
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         const contactItem = contactItemForm
         const referencePath = `contact-list/${contactItem.id}`
@@ -95,7 +91,7 @@ describe('Update Contact action', () => {
 
     test('update function should be called with correct contact form object property', async () => {
         update.mockResolvedValueOnce({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const contactItem = contactItemForm
         store.dispatch(updateContact(contactItem))
         expect(update).toHaveBeenCalledWith(undefined, contactItem);
@@ -103,7 +99,7 @@ describe('Update Contact action', () => {
 
     test('error update when there are error with update function', async () => {
         update.mockRejectedValue({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const contactItem = contactItemForm
         await store.dispatch(updateContact(contactItem))
         state = store.getState()
@@ -123,7 +119,7 @@ describe('Update emergnecy Contact action', () => {
         update.mockResolvedValueOnce({})
         getDatabase.mockReturnValue({})
 
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         const id = '1'
         const emergencyContact = false
@@ -135,7 +131,7 @@ describe('Update emergnecy Contact action', () => {
 
     test('update emergency function should be called with emergency property', async () => {
         update.mockResolvedValueOnce({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const id = '1'
         const emergencyContact = false
         store.dispatch(updateEmergencyContact(id, emergencyContact))
@@ -144,7 +140,7 @@ describe('Update emergnecy Contact action', () => {
 
     test('error update when there are error with update emergency function', async () => {
         update.mockRejectedValue({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const id = '1'
         const emergencyContact = false
         await store.dispatch(updateEmergencyContact(id, emergencyContact))
@@ -165,7 +161,7 @@ describe('Delete Contact action', () => {
         remove.mockResolvedValueOnce({})
         getDatabase.mockReturnValue({})
 
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         const id = '1'
         const referencePath = `contact-list/${id}`
@@ -176,7 +172,7 @@ describe('Delete Contact action', () => {
 
     test('error update when there are error with update emergency function', async () => {
         remove.mockRejectedValue({})
-        const store = reduxStore
+        const store = mockReduxStore() 
 
         const id = '1'
         await store.dispatch(deleteContact(id))
@@ -194,7 +190,7 @@ describe('clear error action', () => {
     })
 
     test('should clear form when clearContact Form is called', async () => {
-        const store = reduxStore
+        const store = mockReduxStore() 
         store.dispatch(contactFormUpdate({ prop: 'firstName', value: 'John' }))
 
         var state = store.getState();
@@ -207,7 +203,7 @@ describe('clear error action', () => {
 
     test('should clear form when clearContact Form is called', async () => {
         remove.mockRejectedValue({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const id = '1'
         await store.dispatch(deleteContact(id))
         var state = store.getState()
@@ -234,7 +230,7 @@ describe('update error with timeout action', () => {
 
     test('should clear error after 4 seconds', async () => {
         update.mockRejectedValue({})
-        const store = reduxStore
+        const store = mockReduxStore() 
         const contactItem = contactItemForm
         await store.dispatch(updateContact(contactItem))
         var state = store.getState()

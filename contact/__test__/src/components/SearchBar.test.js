@@ -15,13 +15,7 @@ import ContactFormReducer from '../../../src/reducers/ContactFormReducer';
 import ContactListReducer from '../../../src/reducers/ContactListReducer';
 import SearchItemReducer from '../../../src/reducers/SearchItemReducer';
 describe('<SearchBar/>', () => {
-    // test('test ', () => {
-    //     const { getByText } = render(<Spacer />);
 
-    //     const helloWorldText = getByText('HELLO WORLD');
-    //     expect(helloWorldText).toBeTruthy();
-
-    // })
     test('Search bar should have placeholder text Search', () => {
         const store = configureStore({
             reducer: combineReducers({
@@ -40,13 +34,6 @@ describe('<SearchBar/>', () => {
             </Provider>
 
         )
-
-        // const { getByTestId } = render(component)
-        // const searchBar = getByTestId('search-bar');
-        // expect(searchBar).toBeDefined();
-        // render(component);
-        // const search = screen.getByPlaceholderText('Search')
-        //     expect(search).toBeOnTheScreen();
 
         const { getByPlaceholderText } = render(component);
 

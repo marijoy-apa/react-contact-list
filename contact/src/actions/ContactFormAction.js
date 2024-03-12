@@ -28,14 +28,14 @@ export const createContact = ({ firstName, lastName, phone, notes, emergencyCont
 
                     //dispatch and action to clear contact form
                     dispatch({ type: CLEAR_CONTACT_FORM })
-                    resolve(true)
+                    resolve({isSuccess: true})
                 })
                 .catch((error => {
                     console.log('Error on create new contact', error)
 
                     //dispatch an action to handle form creation error in firebase
                     dispatch({ type: CONTACT_FORM_ERROR, payload: 'Unable to create new contact.' })
-                    resolve(false)
+                    resolve({isSucess: false})
                 }))
         })
     }

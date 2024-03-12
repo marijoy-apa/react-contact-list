@@ -8,21 +8,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { stackNavigationOptions } from '../../src/navigation/navigationOptions';
 import { darkTheme } from '../../src/theme/theme';
 import ContactListScreen from '../../src/screens/ContactListScreen';
+import reduxStore from '../store/reduxStore';
+import mockReduxStore from '../store/reduxStore';
 const Stack = createStackNavigator();
 
 
-const renderNavigationComponent = (children, store) => {
+const renderNavigationComponent = (children, store = mockReduxStore()) => {
     const component = (
-        
-            <Provider store={store}>
-                <NavigationContainer>
-                    <Stack.Navigator screenOptions={stackNavigationOptions(darkTheme)}>
-                        {children}
-                        {/* <Stack.Screen name="Contact List" component={ContactListScreen} /> */}
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </Provider>
-        )
+
+        <Provider store={store}>
+            <NavigationContainer>
+                <Stack.Navigator screenOptions={stackNavigationOptions(darkTheme)}>
+                    {children}
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
+    )
 
 
     return render(component);
