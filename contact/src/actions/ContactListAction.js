@@ -22,7 +22,6 @@ export const contactFetch = () => {
         onValue(reference, (snapshot) => {
             try {
                 var contactList = []
-                console.log(snapshot.val())
                 if (snapshot.val() !== null) {
                     contactList = convertContactListObject(snapshot.val());
                 }
