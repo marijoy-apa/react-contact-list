@@ -13,7 +13,6 @@ const RadioElement = ({ value, onSelect, selectedOption }) => {
 
     // Function to render the radio icon based on the selected state
     const renderRadioIcon = (option) => {
-        console.log(option, selectedOption)
         return (
             <FontAwesome
                 name={selectedOption === option ? 'dot-circle-o' : 'circle-o'}
@@ -24,7 +23,7 @@ const RadioElement = ({ value, onSelect, selectedOption }) => {
     };
 
     return (
-        <TouchableOpacity
+        <TouchableOpacity testID={`radio-element-${value}`}
             style={styles.optionContainer}
             onPress={() => handleOptionPress(value)}>
             {renderRadioIcon(value)}

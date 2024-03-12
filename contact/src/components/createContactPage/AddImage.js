@@ -16,8 +16,8 @@ const AddImage = ({ onPickImage, imageUrl, onError }) => {
                 onPickImage(result.assets[0].uri);
             }
         } catch (error) {
+            console.log('error update')
             onError('Unable to use camera')
-            console.log('ERROR with camera', error)
         }
 
     }

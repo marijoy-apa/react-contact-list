@@ -21,6 +21,7 @@ const SearchBar = (props) => {
             <FontAwesome name="search" style={[styles.searchButton, { color: colors.primary }]} />
             <TextInput
                 placeholder="Search"
+                testID="search-input"
                 style={[styles.textInput, { color: colors.primary }]}
                 value={props.searchKeyword}
                 onChangeText={onInputSearch}
@@ -29,7 +30,7 @@ const SearchBar = (props) => {
                 
 
             />
-            {props.searchKeyword ? <TouchableOpacity onPress={onPressCancelButton}>
+            {props.searchKeyword ? <TouchableOpacity onPress={onPressCancelButton} testID="clear-search-item">
                 <Ionicons name="close-circle" style={[styles.xbutton, { color: colors.primary }]} />
             </TouchableOpacity> : null}
 

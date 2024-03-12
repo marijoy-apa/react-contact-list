@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native'
 
 const ErrorMessage = ({ error }) => {
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="error-message">
             <Text style={styles.textStyle}>Oops!</Text>
             <Text style={styles.textStyle}>{error}</Text>
         </View>

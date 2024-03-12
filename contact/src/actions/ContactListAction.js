@@ -12,7 +12,7 @@ export const contactFetch = () => {
         if (!netInfo.isConnected) {
             dispatch({
                 type: CONTACT_FETCH_FAIL,
-            })
+            }) 
         }
         //get contact data ordered by firstName
         const reference = query(

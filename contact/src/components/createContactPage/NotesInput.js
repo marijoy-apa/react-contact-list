@@ -6,7 +6,7 @@ const NotesInput = ({ onChangeText, value }) => {
     return (
         <View style={[styles.container, {backgroundColor: colors.primaryContainer}]}>
             <Text style={{color: colors.primary}}>Notes</Text>
-            <TextInput style={[styles.textInput, {color: colors.secondary}]} onChangeText={onChangeText} value={value} />
+            <TextInput testID="notes-input" style={[styles.textInput, {color: colors.secondary}]} onChangeText={onChangeText} value={value} />
         </View>
     )
 }

@@ -24,18 +24,18 @@ export const createContact = ({ firstName, lastName, phone, notes, emergencyCont
             // Push/add new contact data to the database
             push(reference, { firstName, lastName, phone: validPhoneNum, notes, emergencyContact, image })
                 .then(() => {
-                    console.log('i am called')
+                    // console.log('i am called')
 
                     //dispatch and action to clear contact form
                     dispatch({ type: CLEAR_CONTACT_FORM })
-                    resolve(true)
+                    resolve({isSuccess: true})
                 })
                 .catch((error => {
                     console.log('Error on create new contact', error)
 
                     //dispatch an action to handle form creation error in firebase
                     dispatch({ type: CONTACT_FORM_ERROR, payload: 'Unable to create new contact.' })
-                    resolve(false)
+                    resolve({isSucess: false})
                 }))
         })
     }
@@ -52,14 +52,14 @@ export const updateContact = ({ id, firstName, lastName, phone, notes, emergency
                 .then(() => {
                     // dispatch an action to clear the contact form
                     dispatch({ type: CLEAR_CONTACT_FORM })
-                    resolve(true)
+                    resolve({success: true})
                 })
                 .catch((error) => {
                     console.log('error on update contact', error)
 
                     //handle error
                     dispatchErrorWithTimeout(dispatch, 'Unable to update contact.')
-                    resolve(false)
+                    resolve({success: false})
                 })
         })
     }
@@ -109,7 +109,7 @@ export const validateForm = () => {
             && /^\d+$/.test(item.digit.trim())))
 
         const isValid = isValidName && isValidPhone
-        console.log('validate form ', isValid)
+        // console.log('validate form ', isValid)
 
         dispatch({ type: CONTACT_FORM_VALIDATE, payload: isValid })
     }
@@ -117,7 +117,6 @@ export const validateForm = () => {
 
 //fill out contact from with existing data for Edit Contact Screen
 export const contactFormFillout = (item) => {
-    console.log('FILLOUT', item)
     return (dispatch) => {
         dispatch({
             type: CONTACT_FORM_FILLOUT,
@@ -125,7 +124,7 @@ export const contactFormFillout = (item) => {
         })
     }
 }
-
+ 
 //clearing form errors
 export const clearFormError = () => {
     return {

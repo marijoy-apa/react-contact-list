@@ -6,7 +6,7 @@ const NotesDetails = ({ notes }) => {
     const {colors} = useTheme();
 
     return (
-        <View style={[styles.container, {backgroundColor: colors.primaryContainer}]}>
+        <View testID="notes" style={[styles.container, {backgroundColor: colors.primaryContainer}]}>
             <Text style={[styles.notes, {color: colors.primary}]}>Notes</Text>
             <Text style={[styles.noteDetails, {color: colors.secondary}]}>{notes}</Text>
         </View>

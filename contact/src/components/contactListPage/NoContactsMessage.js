@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const NoContactsMessage = ({ contactText }) => {
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="no-contact-message">
             <Ionicons name="person-circle" size={50} color='grey'/>
             <Text style={styles.headerStyle}>No {contactText}</Text>
             <Text style={styles.textStyle}>{contactText} you've added will appear here</Text>

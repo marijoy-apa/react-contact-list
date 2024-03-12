@@ -4,7 +4,6 @@ import SearchBar from '../components/contactListPage/SearchBar'
 import ContactItem from '../components/contactListPage/ContactItem'
 import { connect } from "react-redux";
 import { contactFetch } from "../actions";
-import initializeFirebaseApp from '../initializeFirebaseApp'
 import NoContactsMessage from "../components/contactListPage/NoContactsMessage";
 import NoSearchResult from "../components/contactListPage/NoSearchResult";
 import ErrorMessage from "../components/contactListPage/ErrorMessage";
@@ -12,20 +11,16 @@ import SnackbarError from "../components/common/SnackbarError";
 import { useTheme } from "react-native-paper";
 
 const EmergencyListScreen = (props) => {
-    const {colors} = useTheme()
+    const { colors } = useTheme()
     useEffect(() => {
         props.contactFetch();
     }, [])
-
-    const navigateContactDetilsScreen = () => {
-        props.navigation.navigate('Contact Details')
-    }
 
     const renderItems = () => {
         if (props.isFetching) {
             return (
                 <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <ActivityIndicator />
+                    <ActivityIndicator testID="activity-indicator"/>
                 </View>)
         } else if (props.error) {
             return (
@@ -41,16 +36,17 @@ const EmergencyListScreen = (props) => {
         } else {
             return (
                 <FlatList
+                    testID="emergency-list"
                     data={props.contactList}
                     keyExtractor={(contact) => contact.id}
                     renderItem={({ item }) =>
-                        <ContactItem item={item} onPress={navigateContactDetilsScreen} />} />
+                        <ContactItem item={item} />} />
             )
         }
     }
 
     return (
-        <View style={[styles.container, {backgroundColor: colors.surface}]}>
+        <View style={[styles.container, { backgroundColor: colors.surface }]}>
             <SearchBar />
             {renderItems()}
             <SnackbarError onDismiss={null} />
@@ -75,7 +71,8 @@ const mapStateToProps = (state, ownProps) => {
         contactList: filteredData,
         navigation: ownProps.navigation,
         searchKeyword: state.searchKeyword,
-        error: state.contactList.error
+        error: state.contactList.error,
+        isFetching: state.contactList.isFetching,
     }
 }
 

@@ -29,10 +29,9 @@ const ContactDetailsScreen = (props) => {
 
     //Edit button component
     const headerRight = () => (
-        <TouchableOpacity
+        <TouchableOpacity testID="edit-button"
             onPress={() => {
                 navigation.navigate('Edit Contact Screen', { id: item.id });
-                props.contactFormFillout(item);
             }}>
             <Text style={{ color: '#007AFF', marginRight: 12 }}>Edit</Text>
         </TouchableOpacity>
@@ -55,11 +54,11 @@ const ContactDetailsScreen = (props) => {
     //render Circular image for profile picture, if image is null, circular container with Name initial will be displayed
     const renderImage = () => {
         if (item.image) {
-            return <Image
+            return <Image testID="image-profile"
                 source={{ uri: item.image }}
                 style={[styles.imageStyle, {backgroundColor: colors.primaryContainer}]} />
         } else {
-            return <View style={[styles.imageContainer, {backgroundColor: colors.primaryContainer}]}>
+            return <View testID="empty-profile" style={[styles.imageContainer, {backgroundColor: colors.primaryContainer}]}>
                 <Text style={[styles.textImage, {color: colors.primary}]}>{item.firstName[0]}</Text>
             </View>
         }
@@ -73,7 +72,7 @@ const ContactDetailsScreen = (props) => {
     return (
         <View style={styles.container}>
             {renderImage()}
-            <Text style={[styles.contactName, {color: colors.primary}]}>{item.firstName} {item.lastName}</Text>
+            <Text testID="full-name" style={[styles.contactName, {color: colors.primary}]}>{item.firstName} {item.lastName}</Text>
             <ContactIcons phone={item.phone} onError={props.updateError} />
             <View style={[styles.contactNumContainer, {backgroundColor: colors.primaryContainer}]}>
                 {renderContactNumber()}
